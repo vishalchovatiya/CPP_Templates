@@ -26,10 +26,11 @@ int main () {
 	int numbers[] = {10,20,30};
 	vector<int>		V(numbers, numbers+4);
 
-	cout<<accumulate( V.begin(), V.end(), init)<<endl;	// 100 + 10 + 20 +30
+	cout<<accumulate( V.begin(), V.end(), init)<<endl;				// 100 + 10 + 20 +30
 
 	cout<<accumulate( V.begin(), V.end(), init, minus<int>())<<endl;		// 100 - 10 - 20 - 30
-	cout<<accumulate ( V.begin (), V.end (), 1, multiplies<int>())<<endl;	//10*20*30
+	
+	cout<<accumulate ( V.begin (), V.end (), 1, multiplies<int>())<<endl;		//10*20*30
 	
 	cout<<accumulate( V.begin(), V.end(), init, myfunction)<<endl;
 
