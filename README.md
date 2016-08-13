@@ -2,4 +2,4 @@
 2. [Sort(algorithm).cpp](https://github.com/VisheshPatel/CPP_Templates/blob/master/sort(algorithm).cpp)
 3. [Accumulate(numeric).cpp](https://github.com/VisheshPatel/CPP_Templates/blob/master/accumulate.cpp)
 4. [PriorityQueue(queue).cpp](https://github.com/VisheshPatel/CPP_Templates/blob/master/PriorityQueue.cpp)
-5. [Doubly Linked List(list).cpp](https://github.com/VisheshPatel/CPP_Templates/blob/master/list.cppp)
+5. [Doubly Linked List(list).cpp](https://github.com/VisheshPatel/CPP_Templates/blob/master/list.cpp)
