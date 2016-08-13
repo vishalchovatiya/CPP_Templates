@@ -11,8 +11,8 @@ int main(){
 	/* Erasing Elements from list */
 	DLL.erase(DLL.begin());
 	DLL.erase(DLL.begin(), find( DLL.begin(), DLL.end(), 4));
-	DLL.remove(2);								// Remove all elements equal to 2
-	DLL.remove_if([](int n){ return n > 5; }); 	// Remove all elements greater than 5
+	DLL.remove(2);							// Remove all elements equal to 2
+	DLL.remove_if([](int n){ return n > 5; }); 			// Remove all elements greater than 5
 	
 	/* Manipulating individual Elements from List*/
 	DLL.push_front(1);
@@ -37,7 +37,6 @@ int main(){
 		cout << i << " ";
 	cout<<endl;	
 	for_each( DLL.begin(), DLL.end(), [] (const int integer) { cout << integer << " ";} );		// -std=c++11 Compiler Option
-	
 	
 	return 0;
 }
