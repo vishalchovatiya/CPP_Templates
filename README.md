@@ -3,3 +3,4 @@
 3. [Accumulate(numeric).cpp](https://github.com/VisheshPatel/CPP_Templates/blob/master/accumulate.cpp)
 4. [PriorityQueue(queue).cpp](https://github.com/VisheshPatel/CPP_Templates/blob/master/PriorityQueue.cpp)
 5. [Doubly Linked List(list).cpp](https://github.com/VisheshPatel/CPP_Templates/blob/master/list.cpp)
+6. [Virtual Function and Virtual Table](https://github.com/VisheshPatel/CPP_Templates/blob/master/Virtual%20Function%20and%20Virtual%20Table.md)
