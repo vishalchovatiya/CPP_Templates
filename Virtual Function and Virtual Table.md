@@ -9,17 +9,17 @@ using namespace std;
 
 class Shape {
    public:
-      virtual int area()
-      {
-         cout << "Parent class area :" <<endl;
-         return 0;
+      virtual int area(){
+      	cout << "Parent class area :" <<endl;
+        return 0;
       }
-      void forExample(){}
+      void forExample(){
+      	cout << "Parent class forExample :" <<endl;
+      }
 };
 class Rectangle: public Shape{
    public:
-      int area ()
-      { 
+      int area (){ 
          cout << "Rectangle class area :" <<endl;
          return 0; 
       }
@@ -33,15 +33,17 @@ class Rectangle: public Shape{
 - Virtual table is a array of function pointers pointing to virtual function.
 - Virtual table contain pointers to `area` method of shape class. Hence upon calling it calls Shape class area method
 ```
-Shape *s = new Shape();
-s->area();    //Calls Shape area() method
+Shape *s = new Rectangle();
+s->area();        //Calls Shape area() without virtual keyword
+s->forExample();  //calls Shape's forExample()
 ```
 
-- As Rectangle Class inherits Shape class, & as we know Shape class has a data member v_ptr. 
-- Rectangle class inheits `v_ptr` of Shape class but new Virtual table will be created compile time for Rectangle class. Hence `v_ptr` of Rectangle class holds the address of virtual table of Rectangle class. 
-- As Rectangle class has implemented `area` method. virtual table of Rectangle class containing pointer to `area` method is overwrited with its own method address while `forExmaple` method still point to parent class i.e. Share class.
+- As Rectangle Class inherits Shape class, & as we know Shape class has a data member `v_ptr`. 
+- Rectangle class inheits `v_ptr` of Shape class but new Virtual table will be created at compile time for Rectangle class. Hence `v_ptr` of Rectangle class holds the address of virtual table of Rectangle class. 
+- As Rectangle class has implemented `area` method. virtual table of Rectangle class containing pointer to `area` method is overwrited with its own `area` method address while `forExmaple` method still point to parent class i.e. Share class.
 
 ```
 Shape *s = new Rectangle();
-s->area();    //calls Rectangle area() method
+s->area();        //calls Rectangle area() with virtual keyword
+s->forExample();  //calls Shape's forExample()
 ```
