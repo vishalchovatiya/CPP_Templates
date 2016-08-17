@@ -1,6 +1,4 @@
-
-
-- **Runtime Polymorphism** in C++ is achived with virtual function. Hence in order to implement the runtime behaviour C++ compiler inserts Virtual Table(Array of Function pointer) for every class having virtual function or class inherited from the class that has virtual function. 
+- **Runtime Polymorphism** in C++ is achived with virtual function. Hence in order to implement the runtime behaviour, C++ compiler inserts Virtual Table(Array of Function pointers) for every class having virtual function or class inherited from the class that has virtual function. 
 
 - Consider following code 
 ```
