@@ -25,7 +25,7 @@ class Rectangle: public Shape{
 };
 ```
 
-- If we print sizeof `Shape` class it will give us 4 bytes(8 byte on 64 bit machine). 
+- If we print sizeof `Shape` class it will give us 4 bytes(8 byte on 64 bit machine). Because it contain pointer to virtual table.
 - As the class contains a virtual function C++ compiler inserts a pointer v_ptr called as virtual table pointer. 
 - Compiler also creates a table for that class called as virtual table(aka vtable) for the class. 
 - The table is created at compile time, v_ptr holds the address of virtual table each class containing or inherited with atleast one virtual method. 
