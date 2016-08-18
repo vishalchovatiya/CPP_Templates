@@ -29,16 +29,14 @@ class Rectangle: public Shape{
 - Compiler also creates a table for that class called as virtual table(aka vtable) for the class. 
 - The table is created at compile time, `v_ptr` holds the address of virtual table each class containing or inherited with atleast one virtual method. 
 - Virtual table is a array of function pointers pointing to virtual function.
-- Virtual table contain pointers to `area` method of shape class. Hence upon calling it calls Shape class area method
+- In our example, Virtual table of shape class contain pointers to `area` method of shape class. Hence upon calling it calls Shape class area method
 ```
 Shape *s = new Rectangle();
 s->area();        //Calls Shape area() without virtual keyword
 s->forExample();  //calls Shape's forExample()
 ```
-
-- As Rectangle Class inherits Shape class, & as we know Shape class has a data member `v_ptr`. 
-- Rectangle class inheits `v_ptr` of Shape class but new Virtual table will be created at compile time for Rectangle class. Hence `v_ptr` of Rectangle class holds the address of virtual table of Rectangle class. 
-- As Rectangle class has implemented `area` method. virtual table of Rectangle class containing pointer to `area` method is overwrited with its own `area` method address while `forExmaple` method still point to parent class i.e. Share class.
+- As Rectangle Class inherits Shape class, it also inheits data member `v_ptr` of Shape class which will rewriten on new Virtual table created at compile time for Rectangle class. Hence we have separate virtual table for every class having virtual function or class inherited from the class that has virtual function as we said earlier.
+- As Rectangle Class has implemented `area` method. Virtual table of Rectangle class containing pointer to `area` method is rewirtten with its own `area` method address while `forExmaple` method still point to parent class i.e. Share class.
 
 ```
 Shape *s = new Rectangle();
