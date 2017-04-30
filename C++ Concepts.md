@@ -2,3 +2,4 @@
 2. [Should my constructors use “initialization lists” or “assignment”?](https://isocpp.org/wiki/faq/ctors#init-lists)
 3. [Behind The Scene of Runtime Polymorphism(Dynamic Linking) Works](https://github.com/VisheshPatel/CPP_Templates/blob/master/Virtual%20Function%20and%20Virtual%20Table.md)
 4. [Why You Cann't Create Abstract Class Object ? ](https://github.com/VisheshPatel/CPP_Templates/blob/master/Virtual%20Function%20and%20Virtual%20Table.md)
+5. [Why is the size of an empty class not zero in C++?](http://www.geeksforgeeks.org/why-is-the-size-of-an-empty-class-not-zero-in-c/)
