@@ -6,3 +6,4 @@
 6. [How many default methods does a class have ?](http://stackoverflow.com/questions/4044275/how-many-default-methods-does-a-class-have)
 7. [How dynamic binding & function overriding works ?](http://www.learncpp.com/cpp-tutorial/124-early-binding-and-late-binding/)
 8. [How to allocate memory dynamically on stack ?](http://tajendrasengar.blogspot.in/2010/02/how-to-allocate-memory-dynamically-on.html).
+9. [What does explicit do and why do we need it?](http://www.geeksforgeeks.org/g-fact-93/)
