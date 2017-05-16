@@ -8,3 +8,4 @@
 7. [Template Metaprogramming](https://www.codeproject.com/Articles/3743/A-gentle-introduction-to-Template-Metaprogramming)
 8. [Virtual Inheritance](http://www.cprogramming.com/tutorial/virtual_inheritance.html).
 9. [Master The C++](https://github.com/VisheshPatel/CPP_Templates/blob/master/Master%20The%20C%2B%2B.md).
+10. [Internal Working of Early binding and late binding](http://www.learncpp.com/cpp-tutorial/124-early-binding-and-late-binding/).
