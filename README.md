@@ -9,4 +9,4 @@
 8. [Virtual Inheritance](http://www.cprogramming.com/tutorial/virtual_inheritance.html).
 9. [Master The C++](https://github.com/VisheshPatel/CPP_Templates/blob/master/Master%20The%20C%2B%2B.md).
 10. [Internal Working of Early binding and late binding](http://www.learncpp.com/cpp-tutorial/124-early-binding-and-late-binding/).
-11. [Why do we not have a virtual constructor in C++?](http://stackoverflow.com/questions/733360/why-do-we-not-have-a-virtual-constructor-in-c).
+11. [Why do we not have a virtual constructor in C++?](http://stackoverflow.com/questions/733360/why-do-we-not-have-a-virtual-constructor-in-c/733382#733382).
