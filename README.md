@@ -12,3 +12,4 @@
 11. [Why do we not have a virtual constructor in C++?](http://stackoverflow.com/questions/733360/why-do-we-not-have-a-virtual-constructor-in-c/733382#733382).
 12. [auto keyword in C++! Why is it magic ?](http://stackoverflow.com/questions/7576953/c-auto-keyword-why-is-it-magic/7577088#7577088).
 13. [Why override operator()?](https://stackoverflow.com/questions/317450/why-override-operator).
+14. [Getting Started With Lambda Expression in C++](https://github.com/VisheshPatel/CPP_Templates/blob/master/Getting%20Started%20With%20Lambda%20Expression%20in%20C%2B%2B.md).
