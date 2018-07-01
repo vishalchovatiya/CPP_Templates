@@ -10,3 +10,4 @@
 6. [Efficient Programming with Components](https://www.youtube.com/watch?v=aIHAEYyoTUc&list=PLHxtyCq_WDLXryyw91lahwdtpZsmo4BGD).
 7. [Alexander Stepanov at Amazon A9](https://www.youtube.com/user/A9Videos/playlists).
 8. [C++ resources](https://news.ycombinator.com/item?id=16806821).
+9. [Guide to C++ for C programmer](http://www.ericbrasseur.org/cppcen.html).
