@@ -13,3 +13,4 @@
 9. [Guide to C++ for C programmer](http://www.ericbrasseur.org/cppcen.html).
 10. [marcoarena](https://marcoarena.wordpress.com/2016/02/15/cpp-in-competitive-programming-intro/).
 11. [Learening C++ as C programmer](https://www.reddit.com/r/cpp/comments/4viw9w/learning_c_as_c_programmer_stl_and_oops/).
+12. [Fluent C++](https://www.fluentcpp.com/2018/06/29/7-more-ways-to-get-better-at-c-this-summer-2018-edition/)
