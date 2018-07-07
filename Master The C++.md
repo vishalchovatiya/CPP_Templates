@@ -11,3 +11,4 @@
 7. [Alexander Stepanov at Amazon A9](https://www.youtube.com/user/A9Videos/playlists).
 8. [C++ resources](https://news.ycombinator.com/item?id=16806821).
 9. [Guide to C++ for C programmer](http://www.ericbrasseur.org/cppcen.html).
+10. [marcoarena](https://marcoarena.wordpress.com/2016/02/15/cpp-in-competitive-programming-intro/).
