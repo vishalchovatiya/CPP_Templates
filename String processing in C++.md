@@ -45,3 +45,21 @@ vector<string> getDelimiterSeparatedStrList(string &str, string delimiter, bool 
   return resStrList;
 }
 ```
+### Erase substring from main string
+```
+void eraseAllSubStr(std::string & mainStr, const std::string & toErase)
+{
+	size_t pos = std::string::npos;
+
+	// Search for the substring in string in a loop untill nothing is found
+	while ((pos  = mainStr.find(toErase) )!= std::string::npos)
+	{
+		// If found then erase it from string
+		mainStr.erase(pos, toErase.length());
+	}
+}
+```
+### Replace substring from main string
+```
+
+```
