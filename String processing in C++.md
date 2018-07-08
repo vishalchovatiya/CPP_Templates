@@ -1,5 +1,5 @@
+### Extracting substring
 ```
-// string::substr
 #include <iostream>
 #include <string>
 
@@ -23,5 +23,25 @@ int main ()
   DEBUG(str4);
 
   return 0;
+}
+```
+### Get list of string separated by delimiter
+```
+vector<string> getDelimiterSeparatedStrList(string &str, string delimiter, bool  stripMultipleDelimiterSeq = false)
+{
+  vector<string> resStrList;
+  size_t startPos=0;
+  size_t endPos=0;
+  
+  while((endPos = str.find(delimiter, startPos)) != std::string::npos){    
+    if(stripMultipleDelimiterSeq && startPos == endPos){
+      startPos = endPos+1;
+      continue;
+    }
+    
+    resStrList.push_back(str.substr(startPos,endPos-startPos));
+    startPos = endPos+1;
+  }
+  return resStrList;
 }
 ```
