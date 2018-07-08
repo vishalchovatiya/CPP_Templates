@@ -27,7 +27,7 @@ int main ()
 ```
 ### Get list of string separated by delimiter
 ```
-vector<string> getDelimiterSeparatedStrList(string &str, string &delimiter, bool  stripMultipleDelimiterSeq = false)
+vector<string> getDelimiterSeparatedStrList(string &str, string delimiter, bool  stripMultipleDelimiterSeq = false)
 {
   vector<string> resStrList;
   size_t startPos=0;
@@ -62,7 +62,7 @@ void eraseAllSubStr(std::string & mainStr, const std::string & toErase)
 ```
 ### Replace substrings from main string
 ```
-string replace(const string &str, const string &from, const string &to, bool isFirstOnly = false)
+string replace(const string &str, const string from, const string to, bool isFirstOnly = false)
 {
   string resStr;
   size_t startPos=0;
