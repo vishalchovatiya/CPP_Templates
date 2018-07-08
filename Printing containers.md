@@ -6,10 +6,10 @@ std::for_each(vArr.rbegin(), vArr.rend(), [](int a){cout<<a<<" ";}); // Reverse
 ```
 ### Printing `map` in forward & reverse order
 ```
-for_each(map.begin(),map.end(),[](pair<**const** string,Node> &pair) 
+for_each(map.begin(),map.end(),[](pair<const string,Node> &pair) 
 {
   cout<<pair.first<<endl;
   cout<<pair.second<<endl;
 });
 ```
-Note: first template parameter of pair in lambda function is const. 
+Note: first template parameter of pair in lambda function should be **const**. 
