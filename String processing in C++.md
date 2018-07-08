@@ -59,7 +59,27 @@ void eraseAllSubStr(std::string & mainStr, const std::string & toErase)
 	}
 }
 ```
-### Replace substring from main string
+### Replace substrings from main string
 ```
+string replace(const string &str, const string &from, const string &to, bool isFirstOnly = false)
+{
+  string resStr;
+  size_t startPos=0;
+  size_t endPos=0;
+  int i=0;
+  
+  while((endPos = str.find(from, startPos)) != std::string::npos){    
+    DEBUG(startPos);
+    DEBUG(endPos);
+    DEBUG(str.substr(startPos,endPos-startPos));
 
+    resStr += str.substr(startPos,endPos-startPos);
+    resStr += to;
+    startPos = endPos + from.length();
+    if(isFirstOnly)break;
+  }
+  resStr += str.substr(startPos);
+
+  return resStr;
+}
 ```
