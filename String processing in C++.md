@@ -70,10 +70,6 @@ string replace(const string &str, const string &from, const string &to, bool isF
   int i=0;
   
   while((endPos = str.find(from, startPos)) != std::string::npos){    
-    DEBUG(startPos);
-    DEBUG(endPos);
-    DEBUG(str.substr(startPos,endPos-startPos));
-
     resStr += str.substr(startPos,endPos-startPos);
     resStr += to;
     startPos = endPos + from.length();
