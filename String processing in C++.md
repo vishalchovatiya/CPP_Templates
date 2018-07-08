@@ -27,7 +27,7 @@ int main ()
 ```
 ### Get list of string separated by delimiter
 ```
-vector<string> getDelimiterSeparatedStrList(string &str, string delimiter, bool  stripMultipleDelimiterSeq = false)
+vector<string> getDelimiterSeparatedStrList(string &str, string &delimiter, bool  stripMultipleDelimiterSeq = false)
 {
   vector<string> resStrList;
   size_t startPos=0;
@@ -42,6 +42,7 @@ vector<string> getDelimiterSeparatedStrList(string &str, string delimiter, bool 
     resStrList.push_back(str.substr(startPos,endPos-startPos));
     startPos = endPos+1;
   }
+  resStrList.push_back(str.substr(startPos));
   return resStrList;
 }
 ```
