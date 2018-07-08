@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+#define DEBUG(X)  std::cout<<#X<<" = "<<X<<std::endl;
+
 int main ()
 {
   std::string str="We think in generalities, but we live in details.";
@@ -14,9 +16,11 @@ int main ()
 
   std::string str3 = str.substr (pos);     // get from "live" to the end
 
-  std::string str4 = str.substr (pos, str.find(" "));     // get from "live" to the end
+  std::string str4 = str.substr (pos, str3.find(" "));     // get from "live" to the end
 
-  std::cout << str2 << ' ' << str3 << ' ' << str4 << '\n';
+  DEBUG(str2);
+  DEBUG(str3);
+  DEBUG(str4);
 
   return 0;
 }
