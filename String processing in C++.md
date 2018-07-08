@@ -67,7 +67,6 @@ string replace(const string &str, const string &from, const string &to, bool isF
   string resStr;
   size_t startPos=0;
   size_t endPos=0;
-  int i=0;
   
   while((endPos = str.find(from, startPos)) != std::string::npos){    
     resStr += str.substr(startPos,endPos-startPos);
