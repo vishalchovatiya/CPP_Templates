@@ -14,3 +14,4 @@
 13. [Why override operator()?](https://stackoverflow.com/questions/317450/why-override-operator).
 14. [Getting Started With Lambda Expression in C++](https://github.com/VisheshPatel/CPP_Templates/blob/master/Getting%20Started%20With%20Lambda%20Expression%20in%20C%2B%2B.md).
 15. [Printing containers](https://github.com/VisheshPatel/CPP_Templates/blob/master/Printing%20containers.md).
+16. [String processing in C++](https://github.com/VisheshPatel/CPP_Templates/blob/master/String%20processing%20in%20C++.md).
