@@ -44,8 +44,8 @@ void foobar( X &_result )
 	return;
 };
 ```
-### How constructor code transform with inheritance class ?
+### How & where constructor code transform/Synthesize with inheritance & composition class ?
 
-### How destructor code transform with inheritance class ?
+### How & where destructor code transform with inheritance & composition class ?
 
 ### How & where virtual table inserted in code ?
