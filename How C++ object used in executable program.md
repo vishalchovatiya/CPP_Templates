@@ -1,3 +1,5 @@
+### How class code synthesized ?
+
 ### How object used in executable function ?
 -  Given the following function, where class X defines a copy constructor, virtual destructor, and virtual function foo():
 ```
