@@ -1,4 +1,4 @@
-### How object used in executable program ?
+### How object used in executable function ?
 -  Given the following function, where class X defines a copy constructor, virtual destructor, and virtual function foo():
 ```
 X foobar()
@@ -44,4 +44,8 @@ void foobar( X &_result )
 	return;
 };
 ```
+### How constructor code transform with inheritance class ?
 
+### How destructor code transform with inheritance class ?
+
+### How & where virtual table inserted in code ?
