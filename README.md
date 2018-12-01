@@ -16,4 +16,4 @@
 15. [Printing containers](https://github.com/VisheshPatel/CPP_Templates/blob/master/Printing%20containers.md).
 16. [String processing in C++](https://github.com/VisheshPatel/CPP_Templates/blob/master/String%20processing%20in%20C++.md).
 17. [How C++ code transforms](https://github.com/VisheshPatel/CPP_Templates/blob/master/How%20C%2B%2B%20object%20used%20in%20executable%20program.md).
-18. [Inside C++ object model](https://github.com/VisheshPatel/CPP_Templates/blob/master/Inside%20C++%20object%20model.md)
+18. [Memory model of C++ object](https://github.com/VisheshPatel/CPP_Templates/blob/master/Memory%20model%20of%20C++%20object.md)
