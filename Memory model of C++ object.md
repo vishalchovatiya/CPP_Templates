@@ -16,7 +16,7 @@ class X
     void printFloat(){}
 };
 ```
-![Complete CAN Frame with Electrical Signals- Source:wikipedia](https://github.com/VisheshPatel/CPP_Templates/blob/master/images/simple%20object%20model.png)
+![](https://github.com/VisheshPatel/CPP_Templates/blob/master/images/simple%20object%20model.png)
 
 ### Object with virtual & static keyword model representation of below class
 ```
@@ -36,7 +36,7 @@ class X
     static void printCount(){}
 };
 ```
-![Complete CAN Frame with Electrical Signals- Source:wikipedia](https://github.com/VisheshPatel/CPP_Templates/blob/master/images/Object%20with%20virtual%20%26%20static%20keyword%20model.png)
+![](https://github.com/VisheshPatel/CPP_Templates/blob/master/images/Object%20with%20virtual%20%26%20static%20keyword%20model.png)
 
 ### Inheritence object model representation of below class
 ```
@@ -63,5 +63,5 @@ class Y : public X
     void printAll(){}
 };
 ```
-![Complete CAN Frame with Electrical Signals- Source:wikipedia](https://github.com/VisheshPatel/CPP_Templates/blob/master/images/Inheritence%20object%20model%20representation.png)
+![](https://github.com/VisheshPatel/CPP_Templates/blob/master/images/Inheritence%20object%20model%20representation.png)
 
