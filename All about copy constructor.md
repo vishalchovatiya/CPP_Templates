@@ -100,3 +100,25 @@ declared or synthesized)
 4. When the class is derived from an inheritance chain in which one or more base classes are virtual
 - In instances 1 and 2, the implementation needs to insert invocations of the member or base class copy
 constructors inside the synthesized copy constructor. 
+
+### Some other ways copy constructor invoked
+```
+  X x0;
+  X x1( x0 );
+  X x2 = x0;
+  X x3 = x( x0 );
+  // ...
+```
+- All these statement transform in to invokation of copy constructor.
+```
+X x0;
+X x1;
+X x2;
+X x3;
+// compiler inserted invocations
+// of copy constructor for X
+x1.X::X( x0 );
+x2.X::X( x0 );
+x3.X::X( x0 );
+// ...
+```
