@@ -1,7 +1,27 @@
 ### How class code synthesized ?
+```
+class X
+{  
+    int x;
+};
+```
+- Compiler augmentation of above class would be as follows:
+```
+class X
+{  
+    int x;
+public:
+    X(){}
+    ~X(){}
+    X(const X &rhs){}
+    opeator=(const X &rhs){}
+    
+};
+```
+- TODO above
 
 ### How object used in executable function ?
--  Given the following function, where class X defines a copy constructor, virtual destructor, and virtual function foo():
+-  Given the following function, where class X defines a copy constructor, virtual destructor, & virtual function foo():
 ```
 X foobar()
 {
