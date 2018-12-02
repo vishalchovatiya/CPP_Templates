@@ -1,6 +1,6 @@
 ## How different object stores in memory ?
 
-### Simple object model representation of below class stores in memory
+### Simple object model representation of below class
 
 ```
 class X
@@ -16,9 +16,9 @@ class X
     void printFloat(){}
 };
 ```
-![Complete CAN Frame with Electrical Signals- Source:wikipedia](images/CAN-Bus-frame_in_base_format_without_stuffbits.svg)
+![Complete CAN Frame with Electrical Signals- Source:wikipedia](https://github.com/VisheshPatel/CPP_Templates/blob/master/images/simple%20object%20model.png)
 
-### Object with virtual & static keyword model representation of below class stores in memory
+### Object with virtual & static keyword model representation of below class
 ```
 class X
 {  
@@ -38,7 +38,7 @@ class X
 ```
 ![Complete CAN Frame with Electrical Signals- Source:wikipedia](images/CAN-Bus-frame_in_base_format_without_stuffbits.svg)
 
-### Inheritence object model representation of below class stores in memory
+### Inheritence object model representation of below class
 ```
 class X
 {  
