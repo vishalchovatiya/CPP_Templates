@@ -52,19 +52,28 @@ void foobar( X &_result )
 class Foo 
 { 
 public: 
-  Foo(){} 
-  Foo( int x){}
+  Foo(){cout<<"Foo"<<endl;} 
+  ~Foo(){cout<<"~Foo"<<endl;} 
 };
 
-class Bar 
+class base 
+{ 
+public: 
+  base(){cout<<"base"<<endl;}
+  ~base(){cout<<"~base"<<endl;}
+};
+
+class Bar /* : public base */
 { 
   Foo foo; 
   char *str; 
 public: 
   Bar()
   {
+    cout<<"Bar"<<endl;
     str = 0;
   }
+  ~Bar(){cout<<"~Bar"<<endl;}
 };
 ```
 - Compiler augmented `Bar` constructor would be like
@@ -72,6 +81,8 @@ public:
 Bar::Bar()
 {
   foo.Foo::Foo(); // augmented compiler code
+  
+  cout<<"Bar"<<endl; // explicit user code
   str = 0; // explicit user code
 }
 ```
@@ -80,5 +91,6 @@ Bar::Bar()
 - In case of inheritance, constructor calling sequence is start from base(top-down) to derived manner. Constructor synthesis & augmentation remain same as above. So in above case if you derive `Bar` from `Base` then constructor calling sequence would be `Base` -> `Foo` -> `Bar`.
 
 ### How & where destructor code transform/synthesize with inheritance & composition class ?
+- In case of destructor calling sequece is exactly reverse that of constructor. Like in above case it would be `Bar` -> `Foo` -> `Base`. Synthesis & augmentation remain same as above.
 
 ### How & where virtual table inserted in code ?
