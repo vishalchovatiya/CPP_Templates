@@ -12,23 +12,23 @@ X xx = x;
 extern void foo( X x );
 void bar()
 {
-X xx;
+  X xx;
 
-// Copy constructor will be called
-foo( xx );
+  // Copy constructor will be called
+  foo( xx );
 
-// ...
+  // ...
 }
 ```
 3. When a function returns a class object
 ```
 X foo_bar()
 {
-X xx;
-// ...;
+  X xx;
+  // ...;
 
-// Copy constructor will be called
-return xx;
+  // Copy constructor will be called
+  return xx;
 }
 ```
 
@@ -36,56 +36,57 @@ return xx;
 
 ```
 #include "Word.h"
+
 Word noun( "block" );
+
 void foo()
 {
-Word verb = noun;
-// ...
+  Word verb = noun;
+  // ...
 }
 ```
-- If class `word` declaration as follows, then it exhibits bitwise copy semantics as the initialization of verb need not result in a function call.
+- If class `word` declaration as follows, then it **exhibits bitwise copy constructor** as the initialization of verb need not result in a function call.
 ```
-
 class Word {
-public:
-Word( const char* );
-~Word() { delete [] str; }
-// ...
-private:
-int cnt;
-char *str;
+  public:
+    Word( const char* );
+    ~Word() { delete [] str; }
+    // ...
+  private:
+    int cnt;
+    char *str;
 };
 ```
-- If class `word` declaration as follows, then it exhibits memberwise copy constructor becuase string declares explicit copy coonstructor.
+- But, if class `word` declaration as follows, then it **exhibits memberwise copy constructor** becuase string declares explicit copy coonstructor.
 ```
 class Word {
-public:
-Word( const String& );
-~Word();
-// ...
-private:
-int cnt;
-String str;
+  public:
+    Word( const String& );
+    ~Word();
+    // ...
+  private:
+    int cnt;
+    String str;
 };
 ```
 - where String declares an explicit copy constructor:
 ```
 class String {
-public:
-String( const char * );
-String( const String& );
-~String();
-// ...
+  public:
+    String( const char * );
+    String( const String& );
+    ~String();
+    // ...
 };
+
 ```
 - In this case, the compiler needs to synthesize a copy constructor in order to invoke the copy constructor of the member class String object:
 ```
 // A synthesized copy constructor
-// Pseudo C++ Code
 inline Word::Word( const Word& wd )
 {
-str.String::String( wd.str );
-cnt = wd.cnt;
+  str.String::String( wd.str );
+  cnt = wd.cnt;
 }
 ```
 ### Bitwise Copy Semantics—Not!
