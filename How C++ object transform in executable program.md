@@ -19,19 +19,16 @@ X foobar()
 ```
 - Probable internal transformation
 ```
-// Pseudo C++ code
 void foobar( X &_result )
 {
-	// construct _result
-	// _result replaces local xx ...
+	// _result replaces local xx & constructor called
 	_result.X::X();
 	// expand X *px = new X;
 	px = _new( sizeof( X ));
 	if ( px != 0 )
 		px->X::X();
 	
-	// expand xx.foo(): suppress virtual mechanism
-	// replace xx with _result
+	// expand xx.foo(): replaced xx with _result
 	foo( &_result );
 	// expand px->foo() using virtual mechanism
 	( *px->_vtbl[ 2 ] )( px )
@@ -46,8 +43,8 @@ void foobar( X &_result )
 	return;
 };
 ```
-### How & where constructor code transform/Synthesize with inheritance & composition class ?
+### How & where constructor code transform/synthesize with inheritance & composition class ?
 
-### How & where destructor code transform with inheritance & composition class ?
+### How & where destructor code transform/synthesize with inheritance & composition class ?
 
 ### How & where virtual table inserted in code ?
