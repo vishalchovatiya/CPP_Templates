@@ -1,27 +1,10 @@
 ### How class code synthesized ?
 ```
-class X
-{  
-    int x;
-};
+
 ```
-- Compiler augmentation of above class would be as follows:
-```
-class X
-{  
-    int x;
-public:
-    X(){}
-    ~X(){}
-    X(const X &rhs){}
-    opeator=(const X &rhs){}
-    
-};
-```
-- TODO above
 
 ### How object used in executable function ?
--  Given the following function, where class X defines a copy constructor, virtual destructor, & virtual function foo():
+-  Given the following function, where class X defines a copy constructor, virtual destructor, and virtual function foo():
 ```
 X foobar()
 {
@@ -64,6 +47,37 @@ void foobar( X &_result )
 };
 ```
 ### How & where constructor code transform/synthesize with inheritance & composition class ?
+
+```
+class Foo 
+{ 
+public: 
+  Foo(){} 
+  Foo( int x){}
+};
+
+class Bar 
+{ 
+  Foo foo; 
+  char *str; 
+public: 
+  Bar()
+  {
+    str = 0;
+  }
+};
+```
+- Compiler augmented `Bar` constructor would be like
+```
+Bar::Bar()
+{
+  foo.Foo::Foo(); // augmented compiler code
+  str = 0; // explicit user code
+}
+```
+- Same goes for, multiple class member objects requiring constructor initialization. The language requires that the constructors be invoked in the order of member declaration within the class. This is accomplished by the compiler.
+- If object member does not define a default constructor, a nontrivial default constructor is synthesized by compiler for respective classes.
+- In case of inheritance, constructor calling sequence is start from base(top-down) to derived manner. Constructor synthesis & augmentation remain same as above. So in above case if you derive `Bar` from `Base` then constructor calling sequence would be `Base` -> `Foo` -> `Bar`.
 
 ### How & where destructor code transform/synthesize with inheritance & composition class ?
 
