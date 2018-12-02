@@ -87,10 +87,10 @@ Bar::Bar()
 }
 ```
 - Same goes for, multiple class member objects requiring constructor initialization. The language requires that the constructors be invoked in the order of member declaration within the class. This is accomplished by the compiler.
-- If object member does not define a default constructor, a nontrivial default constructor is synthesized by compiler for respective classes.
-- In case of inheritance, constructor calling sequence is start from base(top-down) to derived manner. Constructor synthesis & augmentation remain same as above. So in above case if you derive `Bar` from `Base` then constructor calling sequence would be `Base` -> `Foo` -> `Bar`.
+- If object member does not define a default constructor, a non-trivial default constructor is synthesized by a compiler for respective classes.
+- In the case of inheritance, constructor calling sequence is started from base(top-down) to derived manner. Constructor synthesis & augmentation remain same as above. So in above case if you derive `Bar` from `Base` then constructor calling sequence would be `Base` -> `Foo` -> `Bar`.
 
 ### How & where destructor code transform/synthesize with inheritance & composition class ?
-- In case of destructor calling sequece is exactly reverse that of constructor. Like in above case it would be `Bar` -> `Foo` -> `Base`. Synthesis & augmentation remain same as above.
+- In case of destructor, calling sequence is exactly reverse that of a constructor. Like in above case it would be `Bar` -> `Foo` -> `Base`. Synthesis & augmentation remain same as above.
 
 ### How & where virtual table inserted in code ?
