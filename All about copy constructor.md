@@ -109,7 +109,7 @@ constructors inside the synthesized copy constructor.
   X x3 = x( x0 );
   // ...
 ```
-- All these statement transform in to invokation of copy constructor.
+- All these statements transform into invocation of the copy constructor.
 ```
 X x0;
 X x1;
