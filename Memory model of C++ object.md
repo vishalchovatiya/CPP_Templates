@@ -7,9 +7,11 @@ class X
 {  
     int x;
     float xx;
+    
   public:
     X(){}
     ~X(){}
+    
     void printInt(){}
     void printFloat(){}
 };
@@ -23,9 +25,11 @@ class X
     int x;
     float xx;
     static int count;
+    
   public:
     X(){}
     virtual ~X(){}
+    
     virtual void printAll(){}
     void printInt(){}
     void printFloat(){}
@@ -40,19 +44,24 @@ class X
 {  
     int x;
     string str;
+    
   public:
     X(){}
     virtual ~X(){}
+    
     virtual void printAll(){}
 };
 
 class Y : public X
 {
     int y;
+    
   public:
     Y(){}
     ~Y(){}
+    
     void printAll(){}
 };
 ```
+![Complete CAN Frame with Electrical Signals- Source:wikipedia](images/CAN-Bus-frame_in_base_format_without_stuffbits.svg)
 
