@@ -76,3 +76,13 @@ class Y : public X
 
 - In the inheritance model, a base class is treated as a subobject of derived class & memory map is created accordingly(as you can see in above pic). Rest of the things are remaining the same.
 
+### Virtual inheritence object model representation of below classes
+```
+class X {};
+class Y : public virtual X {};
+class Z : public virtual X {};
+class A : public Y, public Z {};
+```
+![](Insert image HERE)
+- 
+
