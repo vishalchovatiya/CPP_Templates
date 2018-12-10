@@ -76,7 +76,7 @@ public:
   ~Bar(){cout<<"~Bar"<<endl;}
 };
 ```
-- Compiler augmented `Bar` constructor would be like
+- Compiler augmented `Bar` constructor would be look like:
 ```
 Bar::Bar()
 {
@@ -86,7 +86,7 @@ Bar::Bar()
   str = 0; // explicit user code
 }
 ```
-- Same goes for, multiple class member objects requiring constructor initialization. The language requires that the constructors be invoked in the order of member declaration within the class. This is accomplished by the compiler.
+- Same goes for, multiple class member objects requiring constructor initialization. The language specifies that the constructors would be invoked in the order of member declaration within the class. This is accomplished by the compiler.
 - If object member does not define a default constructor, a non-trivial default constructor is synthesized by a compiler for respective classes.
 - In the case of inheritance, constructor calling sequence is started from base(top-down) to derived manner. Constructor synthesis & augmentation remain same as above. So in above case if you derive `Bar` from `Base` then constructor calling sequence would be `Base` -> `Foo` -> `Bar`.
 
