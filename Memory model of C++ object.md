@@ -109,5 +109,6 @@ class Z : public virtual X {};
 class A : public Y, public Z {};
 ```
 ![](Insert image HERE)
-- 
+- Memory representation of derived class having one or more virtual base class is divided into two regions: 1). an invariant region & 2). a shared region. Data within the invariant region remains at a fixed offset from the start of the object regardless of subsequent
+derivations. But base class memory region is not fixed because it is shared region & it fluctuates with each derivation. We will see the access of shared region in separate article.
 
