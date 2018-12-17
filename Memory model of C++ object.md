@@ -19,7 +19,7 @@ class X
 ![](https://github.com/VisheshPatel/CPP_Templates/blob/master/images/simple%20object%20model.png)
 
 - As you can see all data members are going into the stack with the same order of their declarations(which is guaranteed by most of the compilers, apparently) 
-- All other methods, constructor, destructor & compiler augmented code(which I have not shown for simplicity) go into the text segment. These methods are then called using scope resolution operator & passed this pointer of calling object in its 1st argument explicitly which we discuss in the separate article.
+- All other methods, constructor, destructor & compiler augmented code(which I have not shown for simplicity) go into the text segment. These methods are then called using scope resolution operator & passed this pointer(not shown here for simplicity) of calling object in its 1st argument explicitly which we discuss in the separate article.
 
 ### Object with virtual & static keyword model representation of below class
 ```
