@@ -1,6 +1,7 @@
 ### Introduction
 - Althought this is purely compiler dependent
 - No C++ standard is defined for this implementation
+- Before going into discussion that how virtual keyword or polymorphic functionality works we should learn why it needed at first place.
 
 ### Why we need virtual function ?
 
