@@ -101,6 +101,50 @@ class Vertex2d : public Point2d, public Vertex {
 ```
 ![](Insert image HERE)
 - Page 70 of 182
+### Multiple inheritence with virtual keyword object model representation of below classes
+
+```
+class Point {
+public:
+virtual ~Point();
+virtual Point& mult( float ) = 0;
+// ... other operations ...
+float x() const { return _x; }
+virtual float y() const { return 0; }
+virtual float z() const { return 0; }
+// ...
+protected:
+Point( float x = 0.0 );
+float _x;
+};
+class Point2d : public Point {
+public:
+Point2d( float x = 0.0, float y = 0.0 )
+: Point( x ), _y( y ) {}
+~Point2d();
+// overridden base class virtual functions
+Point2d& mult( float );
+float y() const { return _y; }
+// ... other operations ...
+protected:
+float _y;
+};
+class Point3d: public Point2d {
+public:
+Point3d( float x = 0.0,
+float y = 0.0, float z = 0.0 )
+: Point2d( x, y ), _z( z ) {}
+~Point3d();
+// overridden base class virtual functions
+Point3d& mult( float );
+float z() const { return _z; }
+// ... other operations ...
+protected:
+float _z;
+};
+```
+
+
 ### Virtual inheritence object model representation of below classes
 ```
 class X {};
