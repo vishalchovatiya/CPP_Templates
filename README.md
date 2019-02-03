@@ -21,3 +21,4 @@
 20. [PART 1: All about virtual keyword C++: How virtual function works](TODO).
 21. [PART 2: All about virtual keyword C++: How virtual function works **internally**](TODO).
 22. [PART 3: All about virtual keyword C++: How virtual class works internally](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%202:%20All%20about%20virtual%20keyword%20C%2B%2B:%20How%20virtual%20class%20works%20internally.md).
+23. [PART 2: All about virtual keyword C++: How virtual destructor works(special case of virtual function)](TODO).
