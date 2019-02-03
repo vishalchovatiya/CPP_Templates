@@ -96,9 +96,9 @@ int main()
 ```
 
 As you can see there are some benefits we have achieved using virtual keywords are 
-1. Run time polymorphism: Behavioural functions will be identified at runtime & would be called by their type like if `protocol` is wifi then execute `wifi_t::authenticate()` & `wifi_t::connect()`.
-2. Reusability of code: Observe `makeConnection` function there is only single call to behavioural functions we have removed redundant code from main.
-3. Code would be compact: Observe earlier `main` function & newer one.
+1. **Run time polymorphism**: Behavioural functions will be identified at runtime & would be called by their type like if `protocol` is wifi then execute `wifi_t::authenticate()` & `wifi_t::connect()`.
+2. **Reusability of code**: Observe `makeConnection` function there is only single call to behavioural functions we have removed redundant code from main.
+3. **Code would be compact**: Observe earlier `main` function & newer one.
 
 ### How virtual function works
 
