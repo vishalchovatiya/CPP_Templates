@@ -126,17 +126,14 @@ multiple vptrs within a complex class derivation.)
 2. `1` in `vptr[ 1 ]` is the index into the virtual table slot associated with `authenticate()`.
 3. protocol in its second occurrence represents the `this` pointer.
 
-When we inherit `protocol_t` class to `wifi_t` class, this virtual table will be literally overridden with its respective overridded/polymorphic function slot. Each virtual function has fixed index in virtual table, no matter how long inheritance heirarchy is.
-If derived class introduce a new virtual function not present in the base class, the virtual table will be grown by a slot and the address of the function is placed within that slot.
+- When we inherit `protocol_t` class to `wifi_t` class, this virtual table will be literally overridden with its respective overridded/polymorphic function slot. Each virtual function has fixed index in virtual table, no matter how long inheritance heirarchy is.
+- If derived class introduce a new virtual function not present in the base class, the virtual table will be grown by a slot and the address of the function is placed within that slot.
 
-If you want to summurize virtual keyword functionality in two words then its `indirect calling` of polymorphic function.
+- If you want to summurize virtual keyword functionality in two words then its `indirect calling` of polymorphic function.
 
 FAQ
 Q. How do we know at runtime that pointer `protocol` will execute right function(of object pointed to)?
-A. In general, we don't know the exact type of the object `protocol` addresses at each invocation of `authenticate()`. 
-We do know, however, that through `protocol` we can access the virtual table associated with the object's class.
-And address of virtual table is fixed throught inheritance heirarchy.
-Again we also that index of function `authenticate()` is fixed throught inheritance heirarchy.
+A. In general, we don't know the exact type of the object `protocol` addresses at each invocation of `authenticate()`. We do know, however, that through `protocol` we can access the virtual table associated with the object's class. And address of virtual table is fixed throught inheritance heirarchy. Again we also that index of function `authenticate()` is fixed throught inheritance heirarchy.
 This way right `authenticate()` function execution will be gauranteed. 
 
 Q. What if there is derived class having more that one base class ?
@@ -146,8 +143,8 @@ Q. Where & how this code augment by compiler?
 A. We will discuss this in subsequent topic.
 
 ### How pure virtual function works
-When you declare any function as pure virtual, compiler automatically fills slot of that pure virtual function with dummy function or so called place holder `pure_virtual_called()` library instance. And run time exception is placed if somehow this place holder will be called.  
-Rest of calling & virtual table slot mechanism would be same as normal virtual function.
+- When you declare any function as pure virtual, compiler automatically fills slot of that pure virtual function with dummy function or so called place holder `pure_virtual_called()` library instance. And run time exception is placed if somehow this place holder will be called.  
+- Rest of calling & virtual table slot mechanism would be same as normal virtual function.
 ### How pure virtual function works in multiple inheritence.
 
 
