@@ -4,11 +4,9 @@
 2. Before learning anything we have to see why it needed at first place.
 
 ### Why we need virtual function ?
-Let we understand it with example.
-Suppose you want to connect to network or to other mobile using your smart phone.
-You have two choices bluetooth or wifi.
-Althought these two are completely different technologies but come things are common in them at abstract level like both are communication protocol, both need authentication, etc.
-Let say we have class of them like as follows:
+- Let we understand it with example.Suppose you want to connect to network or to other mobile using your smart phone.
+- You have two choices bluetooth or wifi. Althought these two are completely different technologies but come things are common in them at abstract level like both are communication protocol, both need authentication, etc.
+- Let say we have class of them like as follows:
 ```
 class wifi_t{
 	private:
@@ -30,11 +28,11 @@ class bluetooth_t{
 		// operations ...
 };
 ```
-Let say now you have main application where you want to connect your device to others
+- Now, below is main application in which you want to connect your device to others.
 ```
 int main()
 {
-	wifi_t 			  *wifi = new wifi_t;
+	wifi_t 		*wifi = new wifi_t;
 	bluetooth_t 	*bluetooth = new bluetooth_t;
 
 	int pt = selectProtocol();
@@ -50,8 +48,8 @@ int main()
 	return 0;
 }
 ```
-If you observe above code then you will find that despite of selecting any protocol some steps are same.
-In this case you can leaverage virtual functionality of C++ as follows:
+- If you observe above code then you will find that despite of selecting any protocol some steps are same.
+- In this case you can leaverage virtual functionality of C++ as follows:
 
 ```
 class protocol_t{
@@ -100,7 +98,7 @@ int main()
 }
 ```
 
-As you can see there are some benefits we have achieved using virtual keywords are 
+As you can see there are some benefits we have achieved using virtual keywords are:
 1. **Run time polymorphism**: Behavioural functions will be identified at runtime & would be called by their type like if `protocol` is wifi then execute `wifi_t::authenticate()` & `wifi_t::connect()`.
 2. **Reusability of code**: Observe `makeConnection` function there is only single call to behavioural functions we have removed redundant code from main.
 3. **Code would be compact**: Observe earlier `main` function & newer one.
@@ -108,22 +106,20 @@ As you can see there are some benefits we have achieved using virtual keywords a
 ### How virtual function works
 ![](https://github.com/VisheshPatel/CPP_Templates/blob/master/images/How%20virtual%20function%20works.png)
 
-When you declare any function virtual, compiler will transform(augment is precise word here) some of your code at compile time.
-If you want to summurize virtual keyword functionality in two words then its `indirect calling` of function.
-
-Like in our case class protocol_t will be augmented by a pointer called vptr which points to virtual table.
-This is nothing but a array of void pointer which includes offset of your virtual function. So that it can call your function through that table rather than calling it directly by adding offset to this pointer.
+- When you declare any function virtual, compiler will transform(augment is precise word here) some of your code at compile time.
+- Like in our case class protocol_t will be augmented by a pointer called vptr which points to virtual table.
+- This is nothing but a array of void pointer which includes offset/address of your virtual function. So that it can call your function through that table rather than calling it directly by adding offset to `this` pointer.
 
 So if you call function `authenticate()` using pointer of protocol_t 
-
+```
 protocol_t *protocol;
 protocol->authenticate();
-
+```
 then it would probably be augmented by compiler like this
-
+```
 ( * protocol->vptr[ 1 ])( protocol ); 
-
-where the following holds:
+```
+Where the following holds:
 1. `vptr` represents the internally generated virtual table pointer inserted within each object whose class
 declares or inherits one or more virtual functions. (In practice, its name is mangled. There may be
 multiple vptrs within a complex class derivation.)
@@ -132,6 +128,8 @@ multiple vptrs within a complex class derivation.)
 
 When we inherit `protocol_t` class to `wifi_t` class, this virtual table will be literally overridden with its respective overridded/polymorphic function slot. Each virtual function has fixed index in virtual table, no matter how long inheritance heirarchy is.
 If derived class introduce a new virtual function not present in the base class, the virtual table will be grown by a slot and the address of the function is placed within that slot.
+
+If you want to summurize virtual keyword functionality in two words then its `indirect calling` of polymorphic function.
 
 FAQ
 Q. How do we know at runtime that pointer `protocol` will execute right function(of object pointed to)?
