@@ -106,6 +106,8 @@ As you can see there are some benefits we have achieved using virtual keywords a
 3. **Code would be compact**: Observe earlier `main` function & newer one.
 
 ### How virtual function works
+![](https://github.com/VisheshPatel/CPP_Templates/blob/master/images/How%20virtual%20function%20works.png)
+
 When you declare any function virtual, compiler will transform(augment is precise word here) some of your code at compile time.
 If you want to summurize virtual keyword functionality in two words then its `indirect calling` of function.
 
