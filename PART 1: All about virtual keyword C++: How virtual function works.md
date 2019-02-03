@@ -102,7 +102,7 @@ As you can see there are some benefits we have achieved using virtual keywords a
 
 ### How virtual function works
 
-
+### How pure virtual function works
 
 ### Reference 
 - http://www.avabodh.com/cxxin/virtualbase.html
