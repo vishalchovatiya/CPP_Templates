@@ -56,7 +56,7 @@ In this case you can leaverage virtual functionality of C++ as follows:
 ```
 class protocol_t{
 	private:
-		char pass[15];
+		uint8_t type;
 		// storage ...
 	public:
 		virtual void authenticate(){};
