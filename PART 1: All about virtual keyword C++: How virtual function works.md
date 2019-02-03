@@ -12,7 +12,7 @@ Let say we have class of them like as follows:
 ```
 class wifi_t{
 	private:
-		char pass[15];
+		char _pass[15];
 		// storage ...
 	public:
 		void authenticate();
@@ -22,7 +22,7 @@ class wifi_t{
 
 class bluetooth_t{
 	private:
-		char pass[15];
+		char _pass[15];
 		// storage ...
 	public:
 		void authenticate();
@@ -56,7 +56,7 @@ In this case you can leaverage virtual functionality of C++ as follows:
 ```
 class protocol_t{
 	private:
-		uint8_t type;
+		uint8_t _type;
 		// storage ...
 	public:
 		virtual void authenticate(){};
@@ -66,7 +66,7 @@ class protocol_t{
 
 class wifi_t : public protocol_t{
 	private:
-		char pass[15];
+		char _pass[15];
 		// storage ...
 	public:
 		virtual void authenticate(){};
@@ -76,7 +76,7 @@ class wifi_t : public protocol_t{
 
 class bluetooth_t : public protocol_t{
 	private:
-		char pass[15];
+		char _pass[15];
 		// storage ...
 	public:
 		virtual void authenticate(){};
