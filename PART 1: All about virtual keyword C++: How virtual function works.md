@@ -131,7 +131,7 @@ multiple vptrs within a complex class derivation.)
 
 - If you want to summurize virtual keyword functionality in two words then its `indirect calling` of polymorphic function.
 
-FAQ
+###### FAQ
 
 **Q**. How do we know at runtime that pointer `protocol` will execute right function(of object pointed to)?
 
@@ -143,6 +143,7 @@ This way right `authenticate()` function execution will be gauranteed.
 **A**. We will discuss this scenario in subsequent topic.
 
 **Q**. Where & how this code augment by compiler?
+
 **A**. We will discuss this in subsequent topic.
 
 ### How pure virtual function works
