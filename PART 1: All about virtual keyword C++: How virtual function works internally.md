@@ -1,7 +1,7 @@
 ### Introduction
-- Althought this is purely compiler dependent
-- No C++ standard is defined for this implementation
-- Before going into discussion that how virtual keyword or polymorphic functionality works we should learn why it needed at first place.
+- Before learning All about virtual keyword in C++, i would like to clear two things 
+1. Implementation of virtual function is purely compiler dependent, no C++ standard is defined for this.
+2. Before learning anything we have to see why it needed at first place.
 
 ### Why we need virtual function ?
 
