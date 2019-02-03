@@ -12,20 +12,22 @@ Let say we have class of them like as follows:
 ```
 class wifi_t{
 	private:
+		char pass[15];
 		// storage ...
 	public:
 		void authenticate();
 		void connect();
-		...
+		// operations ...
 };
 
 class bluetooth_t{
 	private:
+		char pass[15];
 		// storage ...
 	public:
 		void authenticate();
 		void connect();
-		...
+		// operations ...
 };
 ```
 Let say now you have main application where you want to connect your device to others
@@ -54,29 +56,32 @@ In this case you can leaverage virtual functionality of C++ as follows:
 ```
 class protocol_t{
 	private:
+		char pass[15];
 		// storage ...
 	public:
 		virtual void authenticate(){};
 		virtual void connect(){};
-    // ...
+		// operations ...
 };
 
 class wifi_t : public protocol_t{
 	private:
+		char pass[15];
 		// storage ...
 	public:
 		virtual void authenticate(){};
 		virtual void connect(){};
-		// ...
+		// operations ...
 };
 
 class bluetooth_t : public protocol_t{
 	private:
+		char pass[15];
 		// storage ...
 	public:
 		virtual void authenticate(){};
 		virtual void connect(){};
-		// ...
+		// operations ...
 };
 
 void makeConnection(protocol_t *protocol)
