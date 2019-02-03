@@ -19,5 +19,5 @@
 18. [Memory model of C++ object](https://github.com/VisheshPatel/CPP_Templates/blob/master/Memory%20model%20of%20C++%20object.md)
 19. [All about copy constructor-----COMPLETED](https://github.com/VisheshPatel/CPP_Templates/blob/master/All%20about%20copy%20constructor.md)
 20. [PART 1: All about virtual keyword C++: How virtual function works](TODO).
-21. [PART 2: All about virtual keyword C++: How virtual class works **internally**](TODO).
+21. [PART 2: All about virtual keyword C++: How virtual function works **internally**](TODO).
 22. [PART 3: All about virtual keyword C++: How virtual class works internally](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%202:%20All%20about%20virtual%20keyword%20C%2B%2B:%20How%20virtual%20class%20works%20internally.md).
