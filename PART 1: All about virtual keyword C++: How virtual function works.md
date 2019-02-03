@@ -142,7 +142,8 @@ This way right `authenticate()` function execution will be gauranteed.
 Q. What if there is derived class having more that one base class ?
 A. We will discuss this scenario in subsequent topic.
 
-
+Q. Where & how this code augment by compiler?
+A. We will discuss this in subsequent topic.
 
 ### How pure virtual function works
 When you declare any function as pure virtual, compiler automatically fills slot of that pure virtual function with dummy function or so called place holder `pure_virtual_called()` library instance. And run time exception is placed if somehow this place holder will be called.  
