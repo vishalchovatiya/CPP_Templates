@@ -102,11 +102,7 @@ As you can see there are some benefits we have achieved using virtual keywords a
 
 ### How virtual function works
 
-### How & where virtual function & table code synthesize ?
 
-### Virtual function support under multiple inheritance
-
-### How virtual destructor behaviour achieved ?
 
 ### Reference 
 - http://www.avabodh.com/cxxin/virtualbase.html
