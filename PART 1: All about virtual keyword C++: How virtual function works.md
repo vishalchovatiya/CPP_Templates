@@ -140,7 +140,8 @@ A. We will discuss this scenario in subsequent topic.
 
 
 ### How pure virtual function works
-
+When you declare any function as pure virtual, compiler automatically fills slot of that pure virtual function with dummy function or so called place holder `pure_virtual_called()` library instance. And run time exception is placed if somehow this place holder will be called.  
+Rest of calling & virtual table slot mechanism would be same as normal virtual function.
 ### How pure virtual function works in multiple inheritence.
 
 
