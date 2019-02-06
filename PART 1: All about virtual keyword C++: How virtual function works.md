@@ -148,7 +148,7 @@ This way right `authenticate()` function execution will be guaranteed.
 ### How pure virtual function works
 - When you declare any function as pure virtual, the compiler automatically fills the slot of that pure virtual function with dummy function or so-called place holder `pure_virtual_called()` library instance. And run time exception is placed if somehow this place holder will be called.  
 - Rest of calling & virtual table slot mechanism would be the same as a normal virtual function.
-### How virtual function works in multiple inheritances.
+### How pure virtual function works in multiple inheritances.
 - Now with multiple inheritance things will get a little bit tricky.
 - To understand this behaviour let us take another simplified example as follow :
 
@@ -189,8 +189,8 @@ class derived : public base1, public  base2{
     }
 };
 ```
-- Here we have derived class with two base classes. In this case, when we declare an object of the derived class, two virtual tables will be created in the derived class object. One for base1 & other for base2. 
-- To understand it, first let's assign a base2 pointer the address of a derived class object allocated on the heap:
+- Here we have derived class with two base classes. In this case, when we declare an object of the derived class, two virtual tables will be created in the derived class object. One for base1 & other for base2, which are overridden by derived polymorphic functions. 
+- To understand that, first let's assign a base2 pointer the address of a derived class object allocated on the heap:
 
 ```
 base2 *pb = new derived;
@@ -211,4 +211,4 @@ NOTE: There is one exceptional case of virtual destructor which we will discuss 
 
 ### Reference 
 - http://www.avabodh.com/cxxin/virtualbase.html
-- 
+- Inside C++ Object Model By Lippman
