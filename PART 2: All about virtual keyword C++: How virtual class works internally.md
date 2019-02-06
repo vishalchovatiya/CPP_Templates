@@ -3,9 +3,7 @@
 - But i am iterating same thing as i have mentioned in earlier article as well. Implementation of a virtual mehcanism is purely compiler dependent, no C++ standard is defined for this. Here i am describing general approach.
 - Same as before, before learning anything new we have to see why it needed at first place.
 ### Why we need a virtual class?
-- When we use inheritance, we basically extending derived class wiht base class functionality. In simple word, base class would be treated as sub-class in derived class.
-- Object of derived class also contain data members of base class. This way derived class object also contain base class **sub-object** within.
-- Ya! i know i have said same thing in all above sentences.
+- When we use inheritance, we basically extending derived class wiht base class functionality. In simple word, base class object would be treated as sub-object in derived class.
 - This would create a problem in multiple inheritance, if base class sharing same mutual class as sub-object in top level hierarchy. I know this statement is complex. Ok then let see example.
 ```
 class top {public: int t; };
@@ -21,11 +19,84 @@ left   right
    \   /
    bottom
 ```
+1. Reason
 - An instance of `bottom` will be made up of `left`, which includes `top`, and `right` which also includes `top`. So we have two sub-object of `top`. This will create abiguity as follows:
 ```
 bottom bot;
 bot.t = 5; // is this left's t variable or right's t variable ??
 ```
+2. Reason
+```
+|                      |
+|----------------------|  <------ bottom bot;   // bottom object 
+|    left::top::t      |
+|----------------------|
+|    left::l           |
+|----------------------|
+|    right::top::t     |
+|----------------------|
+|    right::r          |
+|----------------------|
+|    bottom::b         |
+|----------------------|
+|                      |
+|                      |
+
+```
+
+Let we consider following scenarios
+
+1.
+```
+top   *t_ptr1 = new left;
+top   *t_ptr2 = new right; 
+```
+These both will work fine as left or right object memory layout start with top subobject.
+
+2. Now what happens when we upcast a Bottom pointer?
+```
+left  *l_ptr = new bottom;
+```
+This will work fine as bottom object memory layout start with left subobject.
+3. However, what happens when we upcast to Right?
+```
+right  *r_ptr = new bottom;
+```
+For this to work, we have to adjust the pointer value to make it point to the corresponding section of the Bottom layout:
+
+
+|                      |
+|----------------------|
+|    left::top::t      |
+|----------------------|
+|    left::l           |
+|----------------------|  <------ r_ptr;
+|    right::top::t     |
+|----------------------|
+|    right::r          |
+|----------------------|
+|    bottom::b         |
+|----------------------|
+|                      |
+|                      |
+
+After this adjustment, we can access bottom through the right pointer as a normal Right object; however, bottom and right now point to different memory locations. For completeness' sake, consider what would happen when we do
+```
+Top* top = bottom;
+```
+Right, nothing at all. This statement is ambiguous: the compiler will complain
+```
+error: `Top' is an ambiguous base of `Bottom'
+```
+The two possibilities can be disambiguated using
+```
+Top* topL = (Left*) bottom;
+Top* topR = (Right*) bottom;
+```
+After these two assignments, topL and left will point to the same address, as will topR and right.
+
+
+
 - Virtual inheritance is there to solve this problem. When you specify virtual when inheriting your classes, you're telling the compiler that you only want a single instance.
 ```
 class top {public: int t; };
