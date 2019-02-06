@@ -8,10 +8,10 @@
 - Ya! i know i have said same thing in all above sentences.
 - This would create a problem in multiple inheritance, if base class sharing same mutual class as sub-object in top level hierarchy. I know this statement is complex. Ok then let see example.
 ```
-class top 									{public: int t; };
-class left : public top 					{public: int l; };
-class right : public top 					{public: int r; };
-class bottom : public left, public right 	{public: int b; };
+class top {public: int t; };
+class left : public top {public: int l; };
+class right : public top {public: int r; };
+class bottom : public left, public right {public: int b; };
 ```
 - The above class hierarchy/inheritance results in the "diamond" which looks like this:
 ```
@@ -28,10 +28,10 @@ bot.t = 5; // is this left's t variable or right's t variable ??
 ```
 - Virtual inheritance is there to solve this problem. When you specify virtual when inheriting your classes, you're telling the compiler that you only want a single instance.
 ```
-class top 									{public: int t; };
-class left : virtual top 					{public: int l; };
-class right : virtual top 					{public: int r; };
-class bottom : public left, public right 	{public: int b; };
+class top {public: int t; };
+class left : virtual top {public: int l; };
+class right : virtual top {public: int r; };
+class bottom : public left, public right {public: int b; };
 ```
 - This means that there is only one "instance" of top included in the hierarchy. Hence
 ```
