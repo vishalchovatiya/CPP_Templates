@@ -40,7 +40,7 @@ d.Foo(); // no longer ambiguous
 - But interesting question is that How this `Foo()` will be addressed & handle by compiler ? Ok, this is the time to move on next point.
 
 ### How virtual class addressing mechanism works
-
+- Test
 
 
 ### Reference 
