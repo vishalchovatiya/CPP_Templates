@@ -1,12 +1,11 @@
 ### Introduction
-- Before learning All about virtual keyword in C++, i would like to clear two things 
-1. Implementation of virtual function is purely compiler dependent, no C++ standard is defined for this.
-2. Before learning anything we have to see why it needed at first place.
-
-### Why we need virtual function ?
-- Let we understand it with example.Suppose you want to connect to network or to other mobile using your smart phone.
-- You have two choices bluetooth or wifi. Althought these two are completely different technologies but come things are common in them at abstract level like both are communication protocol, both need authentication, etc.
-- Let say we have class of them like as follows:
+- Before learning All about the virtual keyword in C++, I would like to clarify two things
+- Implementation of a virtual function is purely compiler dependent, no C++ standard is defined for this.
+- Before learning anything we have to see why it needed at first place.
+### Why we need a virtual function?
+- Let we understand it with an example. Suppose you want to connect to the network or to other mobile using your smartphone.
+- You have two choices Bluetooth or Wifi. Although these two are completely different technologies, still some things are common in them at an abstract level like both are communication protocol, both need authentication, etc.
+- Let say we have a class of them like as follows:
 ```
 class wifi_t{
 	private:
@@ -28,7 +27,7 @@ class bluetooth_t{
 		// operations ...
 };
 ```
-- Now, below is main application in which you want to connect your device to others.
+- Now, below is the main application in which you want to connect your device to others.
 ```
 int main()
 {
@@ -48,8 +47,8 @@ int main()
 	return 0;
 }
 ```
-- If you observe above code then you will find that despite of selecting any protocol some steps are same.
-- In this case you can leaverage virtual functionality of C++ as follows:
+- If you observe above code then you will find that despite selecting any protocol some steps are same.
+- In this case, you can leverage virtual functionality of C++ as follows:
 
 ```
 class protocol_t{
@@ -100,17 +99,17 @@ int main()
 
 As you can see there are some benefits we have achieved using virtual keywords are:
 1. **Run time polymorphism**: Behavioural functions will be identified at runtime & would be called by their type like if `protocol` is wifi then execute `wifi_t::authenticate()` & `wifi_t::connect()`.
-2. **Reusability of code**: Observe `makeConnection` function there is only single call to behavioural functions we have removed redundant code from main.
+2. **Reusability of code**: Observe `makeConnection` function there is an only single call to behavioural functions we have removed the redundant code from main.
 3. **Code would be compact**: Observe earlier `main` function & newer one.
 
 ### How virtual function works
 ![](https://github.com/VisheshPatel/CPP_Templates/blob/master/images/How%20virtual%20function%20works.png)
 
-- When you declare any function virtual, compiler will transform(augment is precise word here) some of your code at compile time.
-- Like in our case class protocol_t will be augmented by a pointer called vptr which points to virtual table.
-- This is nothing but a array of void pointer which includes offset/address of your virtual function. So that it can call your function through that table rather than calling it directly by adding offset to `this` pointer.
+- When you declare any function virtual, the compiler will transform(augment is the precise word here) some of your code at compile time.
+- Like in our case class protocol_t will be augmented by a pointer called vptr which points to the virtual table.
+- This is nothing but an array of a void pointer which includes offset/address of your virtual function. So that it can call your function through that table rather than calling it directly by adding offset to `this` pointer.
 
-So if you call function `authenticate()` using pointer of protocol_t 
+So if you call function `authenticate()` using a pointer of protocol_t 
 ```
 protocol_t *protocol;
 protocol->authenticate();
@@ -126,31 +125,31 @@ multiple vptrs within a complex class derivation.)
 2. `1` in `vptr[ 1 ]` is the index into the virtual table slot associated with `authenticate()`.
 3. protocol in its second occurrence represents the `this` pointer.
 
-- When we inherit `protocol_t` class to `wifi_t` class, this virtual table will be literally overridden with its respective overridded/polymorphic function slot. Each virtual function has fixed index in virtual table, no matter how long inheritance heirarchy is.
+- When we inherit `protocol_t` class to `wifi_t` class, this virtual table will be literally overridden with its respective overridden/polymorphic function slot. Each virtual function has fixed index in the virtual table, no matter how long inheritance hierarchy is.
 - If derived class introduce a new virtual function not present in the base class, the virtual table will be grown by a slot and the address of the function is placed within that slot.
 
-- If you want to summurize virtual keyword functionality in two words then its `indirect calling` of polymorphic function.
+- If you want to summarize virtual keyword functionality in two words then its `indirect calling` of a polymorphic function.
 
 ###### FAQ
 
-**Q**. How do we know at runtime that pointer `protocol` will execute right function(of object pointed to)?
+**Q**. How do we know at runtime that pointer `protocol` will execute a right function(of the object pointed to)?
 
-**A**. In general, we don't know the exact type of the object `protocol` addresses at each invocation of `authenticate()`. We do know, however, that through `protocol` we can access the virtual table associated with the object's class. And address of virtual table is fixed throught inheritance heirarchy. Again we also that index of function `authenticate()` is fixed throught inheritance heirarchy.
-This way right `authenticate()` function execution will be gauranteed. 
+**A**. In general, we don't know the exact type of the object `protocol` addresses at each invocation of `authenticate()`. We do know, however, that through `protocol` we can access the virtual table associated with the object's class. And the address of virtual table is fixed throughout the inheritance hierarchy. Again we also that index of function `authenticate()` is fixed throughout the inheritance hierarchy.
+This way right `authenticate()` function execution will be guaranteed. 
 
-**Q**. What if there is derived class having more that one base class ?
+**Q**. What if there is derived class having more that one base class?
 
-**A**. We will discuss this scenario in subsequent topic.
+**A**. We will discuss this scenario in the subsequent topic.
 
-**Q**. Where & how this code augment by compiler?
+**Q**. Where & how this code augment by the compiler?
 
-**A**. We will discuss this in subsequent topic.
+**A**. We will discuss this in a subsequent topic.
 
 ### How pure virtual function works
-- When you declare any function as pure virtual, compiler automatically fills slot of that pure virtual function with dummy function or so called place holder `pure_virtual_called()` library instance. And run time exception is placed if somehow this place holder will be called.  
-- Rest of calling & virtual table slot mechanism would be same as normal virtual function.
-### How pure virtual function works in multiple inheritence.
-- Now with multiple inheritance things will get little bit tricky.
+- When you declare any function as pure virtual, the compiler automatically fills the slot of that pure virtual function with dummy function or so-called place holder `pure_virtual_called()` library instance. And run time exception is placed if somehow this place holder will be called.  
+- Rest of calling & virtual table slot mechanism would be the same as a normal virtual function.
+### How pure virtual function works in multiple inheritances.
+- Now with multiple inheritance things will get a little bit tricky.
 - To understand this behaviour let us take another simplified example as follow :
 
 ```
@@ -190,7 +189,7 @@ class derived : public base1, public  base2{
     }
 };
 ```
-- Here we have derived class with two base classes. In this case, when we declare object of derived class, two virtual table will be created in derived class object. One for base1 & other for base2. 
+- Here we have derived class with two base classes. In this case, when we declare an object of the derived class, two virtual tables will be created in the derived class object. One for base1 & other for base2. 
 - To understand it, first let's assign a base2 pointer the address of a derived class object allocated on the heap:
 
 ```
