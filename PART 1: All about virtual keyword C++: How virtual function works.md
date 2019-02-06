@@ -150,7 +150,64 @@ This way right `authenticate()` function execution will be gauranteed.
 - When you declare any function as pure virtual, compiler automatically fills slot of that pure virtual function with dummy function or so called place holder `pure_virtual_called()` library instance. And run time exception is placed if somehow this place holder will be called.  
 - Rest of calling & virtual table slot mechanism would be same as normal virtual function.
 ### How pure virtual function works in multiple inheritence.
+- Now with multiple inheritance things will get little bit tricky.
+- To understand this behaviour let us take another simplified example as follow :
 
+```
+class base1{
+  public: 
+    int base1_var;
+
+    virtual void base1_func(){}
+            
+    virtual base1* print(){
+      cout<<"print base1\n";
+      return this;
+    }
+};
+
+class base2{
+  public: 
+    int base2_var;
+
+    virtual void base2_func(){}
+
+    virtual base2* print(){
+      cout<<"print base2\n";
+      return this;
+    }
+};
+
+class derived : public base1, public  base2{
+  public:
+    int derived_var;
+
+    virtual void derived_func(){}
+
+    virtual derived* print(){
+      cout<<"print derived\n";
+      return this;
+    }
+};
+```
+- Here we have derived class with two base classes. In this case, when we declare object of derived class, two virtual table will be created in derived class object. One for base1 & other for base2. 
+- To understand it, first let's assign a base2 pointer the address of a derived class object allocated on the heap:
+
+```
+base2 *pb = new derived;
+```
+- The address of the new derived object must be adjusted to address its base2 subobject. The code to accomplish this is generated at compile time:
+```
+// transformation to support second base class
+derived *temp = new derived;
+base2 *pb = temp ? temp + sizeof( base1 ) : 0;
+```
+- Without this adjustment, any nonpolymorphic use of the pointer would fail, such as
+```
+// ok even if pbase2 assigned derived object
+pb->base2_var;
+```
+NOTE: There is one exceptional case of virtual destructor which we will discuss in depth in another article
 
 
 ### Reference 
