@@ -42,6 +42,8 @@ d.Foo(); // no longer ambiguous
 ### How virtual class addressing mechanism works
 - Test
 
+### Special handling cases
+The initialization of one class object with another in which there is a virtual base class subobject also invalidates bitwise copy semantics.
 
 ### Reference 
 - http://www.avabodh.com/cxxin/virtualbase.html
