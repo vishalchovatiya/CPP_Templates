@@ -189,7 +189,7 @@ class derived : public base1, public  base2{
     }
 };
 ```
-- Here we have derived class with two base classes. In this case, when we declare an object of the derived class, two virtual tables will be created in the derived class object. One for base1 & other for base2, which are overridden by derived polymorphic functions. 
+- Here we have derived class with two base classes. In this case, when we declare an object of the derived class, two virtual tables will be created in the derived class object. One for `base1` & other for `base2`, which are overridden by derived polymorphic functions. 
 - To understand that, first let's assign a base2 pointer the address of a derived class object allocated on the heap:
 
 ```
