@@ -8,7 +8,7 @@
 - Ya! i know i have said same thing in all above sentences.
 - This would create a problem in multiple inheritance, if base class sharing same mutual class as sub-object in top level hierarchy. I know this statement is complex. Ok then let see example.
 ```
-class A { public: void Foo() {} };
+class A { public: int var; };
 class B : public A {};
 class C : public A {};
 class D : public B, public C {};
@@ -24,10 +24,11 @@ B   C
 - An instance of D will be made up of B, which includes A, and C which also includes A. So we have two sub-object of A. This will create abiguity as follows:
 ```
 D d;
-d.Foo(); // is this B's Foo() or C's Foo() ??
+d.var = 5; // is this B's var or C's var ??
 ```
 - Virtual inheritance is there to solve this problem. When you specify virtual when inheriting your classes, you're telling the compiler that you only want a single instance.
 ```
+class A { public: int var; };
 class B : public virtual A {};
 class C : public virtual A {};
 class D : public B, public C {};
@@ -35,9 +36,9 @@ class D : public B, public C {};
 - This means that there is only one "instance" of A included in the hierarchy. Hence
 ```
 D d;
-d.Foo(); // no longer ambiguous
+d.var = 5; // no longer ambiguous
 ```
-- But interesting question is that How this `Foo()` will be addressed & handle by compiler ? Ok, this is the time to move on next point.
+- But interesting question is that How this `d.var` will be addressed & handle by compiler ? Ok, this is the time to move on next point.
 
 ### How virtual class addressing mechanism works
 - Test
