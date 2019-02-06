@@ -106,10 +106,10 @@ As you can see there are some benefits we have achieved using virtual keywords a
 ![](https://github.com/VisheshPatel/CPP_Templates/blob/master/images/How%20virtual%20function%20works.png)
 
 - When you declare any function virtual, the compiler will transform(augment is the precise word here) some of your code at compile time.
-- Like in our case class protocol_t will be augmented by a pointer called vptr which points to the virtual table.
+- Like in our case class `protocol_t` will be augmented by a pointer called `vptr` which points to the virtual table.
 - This is nothing but an array of a void pointer which includes offset/address of your virtual function. So that it can call your function through that table rather than calling it directly by adding offset to `this` pointer.
 
-So if you call function `authenticate()` using a pointer of protocol_t 
+So if you call function `authenticate()` using a pointer of `protocol_t` 
 ```
 protocol_t *protocol;
 protocol->authenticate();
@@ -134,7 +134,7 @@ multiple vptrs within a complex class derivation.)
 
 **Q**. How do we know at runtime that pointer `protocol` will execute a right function(of the object pointed to)?
 
-**A**. In general, we don't know the exact type of the object `protocol` addresses at each invocation of `authenticate()`. We do know, however, that through `protocol` we can access the virtual table associated with the object's class. And the address of virtual table is fixed throughout the inheritance hierarchy. Again we also that index of function `authenticate()` is fixed throughout the inheritance hierarchy.
+**A**. In general, we don't know the exact type of the object `protocol` addresses at each invocation of `authenticate()`. We do know, however, that through `protocol` we can access the virtual table associated with the object's class. And the offset of `vptr` is fixed throughout the inheritance hierarchy. Again we also that index of function `authenticate()` in virtual table is fixed throughout the inheritance hierarchy.
 This way right `authenticate()` function execution will be guaranteed. 
 
 **Q**. What if there is derived class having more that one base class?
