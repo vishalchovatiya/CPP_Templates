@@ -19,6 +19,7 @@ left   right
    \   /
    bottom
 ```
+There are two reasons for the need of virtual base class:
 1. Reason
 - An instance of `bottom` will be made up of `left`, which includes `top`, and `right` which also includes `top`. So we have two sub-object of `top`. This will create abiguity as follows:
 ```
