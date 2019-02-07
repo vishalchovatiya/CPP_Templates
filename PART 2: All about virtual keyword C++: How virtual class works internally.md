@@ -20,13 +20,13 @@ left   right
    bottom
 ```
 There are two reasons for the need of virtual base class:
-1. Reason
+Reason 1
 - An instance of `bottom` will be made up of `left`, which includes `top`, and `right` which also includes `top`. So we have two sub-object of `top`. This will create abiguity as follows:
 ```
 bottom bot;
 bot.t = 5; // is this left's t variable or right's t variable ??
 ```
-2. Reason
+Reason 2
 ```
 |                      |
 |----------------------|  <------ bottom bot;   // bottom object 
@@ -46,26 +46,23 @@ bot.t = 5; // is this left's t variable or right's t variable ??
 ```
 
 Let we consider following scenarios
-
-1.
 ```
 top   *t_ptr1 = new left;
 top   *t_ptr2 = new right; 
 ```
-These both will work fine as left or right object memory layout start with top subobject.
+These both will work fine as left or right object memory layout start with top subobject. You can see the memory layout of `bottom` object above for clear understanding.
 
-2. Now what happens when we upcast a Bottom pointer?
+Now what happens when we upcast a `bottom` pointer?
 ```
 left  *l_ptr = new bottom;
 ```
-This will work fine as bottom object memory layout start with left subobject.
-3. However, what happens when we upcast to Right?
+This will work fine as bottom object memory layout start with `left` subobject.
+However, what happens when we upcast to Right?
 ```
 right  *r_ptr = new bottom;
 ```
-For this to work, we have to adjust the pointer value to make it point to the corresponding section of the Bottom layout:
-
-
+For this to work, we have to adjust the `r_ptr` pointer value to make it point to the corresponding section of the `bottom` layout:
+```
 |                      |
 |----------------------|
 |    left::top::t      |
@@ -80,8 +77,8 @@ For this to work, we have to adjust the pointer value to make it point to the co
 |----------------------|
 |                      |
 |                      |
-
-After this adjustment, we can access bottom through the right pointer as a normal Right object; however, bottom and right now point to different memory locations. For completeness' sake, consider what would happen when we do
+```
+After this adjustment, we can access bottom through the right pointer as a normal `right` object; however, `bottom` and `right` now point to different memory locations. For completeness' sake, consider what would happen when we do
 ```
 Top* top = bottom;
 ```
@@ -94,11 +91,9 @@ The two possibilities can be disambiguated using
 Top* topL = (Left*) bottom;
 Top* topR = (Right*) bottom;
 ```
-After these two assignments, topL and left will point to the same address, as will topR and right.
+After these two assignments, `topL` and `left` will point to the same address, as will `topR` and `right`.
 
-
-
-- Virtual inheritance is there to solve this problem. When you specify virtual when inheriting your classes, you're telling the compiler that you only want a single instance.
+- Virtual inheritance is there to solve these problem. When you specify virtual when inheriting your classes, you're telling the compiler that you only want a single instance.
 ```
 class top {public: int t; };
 class left : virtual top {public: int l; };
@@ -114,6 +109,9 @@ bot.t = 5; // no longer ambiguous
 
 ### How virtual class addressing mechanism works
 - Test
+
+### Handling of virtual function in virtual base class
+- 
 
 ### Special handling cases
 The initialization of one class object with another in which there is a virtual base class subobject also invalidates bitwise copy semantics.
