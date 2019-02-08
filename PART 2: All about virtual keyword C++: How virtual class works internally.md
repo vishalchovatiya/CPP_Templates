@@ -23,8 +23,8 @@ There are two reasons for the need of virtual base class:
 Reason 1
 - An instance of `Bottom` will be made up of `Left`, which includes `Top`, and `Right` which also includes `Top`. So we have two sub-object of `Top`. This will create abiguity as follows:
 ```
-Bottom bot;
-bot.t = 5; // is this Left's t variable or Right's t variable ??
+Bottom *bot = new Bottom;
+bot->t = 5; // is this Left's t variable or Right's t variable ??
 ```
 Reason 2
 ```
@@ -132,10 +132,11 @@ bot.t = 5; // no longer ambiguous
 ```
 - Now come to our interesting question "How this `bot.t` will be addressed ?"
 ```
-Bottom bot;
-bot.t = 5; // no longer ambiguous
-this + _vptr_Left
+Bottom *bot = new Bottom;
+bot->t = 5; // no longer ambiguous
+(this + _vptr_Left[-1])->t = 5;
 ```
+- Same goes for above scenarios of up/down cast.
 
 ### Handling of virtual function in virtual base class
 - 
