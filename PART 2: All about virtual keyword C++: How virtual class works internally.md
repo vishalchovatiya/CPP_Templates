@@ -136,7 +136,7 @@ Bottom *bot = new Bottom;
 bot->t = 5; // no longer ambiguous
 (this + _vptr_Left[-1])->t = 5;
 ```
-- Same goes for above scenarios of up/down cast.
+- Same goes for above scenarios of up/down cast with pointer adjustment if necessary.
 
 ### Handling of virtual function in virtual base class
 - 
