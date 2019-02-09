@@ -268,15 +268,92 @@ This is correct as long as we access the Bottom object through *rr, but as soon 
 So, in summary, even if `*a` and `*b` are related by some subtyping relation, `**a` and `**b` are not.
 
 ### Constructors of Virtual Bases
+The compiler must guarantee that all virtual pointers of an object are properly initialised. In particular, it guarantees that the constructor for all virtual bases of a class get invoked, and get invoked only once. If you don't explicitly call the constructors of your virtual superclasses (independent of how far up the tree they are), the compiler will automatically insert a call to their default constructors.
+
+This can lead to some unexpected results. Consider the same class hierarchy again we have been considering so far, extended with constructors:
+```
+class Top
+{
+public:
+   Top() { a = -1; } 
+   Top(int _a) { a = _a; } 
+   int a;
+};
+
+class Left : virtual public Top
+{
+public:
+   Left() { b = -2; }
+   Left(int _a, int _b) : Top(_a) { b = _b; }
+   int b;
+};
+
+class Right : virtual public Top
+{
+public:
+   Right() { c = -3; }
+   Right(int _a, int _c) : Top(_a) { c = _c; }
+   int c;
+};
+
+class Bottom : public Left, public Right
+{
+public:
+   Bottom() { d = -4; } 
+   Bottom(int _a, int _b, int _c, int _d) : Left(_a, _b), Right(_a, _c) 
+	{ 
+      d = _d; 
+	}
+   int d;
+};
+```
+
+What would you expect this to output:
+```
+Bottom bottom(1,2,3,4);
+printf("%d %d %d %d %d\n", bottom.Left::a, bottom.Right::a, 
+   bottom.b, bottom.c, bottom.d);
+```
+You would probably get
+```
+-1 -1 2 3 4
+```
+Why? If you trace the execution of the constructors, you will find
+```
+Top::Top()
+Left::Left(1,2)
+Right::Right(1,3)
+Bottom::Bottom(1,2,3,4)
+```
+As explained above, the compiler has inserted a call to the default constructor in Bottom, before the execution of the other constructors. Then when Left tries to call its superconstructor (Top), we find that Top has already been initialised and the constructor does not get invoked.
+
+To avoid this situation, you should explicitly call the constructor of your virtual base(s):
+```
+Bottom(int _a, int _b, int _c, int _d): Top(_a), Left(_a,_b), Right(_a,_c) 
+{ 
+   d = _d; 
+}
+```
 
 ### Pointer Equivalence
-
+Once again assuming the same (virtual) class hierarchy, would you expect this to print “Equal”?
+```
+Bottom* b = new Bottom(); 
+Right* r = b;
+      
+if(r == b)
+   printf("Equal!\n");
+```
+Bear in mind that the two addresses are not actually equal (r is off by 8 bytes). However, that should be completely transparent to the user; so, the compiler actually subtracts the 8 bytes from r before comparing it to b; thus, the two addresses are considered equal.
 ### Casting to `void*`
-
+Finally, we consider what happens we can cast an object to void*. The compiler must guarantee that a pointer cast to void* points to the “top” of the object. Using the vtable, this is actually very easy to implement. You may have been wondering what the offset to top field is. It is the offset from the vptr to the top of the object. So, a cast to void* can be implemented using a single lookup in the vtable. Make sure to use a dynamic cast, however, thus:
+```
+dynamic_cast<void*>(b);
+```
 ### Special handling cases
 The initialization of one class object with another in which there is a virtual base class subobject also invalidates bitwise copy semantics.
 
 ### Reference 
 - http://www.avabodh.com/cxxin/virtualbase.html
 - https://stackoverflow.com/questions/21558/in-c-what-is-a-virtual-base-class
-- 
+- https://web.archive.org/web/20160413064252/http://www.phpcompiler.org/articles/virtualinheritance.html
