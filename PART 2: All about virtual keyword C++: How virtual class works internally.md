@@ -261,10 +261,9 @@ error: invalid conversion from `Bottom**' to `Right**'
 - This is correct as long as we access the `Bottom` object through `*rr`, but as soon as we access it through `b` itself, all memory references will be off by 8 bytes — obviously a very undesirable situation.
 - So, in summary, even if `*a` and `*b` are related by some subtyping relation, `**a` and `**b` are not.
 
-### Constructors of Virtual Bases
-The compiler must guarantee that all virtual pointers of an object are properly initialised. In particular, it guarantees that the constructor for all virtual bases of a class get invoked, and get invoked only once. If you don't explicitly call the constructors of your virtual superclasses (independent of how far up the tree they are), the compiler will automatically insert a call to their default constructors.
-
-This can lead to some unexpected results. Consider the same class hierarchy again we have been considering so far, extended with constructors:
+> **Constructors of Virtual Bases**
+- The compiler must guarantees that the constructor for all virtual bases of a class get invoked, and get invoked **only once**. If you don't explicitly call the constructors of your virtual base class (independent of how far up the tree they are), the compiler will automatically insert a call to their default constructors.
+- This can lead to some unexpected results. Consider the same class hierarchy again we have been considering so far, extended with constructors:
 ```
 class Top
 {
@@ -301,34 +300,31 @@ public:
    int d;
 };
 ```
-
-What would you expect this to output:
+- What would you expect this to output:
 ```
 Bottom bottom(1,2,3,4);
 printf("%d %d %d %d %d\n", bottom.Left::a, bottom.Right::a, 
    bottom.b, bottom.c, bottom.d);
 ```
-You would probably get
+- You would probably get
 ```
 -1 -1 2 3 4
 ```
-Why? If you trace the execution of the constructors, you will find
+- I know you were expecting different. But if you trace the execution of the constructors, you will find
 ```
 Top::Top()
 Left::Left(1,2)
 Right::Right(1,3)
 Bottom::Bottom(1,2,3,4)
 ```
-As explained above, the compiler has inserted a call to the default constructor in Bottom, before the execution of the other constructors. Then when Left tries to call its superconstructor (Top), we find that Top has already been initialised and the constructor does not get invoked.
-
-To avoid this situation, you should explicitly call the constructor of your virtual base(s):
+- As explained above, the compiler has inserted a call to the default constructor in `Bottom`, before the execution of the other constructors. Then when Left tries to call its base class constructor(`Top`), we find that `Top` has already been initialised and the constructor does not get invoked.
+- To avoid this situation, you should explicitly call the constructor of your virtual base(s):
 ```
 Bottom(int _a, int _b, int _c, int _d): Top(_a), Left(_a,_b), Right(_a,_c) 
 { 
    d = _d; 
 }
 ```
-
 ### Pointer Equivalence
 Once again assuming the same (virtual) class hierarchy, would you expect this to print “Equal”?
 ```
