@@ -96,8 +96,8 @@ After these two assignments, `topL` and `Left` will point to the same address, a
 - Virtual inheritance is there to solve these problem. When you specify virtual when inheriting your classes, you're telling the compiler that you only want a single instance.
 ```
 class Top {public: int t; };
-class Left : virtual Top {public: int l; };
-class Right : virtual Top {public: int r; };
+class Left : virtual public Top {public: int l; };
+class Right : virtual public Top {public: int r; };
 class Bottom : public Left, public Right {public: int b; };
 ```
 - This means that there is only one "instance" of Top included in the hierarchy. Hence
