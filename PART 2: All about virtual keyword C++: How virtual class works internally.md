@@ -114,22 +114,22 @@ bot->t = 5; // no longer ambiguous
 - The shared region represents the virtual base class subobjects whose location within the shared region fluctuates with order of derivation & subsequent derivation. So members within the shared region need to be accessed indirectly.
 - In this case, objects in invariant region will be placed at start in order of inheritance & objects in shared region will be placed at the end. The offset of these  shared region objects will be updated in virtual table by the compiler augmented code. See below image for reference.
 ```
-|                        |                        |----------------------| 
-|------------------------|                        |    offset of Top     | // offset starts from left subobject = 20
-|    Left::l             |             -----------|----------------------|
-|------------------------|            |           |      ...             |
-|    Left::_vptr_Left    | -----------            |----------------------|  
-|------------------------|                        
-|    Right::r            |             
-|------------------------|                        
-|    Right::_vptr_Right  | -----------            |----------------------| 
-|------------------------|            |           |    offset of Top     | // offset starts from right subobject = 12
-|    Bottom::b           |             -----------|----------------------|
-|------------------------|                        |      ...             |
-|    Top::t              |                        |----------------------|
-|------------------------| 
-|                        |
-|                        |
+|                        |          
+|------------------------|          
+|    Left::l             |          
+|------------------------|                     |----------------------| 
+|    Left::_vptr_Left    |----------           |    offset of Top     | // offset starts from left subobject = 20
+|------------------------|          |----------|----------------------|
+|    Right::r            |                     |      ...             |
+|------------------------|                     |----------------------|  
+|    Right::_vptr_Right  |----------            
+|------------------------|          |            
+|    Bottom::b           |          |          |----------------------| 
+|------------------------|          |          |    offset of Top     | // offset starts from right subobject = 12
+|    Top::t              |          |----------|----------------------|                                                 
+|------------------------|                     |      ...             |                                                  
+|                        |                     |----------------------|                                            
+|                        |           
 ```
 - Now come to our interesting question "How this `bot->t` will be addressed ?"
 ```
