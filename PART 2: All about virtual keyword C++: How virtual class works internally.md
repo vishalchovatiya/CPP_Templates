@@ -140,11 +140,10 @@ Bottom *bot = new Bottom;
 ### Handling of virtual function in virtual base class
 - 
 
-### Complication of using virtual base class
+### Complications of using virtual base class
 > **Downcasting** 
-- As we have seen in Reason 2, casting of object Bottom to Right(in other words, upcasting) requires adding offset to this pointer. One might be tempted to think that downcasting (going the other way) can then simply be implemented by subtracting the same offset.
+- As we have seen, casting of object Bottom to Right(in other words, upcasting) requires adding offset to pointer. One might be tempted to think that downcasting can then simply be implemented by subtracting the same offset.
 - This process is not easy for compiler as it seems. To understand this, let we go through example.
-Suppose we extend our inheritance hierarchy with the following class.
 ```
 class AnotherBottom : public Left, public Right
 {
@@ -153,7 +152,7 @@ public:
    int ab2;
 };
 ```
-- `Bottom` & `AnotherBottom` have same inhertance heirarchy except their data members. Now consider the following code.
+- `Bottom` & `AnotherBottom` have same inhertance heirarchy except their own data members. Now consider the following code.
 ```
 Bottom* bottom1 = new Bottom();
 AnotherBottom* bottom2 = new AnotherBottom();
@@ -161,7 +160,7 @@ Top* top1 = bottom1;
 Top* top2 = bottom2;
 Left* left = static_cast<Left*>(top1);
 ```
-Following is memory layout for `Bottom` & `AnotherBottom`
+- Following is memory layout for `Bottom` & `AnotherBottom`
 ```
          |                        |                     |                        |
          |------------------------|<------ Bottom       |------------------------|<------ AnotherBottom
@@ -181,10 +180,9 @@ top1---->|------------------------|                     |-----------------------
                                                         |------------------------|
                                                         |                        |
 ```
-- Here we do not know whether top1 is pointing to an object of type Bottom or an object of type AnotherBottom. It can't be done! The necessary offset depends on the runtime type of top1 (20 for Bottom and 24 for AnotherBottom). The compiler will complain:
+- Now consider how to implement the `static_cast` from `top1` to `left`, while taking into account that we do not know whether top1 is pointing to an object of type `Bottom` or an object of type `AnotherBottom`. It can't be done! The necessary offset depends on the runtime type of `top1` (20 for `Bottom` and 24 for `AnotherBottom`). The compiler will complain:
 ```
-main.cpp:19:39: error: cannot convert from pointer to base class 'Top' to pointer to derived class 'Left' because the base is virtual
-   Left* left = static_cast<Left*>(top1);
+error: cannot convert from pointer to base class 'Top' to pointer to derived class 'Left' because the base is virtual
 ```
 - Since we need runtime information, we need to use a dynamic cast instead:
 ```
@@ -192,10 +190,9 @@ Left* left = dynamic_cast<Left*>(top1);
 ```
 - However, the compiler is still unhappy:
 ```
-main.cpp:19:40: error: cannot dynamic_cast 'top1' (of type 'class Top*')to type 'class Left*' (source type is not polymorphic)
-   Left* left = dynamic_cast<Left*>(top1);
+error: cannot dynamic_cast 'top1' (of type 'class Top*')to type 'class Left*' (source type is not polymorphic)
 ```
-- The problem is that a dynamic cast (as well as use of typeid) needs runtime type information about the object pointed to by top1. However, if you look at the diagram, you will see that all we have at the location pointed to by top1 is an integer (a). The compiler did not include a vptr.Top because it did not think that was necessary. To force the compiler to include this vptr, we can add a virtual destructor to Top:
+- The problem is that a dynamic cast (as well as use of `typeid`) needs runtime type information about the object pointed to by `top1`. The compiler did not include a that because it did not think that was necessary. To force the compiler to include that, we can add a virtual destructor to Top:
 ```
 class Top
 {
@@ -204,7 +201,6 @@ public:
    int t;
 };
 ```
-- This change necessitates a vptr for Top. 
 ### Double pointer hack
 - This is were it gets slightly confusing, although it is rather obvious when you give it some thought. We consider an example. Assume the class hierarchy presented in the last section (Downcasting). We have seen previously what the effect is of
 ```
