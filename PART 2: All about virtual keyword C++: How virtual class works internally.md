@@ -209,6 +209,63 @@ public:
 ```
 - This change necessitates a vptr for Top. 
 ### Double pointer hack
+- This is were it gets slightly confusing, although it is rather obvious when you give it some thought. We consider an example. Assume the class hierarchy presented in the last section (Downcasting). We have seen previously what the effect is of
+```
+Bottom* b = new Bottom();
+Right* r = b;
+```
+(the value of b gets adjusted by 8 bytes before it is assigned to r, so that it points to the Right section of the Bottom object). Thus, we can legally assign a Bottom* to a Right*. What about Bottom** and Right**?
+```
+Bottom** bb = &b;
+Right** rr = bb;
+```
+Should the compiler accept this? A quick test will show that the compiler will complain:
+```
+error: invalid conversion from `Bottom**' to `Right**'
+```
+Why? Suppose the compiler would accept the assignment of bb to rr. We can visualise the result as:
+```
+    |--------------| --------> |-------------|           |                        | 
+    |      bb      |           |      b      | --------> |------------------------|<------ Bottom 
+    |--------------|    /----> |-------------|           |    Left::l             |              
+                       /                                 |------------------------|              
+                      /                                  |    Left::_vptr_Left    |              
+    |--------------| /         |-------------| --------> |------------------------|              
+    |      rr      |           |      r      |           |    Right::r            |              
+    |--------------|           |-------------|           |------------------------|              
+                                                         |    Right::_vptr_Right  |              
+                                                         |------------------------|              
+                                                         |    Bottom::b           |              
+                                                         |------------------------|              
+                                                         |    Top::t              |              
+                                                         |------------------------|           
+                                                         |                        |             
+```
+- So, bb and rr both point to b, and b and r point to the appropriate sections of the Bottom object. Now consider what happens when we assign to *rr (note that the type of *rr is Right*, so this assignment is valid):
+```
+*rr = b;	
+```
+This is essentially the same assignment as the assignment to r above. Thus, the compiler will implement it the same way! In particular, it will adjust the value of b by 8 bytes before it assigns it to *rr. But *rr pointed to b! If we visualise the result again:
+```
+    |--------------| --------> |-------------|           |                        | 
+    |      bb      |           |      b      |           |------------------------|<------ Bottom 
+    |--------------|    /----> |-------------|\          |    Left::l             |              
+                       /                       \         |------------------------|              
+                      /                         \        |    Left::_vptr_Left    |              
+    |--------------| /         |-------------|---\-----> |------------------------|              
+    |      rr      |           |      r      |           |    Right::r            |              
+    |--------------|           |-------------|           |------------------------|              
+                                                         |    Right::_vptr_Right  |              
+                                                         |------------------------|              
+                                                         |    Bottom::b           |              
+                                                         |------------------------|              
+                                                         |    Top::t              |              
+                                                         |------------------------|           
+                                                         |                        |  
+```
+This is correct as long as we access the Bottom object through *rr, but as soon as we access it through b itself, all memory references will be off by 8 bytes — obviously a very undesirable situation.
+
+So, in summary, even if `*a` and `*b` are related by some subtyping relation, `**a` and `**b` are not.
 
 ### Constructors of Virtual Bases
 
