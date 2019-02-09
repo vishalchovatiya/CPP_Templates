@@ -180,7 +180,7 @@ top1---->|------------------------|                     |-----------------------
                                                         |------------------------|
                                                         |                        |
 ```
-- Now consider how to implement the `static_cast` from `top1` to `left`, while taking into account that we do not know whether top1 is pointing to an object of type `Bottom` or an object of type `AnotherBottom`. It can't be done! The necessary offset depends on the runtime type of `top1` (20 for `Bottom` and 24 for `AnotherBottom`). The compiler will complain:
+- Now consider how to implement the `static_cast` from `top1` to `left`, while taking into account that we do not know whether `top1` is pointing to an object of type `Bottom` or an object of type `AnotherBottom`. It can't be done! The necessary offset depends on the runtime type of `top1` (20 for `Bottom` and 24 for `AnotherBottom`). The compiler will complain:
 ```
 error: cannot convert from pointer to base class 'Top' to pointer to derived class 'Left' because the base is virtual
 ```
@@ -192,7 +192,7 @@ Left* left = dynamic_cast<Left*>(top1);
 ```
 error: cannot dynamic_cast 'top1' (of type 'class Top*')to type 'class Left*' (source type is not polymorphic)
 ```
-- The problem is that a dynamic cast (as well as use of `typeid`) needs runtime type information about the object pointed to by `top1`. The compiler did not include a that because it did not think that was necessary. To force the compiler to include that, we can add a virtual destructor to Top:
+- The problem is that a dynamic cast (as well as use of `typeid`) needs runtime type information about the object pointed to by `top1`. The compiler did not include that because it did not think that was necessary. To force the compiler to include that, we can add a virtual destructor to `Top`:
 ```
 class Top
 {
@@ -201,22 +201,24 @@ public:
    int t;
 };
 ```
-### Double pointer hack
-- This is were it gets slightly confusing, although it is rather obvious when you give it some thought. We consider an example. Assume the class hierarchy presented in the last section (Downcasting). We have seen previously what the effect is of
+- Thus, for downcasting object having virtual base class we need to have atleast one virtual function in virtual base class.
+
+> **Double pointer hack**
+- Fow below code:
 ```
 Bottom* b = new Bottom();
 Right* r = b;
 ```
-(the value of b gets adjusted by 8 bytes before it is assigned to r, so that it points to the Right section of the Bottom object). Thus, we can legally assign a Bottom* to a Right*. What about Bottom** and Right**?
+- We already know that the value of `b` gets adjusted by 8 bytes before it is assigned to `r`, so that it points to the `Right` section of the `Bottom` object). Thus, we can legally assign a `Bottom*` to a `Right*`. What about `Bottom**` and `Right**`?
 ```
 Bottom** bb = &b;
 Right** rr = bb;
 ```
-Should the compiler accept this? A quick test will show that the compiler will complain:
+- Should the compiler accept this? A quick test will show that the compiler will complain:
 ```
 error: invalid conversion from `Bottom**' to `Right**'
 ```
-Why? Suppose the compiler would accept the assignment of bb to rr. We can visualise the result as:
+- Why? Suppose the compiler would accept the assignment of `bb` to `rr`. We can visualise the result as:
 ```
     |--------------| --------> |-------------|           |                        | 
     |      bb      |           |      b      | --------> |------------------------|<------ Bottom 
@@ -234,11 +236,11 @@ Why? Suppose the compiler would accept the assignment of bb to rr. We can visual
                                                          |------------------------|           
                                                          |                        |             
 ```
-- So, bb and rr both point to b, and b and r point to the appropriate sections of the Bottom object. Now consider what happens when we assign to *rr (note that the type of *rr is Right*, so this assignment is valid):
+- So, `bb` and `rr` both point to `b`, and `b` and `r` point to the appropriate sections of the `Bottom` object. Now consider what happens when we assign to `*rr` (note that the type of `*rr` is `Right*`, so this assignment is valid):
 ```
 *rr = b;	
 ```
-This is essentially the same assignment as the assignment to r above. Thus, the compiler will implement it the same way! In particular, it will adjust the value of b by 8 bytes before it assigns it to *rr. But *rr pointed to b! If we visualise the result again:
+- This is essentially the same assignment as the assignment to `r` above. Thus, the compiler will implement it the same way! In particular, it will adjust the value of `b` by 8 bytes before it assigns it to `*rr`. But `*rr` pointed to `b`! If we visualise the result again:
 ```
     |--------------| --------> |-------------|           |                        | 
     |      bb      |           |      b      |           |------------------------|<------ Bottom 
@@ -256,9 +258,8 @@ This is essentially the same assignment as the assignment to r above. Thus, the 
                                                          |------------------------|           
                                                          |                        |  
 ```
-This is correct as long as we access the Bottom object through *rr, but as soon as we access it through b itself, all memory references will be off by 8 bytes — obviously a very undesirable situation.
-
-So, in summary, even if `*a` and `*b` are related by some subtyping relation, `**a` and `**b` are not.
+- This is correct as long as we access the `Bottom` object through `*rr`, but as soon as we access it through `b` itself, all memory references will be off by 8 bytes — obviously a very undesirable situation.
+- So, in summary, even if `*a` and `*b` are related by some subtyping relation, `**a` and `**b` are not.
 
 ### Constructors of Virtual Bases
 The compiler must guarantee that all virtual pointers of an object are properly initialised. In particular, it guarantees that the constructor for all virtual bases of a class get invoked, and get invoked only once. If you don't explicitly call the constructors of your virtual superclasses (independent of how far up the tree they are), the compiler will automatically insert a call to their default constructors.
