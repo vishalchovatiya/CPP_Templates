@@ -4,7 +4,7 @@
 - Same as before, before learning anything new we have to see why it needed at first place.
 ### Why we need a virtual class?
 - When we use inheritance, we basically extending derived class wiht base class functionality. In simple word, base class object would be treated as sub-object in derived class.
-- This would create a problem in multiple inheritance, if base class sharing same mutual class as sub-object in top level hierarchy. I know this statement is complex. Ok then let see example.
+- This would create a problem in multiple inheritance, if base class sharing same mutual class as sub-object in top level hierarchy and you want to access its property. I know this statement is bit complex. Ok then let see example.
 ```
 class Top {public: int t; };
 class Left : public Top {public: int l; };
@@ -19,14 +19,17 @@ Left   Right
    \   /
    Bottom
 ```
-There are two reasons for the need of virtual base class:
-##### Reason 1
 - An instance of `Bottom` will be made up of `Left`, which includes `Top`, and `Right` which also includes `Top`. So we have two sub-object of `Top`. This will create abiguity as follows:
 ```
 Bottom *bot = new Bottom;
 bot->t = 5; // is this Left's t variable or Right's t variable ??
 ```
-##### Reason 2
+- This was by far simplest reason for the need of virtual base class. Adding more to this, let we consider following scenarios for above example:
+```
+Top   *t_ptr1 = new Left;
+Top   *t_ptr2 = new Right; 
+```
+These both will work fine as `Left` or `Right` object memory layout has `Top` subobject. You can see the memory layout of `Bottom` object for clear understanding.
 ```
 |                      |
 |----------------------|  <------ Bottom bot;   // Bottom object 
@@ -41,23 +44,13 @@ bot->t = 5; // is this Left's t variable or Right's t variable ??
 |    Bottom::b         |
 |----------------------|
 |                      |
-|                      |
-
 ```
-
-Let we consider following scenarios
-```
-Top   *t_ptr1 = new Left;
-Top   *t_ptr2 = new Right; 
-```
-These both will work fine as Left or Right object memory layout start with Top subobject. You can see the memory layout of `Bottom` object above for clear understanding.
-
 Now what happens when we upcast a `Bottom` pointer?
 ```
 Left  *left = new Bottom;
 ```
 This will work fine as Bottom object memory layout start with `Left` subobject.
-However, what happens when we upcast to Right?
+However, what happens when we upcast to `Right`?
 ```
 Right  *right = new Bottom;
 ```
@@ -78,20 +71,21 @@ For this to work, we have to adjust the `right` pointer value to make it point t
 |                      |
 |                      |
 ```
-After this adjustment, we can access Bottom through the Right pointer as a normal `Right` object; however, `Bottom` and `Right` now point to different memory locations. For completeness' sake, consider what would happen when we do
+After this adjustment, we can access `Bottom` through the `right` pointer as a normal `Right` object.
+But, what would happen when we do
 ```
-Top* Top = Bottom;
+Top* Top = new Bottom;
 ```
-Right, nothing at all. This statement is ambiguous: the compiler will complain
+This statement is ambiguous: the compiler will complain
 ```
 error: `Top' is an ambiguous base of `Bottom'
 ```
-The two possibilities can be disambiguated using
+Although you can use force typecasting as follows:
 ```
 Top* topL = (Left*) Bottom;
 Top* topR = (Right*) Bottom;
 ```
-After these two assignments, `topL` and `Left` will point to the same address, as will `topR` and `Right`.
+
 ##### Solution 
 - Virtual inheritance is there to solve these problem. When you specify virtual when inheriting your classes, you're telling the compiler that you only want a single instance.
 ```
@@ -100,19 +94,20 @@ class Left : virtual public Top {public: int l; };
 class Right : virtual public Top {public: int r; };
 class Bottom : public Left, public Right {public: int b; };
 ```
-- This means that there is only one "instance" of Top included in the hierarchy. Hence
+- This means that there is only one "instance" of `Top` included in the hierarchy. Hence
 ```
 Bottom *bot = new Bottom;
 bot->t = 5; // no longer ambiguous
 ```
-- This may seem more obvious and simpler from a programmer's point of view, from the compiler's point of view, this is vastly more complicated. Co
-- But interesting question is that How this `bot.t` will be addressed & handle by compiler ? Ok, this is the time to move on next point.
+- This may seem more obvious and simpler from a programmer's point of view, from the compiler's point of view, this is vastly more complicated. 
+- But interesting question is that How this `bot->t` will be addressed & handle by compiler ? Ok, this is the time to move on next point.
 
 ### How virtual class addressing mechanism works
 - A class containing one or more virtual base class subobjects, such as `Bottom`, is divided into two regions: 1). invariant region 2). a shared region. 
-- Data within the invariant region remains at a fixed offset(which will be decided in compilation step) from the start of the object regardless of subsequent derivations. So members within the invariant region can be accessed directly. 
+- Data within the invariant region remains at a fixed offset(which will be decided in compilation step) from the start of the object regardless of subsequent derivations. So members within the invariant region can be accessed directly. In our case, its `Left` & `Right` & `Bottom`.
 - The shared region represents the virtual base class subobjects whose location within the shared region fluctuates with order of derivation & subsequent derivation. So members within the shared region need to be accessed indirectly.
-- In this case, objects in invariant region will be placed at start in order of inheritance & objects in shared region will be placed at the end. The offset of these  shared region objects will be updated in virtual table by the compiler augmented code. See below image for reference.
+- An invariant region will be placed at start of objects memory layout and shared region will be placed at the end. 
+- The offset of these shared region objects will be updated in virtual table. Code necessary for this is augmented by compiler in constructor. See below image for reference.
 ```
 |                        |          
 |------------------------| <------ Bottom bot;   // Bottom object           
@@ -126,8 +121,8 @@ bot->t = 5; // no longer ambiguous
 |------------------------|          |            
 |    Bottom::b           |          |          |----------------------| 
 |------------------------|          |          |    offset of Top     | // offset starts from right subobject = 12
-|    Top::t              |          |----------|----------------------|                                                 
-|------------------------|                     |      ...             |                                                  
+|    Top::t              |          |----------|----------------------|                              
+|------------------------|                     |      ...             |                                    
 |                        |                     |----------------------|                                            
 |                        |                
 ```
@@ -136,15 +131,17 @@ bot->t = 5; // no longer ambiguous
 Bottom *bot = new Bottom;
 bot->t = 5; // no longer ambiguous
 ```
-Above code `bot->t` will be probably transformed into
+Above code will probably be transformed into
 ```
-(this + _vptr_Left[-1])->t = 5;
+Bottom *bot = new Bottom;
+(bot + _vptr_Left[-1])->t = 5;
 ```
 
 ### Handling of virtual function in virtual base class
 - 
 
-### Downcasting: Complication of using virtual base class
+### Complication of using virtual base class
+> **Downcasting** 
 - As we have seen in Reason 2, casting of object Bottom to Right(in other words, upcasting) requires adding offset to this pointer. One might be tempted to think that downcasting (going the other way) can then simply be implemented by subtracting the same offset.
 - This process is not easy for compiler as it seems. To understand this, let we go through example.
 Suppose we extend our inheritance hierarchy with the following class.
