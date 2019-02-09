@@ -102,20 +102,20 @@ class Bottom : public Left, public Right {public: int b; };
 ```
 - This means that there is only one "instance" of Top included in the hierarchy. Hence
 ```
-Bottom bot;
-bot.t = 5; // no longer ambiguous
+Bottom *bot = new Bottom;
+bot->t = 5; // no longer ambiguous
 ```
 - But interesting question is that How this `bot.t` will be addressed & handle by compiler ? Ok, this is the time to move on next point.
 
 ### How virtual class addressing mechanism works
 - A class containing one or more virtual base class subobjects, such as `Bottom`, is divided into two regions: 1). invariant region 2). a shared region. 
-- Data within the invariant region remains at a fixed offset(which is decided in compilation step) from the start of the object regardless of subsequent derivations. So members within the invariant region can be accessed directly. 
-- The shared region represents the virtual base class subobjects. The location of data within the shared region fluctuates with each derivation. So members within the shared region need to be accessed indirectly.
+- Data within the invariant region remains at a fixed offset(which will be decided in compilation step) from the start of the object regardless of subsequent derivations. So members within the invariant region can be accessed directly. 
+- The shared region represents the virtual base class subobjects whose location within the shared region fluctuates with order of derivation & subsequent derivation. So members within the shared region need to be accessed indirectly.
 - In this case, objects in invariant region will be placed at start in order of inheritance & objects in shared region will be placed at the end. The offset of these  shared region objects will be updated in virtual table by the compiler augmented code. See below image for reference.
 ```
 |                        |                        |----------------------| 
 |------------------------|                        |    offset of Top     | // offset starts from left subobject = 20
-|    Left::l             |			   -----------|----------------------|
+|    Left::l             |             -----------|----------------------|
 |------------------------|            |           |      ...             |
 |    Left::_vptr_Left    | -----------            |----------------------|  
 |------------------------|                        
@@ -130,13 +130,15 @@ bot.t = 5; // no longer ambiguous
 |                        |
 |                        |
 ```
-- Now come to our interesting question "How this `bot.t` will be addressed ?"
+- Now come to our interesting question "How this `bot->t` will be addressed ?"
 ```
 Bottom *bot = new Bottom;
 bot->t = 5; // no longer ambiguous
+```
+Above code `bot->t` will be probably transformed into
+```
 (this + _vptr_Left[-1])->t = 5;
 ```
-- Same goes for above scenarios of up/down cast with pointer adjustment if necessary.
 
 ### Handling of virtual function in virtual base class
 - 
