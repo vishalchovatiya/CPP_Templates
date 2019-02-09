@@ -144,6 +144,78 @@ Above code `bot->t` will be probably transformed into
 ### Handling of virtual function in virtual base class
 - 
 
+### Downcasting: Complication of using virtual base class
+- As we have seen in Reason 2, casting of object Bottom to Right(in other words, upcasting) requires adding offset to this pointer. One might be tempted to think that downcasting (going the other way) can then simply be implemented by subtracting the same offset.
+- This process is not easy for compiler as it seems. To understand this, let we go through example.
+Suppose we extend our inheritance hierarchy with the following class.
+```
+class AnotherBottom : public Left, public Right
+{
+public:
+   int ab1;
+   int ab2;
+};
+```
+- `Bottom` & `AnotherBottom` have same inhertance heirarchy except their data members. Now consider the following code.
+```
+Bottom* bottom1 = new Bottom();
+AnotherBottom* bottom2 = new AnotherBottom();
+Top* top1 = bottom1;
+Top* top2 = bottom2;
+Left* left = static_cast<Left*>(top1);
+```
+Following is memory layout for `Bottom` & `AnotherBottom`
+```
+         |                        |                     |                        |
+         |------------------------|<------ Bottom       |------------------------|<------ AnotherBottom
+         |    Left::l             |                     |    Left::l             |
+         |------------------------|                     |------------------------|
+         |    Left::_vptr_Left    |                     |    Left::_vptr_Left    |
+         |------------------------|                     |------------------------|
+         |    Right::r            |                     |    Right::r            |
+         |------------------------|                     |------------------------|
+         |    Right::_vptr_Right  |                     |    Right::_vptr_Right  |
+         |------------------------|                     |------------------------|
+         |    Bottom::b           |                     |    AnotherBottom::ab1  |
+top1---->|------------------------|                     |------------------------|
+         |    Top::t              |                     |    AnotherBottom::ab2  |
+         |------------------------|           top2----->|------------------------|  
+         |                        |                     |    Top::t              |
+                                                        |------------------------|
+                                                        |                        |
+```
+- Here we do not know whether top1 is pointing to an object of type Bottom or an object of type AnotherBottom. It can't be done! The necessary offset depends on the runtime type of top1 (20 for Bottom and 24 for AnotherBottom). The compiler will complain:
+```
+main.cpp:19:39: error: cannot convert from pointer to base class 'Top' to pointer to derived class 'Left' because the base is virtual
+   Left* left = static_cast<Left*>(top1);
+```
+- Since we need runtime information, we need to use a dynamic cast instead:
+```
+Left* left = dynamic_cast<Left*>(top1);
+```
+- However, the compiler is still unhappy:
+```
+main.cpp:19:40: error: cannot dynamic_cast 'top1' (of type 'class Top*')to type 'class Left*' (source type is not polymorphic)
+   Left* left = dynamic_cast<Left*>(top1);
+```
+- The problem is that a dynamic cast (as well as use of typeid) needs runtime type information about the object pointed to by top1. However, if you look at the diagram, you will see that all we have at the location pointed to by top1 is an integer (a). The compiler did not include a vptr.Top because it did not think that was necessary. To force the compiler to include this vptr, we can add a virtual destructor to Top:
+```
+class Top
+{
+public:
+   virtual ~Top() {} // This line creates magic for us
+   int t;
+};
+```
+- This change necessitates a vptr for Top. 
+### Double pointer hack
+
+### Constructors of Virtual Bases
+
+### Pointer Equivalence
+
+### Casting to `void*`
+
 ### Special handling cases
 The initialization of one class object with another in which there is a virtual base class subobject also invalidates bitwise copy semantics.
 
