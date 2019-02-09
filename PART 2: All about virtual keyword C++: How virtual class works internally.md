@@ -20,13 +20,13 @@ Left   Right
    Bottom
 ```
 There are two reasons for the need of virtual base class:
-Reason 1
+##### Reason 1
 - An instance of `Bottom` will be made up of `Left`, which includes `Top`, and `Right` which also includes `Top`. So we have two sub-object of `Top`. This will create abiguity as follows:
 ```
 Bottom *bot = new Bottom;
 bot->t = 5; // is this Left's t variable or Right's t variable ??
 ```
-Reason 2
+##### Reason 2
 ```
 |                      |
 |----------------------|  <------ Bottom bot;   // Bottom object 
@@ -92,7 +92,7 @@ Top* topL = (Left*) Bottom;
 Top* topR = (Right*) Bottom;
 ```
 After these two assignments, `topL` and `Left` will point to the same address, as will `topR` and `Right`.
-
+##### Solution 
 - Virtual inheritance is there to solve these problem. When you specify virtual when inheriting your classes, you're telling the compiler that you only want a single instance.
 ```
 class Top {public: int t; };
@@ -105,6 +105,7 @@ class Bottom : public Left, public Right {public: int b; };
 Bottom *bot = new Bottom;
 bot->t = 5; // no longer ambiguous
 ```
+- This may seem more obvious and simpler from a programmer's point of view, from the compiler's point of view, this is vastly more complicated. Co
 - But interesting question is that How this `bot.t` will be addressed & handle by compiler ? Ok, this is the time to move on next point.
 
 ### How virtual class addressing mechanism works
