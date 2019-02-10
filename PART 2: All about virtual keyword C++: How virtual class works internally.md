@@ -325,8 +325,8 @@ Bottom(int _a, int _b, int _c, int _d): Top(_a), Left(_a,_b), Right(_a,_c)
    d = _d; 
 }
 ```
-### Pointer Equivalence
-Once again assuming the same (virtual) class hierarchy, would you expect this to print “Equal”?
+> **Pointer Equivalence**
+- Once again assuming the same (virtual) class hierarchy, would you expect this to print “Equal”?
 ```
 Bottom* b = new Bottom(); 
 Right* r = b;
@@ -334,9 +334,19 @@ Right* r = b;
 if(r == b)
    printf("Equal!\n");
 ```
-Bear in mind that the two addresses are not actually equal (r is off by 8 bytes). However, that should be completely transparent to the user; so, the compiler actually subtracts the 8 bytes from r before comparing it to b; thus, the two addresses are considered equal.
-### Casting to `void*`
-Finally, we consider what happens we can cast an object to void*. The compiler must guarantee that a pointer cast to void* points to the “top” of the object. Using the vtable, this is actually very easy to implement. You may have been wondering what the offset to top field is. It is the offset from the vptr to the top of the object. So, a cast to void* can be implemented using a single lookup in the vtable. Make sure to use a dynamic cast, however, thus:
+- Bear in mind that the two addresses are not actually equal (r is off by 8 bytes). However, that should be completely transparent to the user; so, the compiler actually subtracts the 8 bytes from r before comparing it to b; thus, the two addresses are considered equal.
+- Although, this also stands true for following code.
+```
+class base{};
+class derived : public base{};
+
+derived *d = new derived();
+base *b = d;
+
+if(d==b){cout<<"Equal!\n";}
+```
+> **Casting to `void*`**
+- Finally, we consider what happens we can cast an object to void*. The compiler must guarantee that a pointer cast to void* points to the “top” of the object. Using the vtable, this is actually very easy to implement. You may have been wondering what the offset to top field is. It is the offset from the vptr to the top of the object. So, a cast to void* can be implemented using a single lookup in the vtable. Make sure to use a dynamic cast, however, thus:
 ```
 dynamic_cast<void*>(b);
 ```
