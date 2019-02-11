@@ -351,3 +351,4 @@ if(b2 == d)
 - http://www.avabodh.com/cxxin/virtualbase.html
 - https://stackoverflow.com/questions/21558/in-c-what-is-a-virtual-base-class
 - https://web.archive.org/web/20160413064252/http://www.phpcompiler.org/articles/virtualinheritance.html
+- Book: Inside C++ Object Model By Lippman
