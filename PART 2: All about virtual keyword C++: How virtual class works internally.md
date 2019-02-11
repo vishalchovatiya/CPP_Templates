@@ -303,8 +303,7 @@ public:
 - What would you expect this to output:
 ```
 Bottom bottom(1,2,3,4);
-printf("%d %d %d %d %d\n", bottom.Left::a, bottom.Right::a, 
-   bottom.b, bottom.c, bottom.d);
+printf("%d %d %d %d %d\n", bottom.Left::a, bottom.Right::a, bottom.b, bottom.c, bottom.d);
 ```
 - You would probably get
 ```
@@ -337,21 +336,16 @@ if(r == b)
 - Bear in mind that the two addresses are not actually equal (r is off by 8 bytes). However, that should be completely transparent to the user; so, the compiler actually subtracts the 8 bytes from r before comparing it to b; thus, the two addresses are considered equal.
 - Although, this also stands true for following code.
 ```
-class base{};
-class derived : public base{};
+class base1{};
+class base2{};
+class derived : public base1, public base2{};
 
 derived *d = new derived();
-base *b = d;
+base2 *b2 = d;
 
-if(d==b){cout<<"Equal!\n";}
+if(b2 == d)
+   printf("Equal!\n");
 ```
-> **Casting to `void*`**
-- Finally, we consider what happens we can cast an object to void*. The compiler must guarantee that a pointer cast to void* points to the “top” of the object. Using the vtable, this is actually very easy to implement. You may have been wondering what the offset to top field is. It is the offset from the vptr to the top of the object. So, a cast to void* can be implemented using a single lookup in the vtable. Make sure to use a dynamic cast, however, thus:
-```
-dynamic_cast<void*>(b);
-```
-### Special handling cases
-The initialization of one class object with another in which there is a virtual base class subobject also invalidates bitwise copy semantics.
 
 ### Reference 
 - http://www.avabodh.com/cxxin/virtualbase.html
