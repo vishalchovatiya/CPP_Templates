@@ -77,6 +77,50 @@ virtual ~protocol_t() { cout<<"~protocol_t"; delete _type; }
 
 ### How virtual destructor works?
 
+- The question is that how our destructor of derived class called. Answer is simple it just overridden in virtual table. Lets understand it with assumption that our pointer `protocol` points to object of type `wifi_t`.
+```
+protocol_t *protocol = new wifi_t;
+delete protocol;
+```
+- Here is memory layout of object `wifi_t`
+```
+|                                |          
+|--------------------------------| <------ wifi_t object memory layout
+|  protocol_t::_type             |          
+|--------------------------------|          
+|  protocol_t::_vptr_protocol_t  |----------|
+|--------------------------------|          |----------|-------------------------|
+|  wifi_t::_pass                 |                     |   type_info wifi_t      |
+|--------------------------------|                     |-------------------------|
+|                                |                     |   wifi_t::authenticate  |
+|                                |                     |-------------------------|
+|                                |                     |   wifi_t::connect       |
+|                                |                     |-------------------------|
+|                                |                     |   wifi_t::~wifi_t       |
+|                                |                     |-------------------------|
+```
+- Now, the statement `delete protocol;` will be transformed into
+```
+( * protocol->vptr[ 3 ])( protocol ); 
+```
+- Till here it was simple for us to understand how things are working. But real magic comes when destructor of `protocol_t` will be called.
+- This is again augmented code by compiler in derived class destructor & probably would become:
+```
+~wifi_t() { 
+	cout<<"~wifi_t"; 
+	delete (this + sizeof(protocol_t))->_pass; // Compiler will refer variable from start of object, so implicit 'this'
+	
+	// Compiler augmented code ----------------------------------------------------
+	// Rewire virtual table
+	this->vptr[0] = &type_info_protocol_t;
+	this->vptr[1] = &protocol_t::authenticate;
+	this->vptr[2] = &protocol_t::connect;
+	this->vptr[3] = &protocol_t::~protocol_t();
+	
+	// Call to base class destructor
+	protocol_t::~protocol_t(this); 
+}
+```
 ### Reference 
 - http://www.avabodh.com/cxxin/virtualbase.html
 - 
