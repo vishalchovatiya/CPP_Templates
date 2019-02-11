@@ -138,7 +138,7 @@ Bottom *bot = new Bottom;
 ```
 
 ### Handling of virtual function in virtual base class
-- 
+- Handling of virtual function in virtual base class is same as we have discussed in our previour article with multiple inheritance. There is nothing special about it.
 
 ### Complications of using virtual base class
 > **Downcasting** 
@@ -261,7 +261,7 @@ error: invalid conversion from `Bottom**' to `Right**'
 - This is correct as long as we access the `Bottom` object through `*rr`, but as soon as we access it through `b` itself, all memory references will be off by 8 bytes — obviously a very undesirable situation.
 - So, in summary, even if `*a` and `*b` are related by some subtyping relation, `**a` and `**b` are not.
 
-> **Constructors of Virtual Bases**
+> **Constructors of virtual bases**
 - The compiler must guarantees that the constructor for all virtual bases of a class get invoked, and get invoked **only once**. If you don't explicitly call the constructors of your virtual base class (independent of how far up the tree they are), the compiler will automatically insert a call to their default constructors.
 - This can lead to some unexpected results. Consider the same class hierarchy again we have been considering so far, extended with constructors:
 ```
