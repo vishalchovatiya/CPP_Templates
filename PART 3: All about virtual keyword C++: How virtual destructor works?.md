@@ -59,7 +59,7 @@ int main()
 {
 	int prot_type = rand()%2;
   
-	makeConnection( (prot_type == WIFI) ? static_cast<protocol_t*>(new wifi_t) : static_cast<protocol_t*>(new bluetooth_t));	
+	makeConnection( (prot_type) ? static_cast<protocol_t*>(new wifi_t) : static_cast<protocol_t*>(new bluetooth_t) );	
 
 	return 0;
 }
@@ -73,7 +73,7 @@ int main()
 ```
 virtual ~protocol_t() { cout<<"~protocol_t"; delete _type; }
 ```
-- Put keyword virtual in front of `~protocol_t()` destructor.
+- Put keyword virtual in front of `~protocol_t()` destructor. It will call the destructor of object pointed by pointer `protocol_t` & then call `~protocol_t()` destructor.
 
 ### How virtual destructor works?
 
