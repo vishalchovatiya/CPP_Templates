@@ -257,5 +257,5 @@ NOTE: There is one extra ordinary case of virtual destructor which we will discu
 
 ### Reference 
 - http://www.avabodh.com/cxxin/virtualbase.html
-- Inside C++ Object Model By Lippman
+- Book: Inside C++ Object Model By Lippman
 - 
