@@ -103,12 +103,12 @@ delete protocol;
 ```
 ( * protocol->vptr[ 3 ])( protocol ); 
 ```
-- Till here it was simple for us to understand how things are working. But real magic comes when destructor of `protocol_t` will be called.
+- Till here it was simple for us to understand how things are working because this is virtual function mechanism. But real magic comes when destructor of `protocol_t` will be called.
 - This is again augmented code by compiler in derived class destructor & probably would become:
 ```
 ~wifi_t() { 
 	cout<<"~wifi_t"; 
-	delete (this + sizeof(protocol_t))->_pass; // Compiler will refer variable from start of object, so implicit 'this'
+	delete this->_pass; // Compiler will refer variable from start of object, so implicit 'this'
 	
 	// Compiler augmented code ----------------------------------------------------
 	// Rewire virtual table
@@ -121,6 +121,25 @@ delete protocol;
 	protocol_t::~protocol_t(this); 
 }
 ```
+- The process of destructing an object takes more operations than those you write inside the body of the destructor. When the compiler generates the code for the destructor, it adds extra code both before and after the user defined code. Here we have only taken after code for sake of understanding.
+- Same process will happen no mattern how long tree up there is.
+
+### Tricky example
+```
+struct base {
+   virtual ~base() { f(); }
+   virtual void f() { std::cout << "base"; }
+};
+struct derived : base {
+   void f() { std::cout << "derived"; }
+};
+int main() {
+   base * p = new derived;
+   delete p;
+}
+```
+- Output is `base`. Because standard mandates that the runtime type of the object is that of the class being constructed/destructed at this time, even if the original object that is being constructed/destructed is of a derived type.
+
 ### Reference 
 - http://www.avabodh.com/cxxin/virtualbase.html
 - 
