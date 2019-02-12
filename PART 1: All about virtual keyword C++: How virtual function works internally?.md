@@ -1,8 +1,9 @@
 ### Introduction
+- This is a series of articles(total of three) in which we try to learn the virtual keyword thoroughly. Although I am not an expert but this what I have learned so far from various sources. So these articles are basically a collection of connected dots on virtual keyword support from C++.
 - Before learning All about the virtual keyword in C++, I would like to clarify two things
     1. Implementation of a virtual function is purely compiler dependent
     2. No C++ standard is defined for this.
-- Now, learning anything new we should see why it needed in first place.
+- I always ask my self before learning anything new "why it needed in the first place?".
 ### Why we need a virtual function?
 - Let us understand it with an example. Suppose you want to connect to the network or to other mobile using your smartphone.
 - You have two choices Bluetooth or Wifi. Although these two are completely different technologies, still some things are common in them at an abstract level like both are communication protocol, both need authentication, etc.
