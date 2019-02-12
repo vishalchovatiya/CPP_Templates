@@ -60,13 +60,47 @@ class X
     static void printCount(){}
 };
 ```
-![](https://github.com/VisheshPatel/CPP_Templates/blob/master/images/Object%20with%20virtual%20%26%20static%20keyword%20model.png)
-
+```
+      |                        |          
+      |------------------------| <------ X class object memory layout
+      |        int X::x        |
+stack |------------------------|
+  |   |       float X::xx      |                      
+  |   |------------------------|      |-------|--------------------------|
+  |   |         X::_vptr       |------|       |       type_info X        |
+ \|/  |------------------------|              |--------------------------|
+      |           o            |              |    address of X::~X()    |
+      |           o            |              |--------------------------|
+      |           o            |              | address of X::printAll() |
+      |                        |              |--------------------------|
+      |                        |
+------|------------------------|------------
+      |  static int X::count   |      /|\
+      |------------------------|       |
+      |           o            |  data segment           
+      |           o            |       |
+      |                        |      \|/
+------|------------------------|------------
+      |        X::X()          | 
+      |------------------------|       |   
+      |        X::~X()         |       |
+      |------------------------|       | 
+      |      X::printAll()     |      \|/ 
+      |------------------------|  text segment
+      |      X::printInt()     |
+      |------------------------|
+      |     X::printFloat()    |
+      |------------------------|
+      | static X::printCount() |
+      |------------------------|
+      |                        |
+```
 - All non-static data members are going into the stack with the same order of their declaration as we already seen in above point.
 - Static data member goes into the data segment of memory & it is accessed by scope resolution operator.
 - Static methods are goes in text segment & are called with scope resolution operator except this pointer is not passed in its argument.
-- For virtual keyword, the compiler automatically inserts pointer(vptr) to a virtual table which is used to transform direct function calling in an indirect call(we will see this is a separate article). 
+- For virtual keyword, the compiler automatically inserts pointer(vptr) to a virtual table which is used to transform direct function calling in an indirect call(we will see this is a separate article). This virtual table will be created in data segment only.
 - In a virtual table, 1st entry points to a type_info object which contain information related to current class & DAG(Directed Acyclic Graph) of other base classes if it is derived from them.
+- Although, compiler performs name mangling which i have not shown for simplicity.
 
 ### Inheritence object model representation of below class
 ```
