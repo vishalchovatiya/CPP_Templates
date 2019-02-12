@@ -1,6 +1,6 @@
 ## How different object stores in memory ?
 
-### Simple object model representation of below class
+### Memory layout of simple non-polymorphic class
 
 ```
 class X
@@ -43,7 +43,7 @@ class X
 - As you can see all data members are going into the stack with the same order of their declarations(which is guaranteed by most of the compilers, apparently).
 - All other methods, constructor, destructor & compiler augmented code(which I have not shown for simplicity) go into the text segment. These methods are then called using scope resolution operator & passed this pointer(not shown here for simplicity) of calling object in its 1st argument explicitly which we discuss in the separate article.
 
-### Object with virtual & static keyword model representation of below class
+### Memory layout of class having virtual function & static data member 
 ```
 class X
 {  
@@ -104,7 +104,7 @@ stack |------------------------|
 - In a virtual table, 1st entry points to a type_info object which contain information related to current class & DAG(Directed Acyclic Graph) of other base classes if it is derived from them.
 - Although, compiler performs name mangling which i have not shown for simplicity.
 
-### Inheritence object model representation of below class
+### Memory layout of class with inheritence
 ```
 class X
 {  
@@ -174,76 +174,32 @@ stack |------------------------------|
 - In the inheritance model, a base class & a data member classes is treated as a subobject of derived class & memory map is created accordingly(as you can see above). 
 - All virtual function will be overridden in virtual table & code for this will generated in constructor of class by compiler. Which we have discussed in our [virtual function series](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%201:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20function%20works%20internally%3F.md).
 
-### Multiple inheritence object model representation of below classes
+### Memory layout of class having multiple inheritence with virtual function
 ```
-class Point2d {
+class X {
   public:
-    // ...
-  protected:
-    float _x, _y;
+    int x;
+    virtual ~X(){//...}
+    virtual void printX(){//...}
 };
 
-class Vertex {
+class Y {
   public:
-    // ...
-  protected:
-    Vertex *next;
+    int y;
+    virtual ~Y(){//...}
+    virtual void printY(){//...}
 };
 
-class Vertex2d : public Point2d, public Vertex {
+class Z : public X, public Y {
   public:
-    //...
-  protected:
-    float mumble;
+    int z;
+    ~Z(){//...}
+    void printX(){//...}
+    void printY(){//...}
+    void printZ(){//...}
 };
 ```
-![](Insert image HERE)
-- Page 70 of 182
-### Multiple inheritence with virtual keyword object model representation of below classes
-
-```
-class Point {
-public:
-virtual ~Point();
-virtual Point& mult( float ) = 0;
-// ... other operations ...
-float x() const { return _x; }
-virtual float y() const { return 0; }
-virtual float z() const { return 0; }
-// ...
-protected:
-Point( float x = 0.0 );
-float _x;
-};
-class Point2d : public Point {
-public:
-Point2d( float x = 0.0, float y = 0.0 )
-: Point( x ), _y( y ) {}
-~Point2d();
-// overridden base class virtual functions
-Point2d& mult( float );
-float y() const { return _y; }
-// ... other operations ...
-protected:
-float _y;
-};
-class Point3d: public Point2d {
-public:
-Point3d( float x = 0.0,
-float y = 0.0, float z = 0.0 )
-: Point2d( x, y ), _z( z ) {}
-~Point3d();
-// overridden base class virtual functions
-Point3d& mult( float );
-float z() const { return _z; }
-// ... other operations ...
-protected:
-float _z;
-};
-```
-
-
-### Virtual inheritence object model representation of below classes
+### Memory layout of class having virtual inheritence
 ```
 class X {};
 class Y : public virtual X {};
