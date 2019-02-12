@@ -1,50 +1,50 @@
 ### Introduction
 - Before learning All about the virtual keyword in C++, I would like to clarify two things
 - Implementation of a virtual function is purely compiler dependent, no C++ standard is defined for this.
-- Before learning anything we have to see why it needed at first place.
+- Before learning anything we have to see why it needed in first place.
 ### Why we need a virtual function?
-- Let we understand it with an example. Suppose you want to connect to the network or to other mobile using your smartphone.
+- Let us understand it with an example. Suppose you want to connect to the network or to other mobile using your smartphone.
 - You have two choices Bluetooth or Wifi. Although these two are completely different technologies, still some things are common in them at an abstract level like both are communication protocol, both need authentication, etc.
 - Let say we have a class of them like as follows:
 ```
 class wifi_t{
-	private:
-		char _pass[15];
-		// storage ...
-	public:
-		void authenticate();
-		void connect();
-		// operations ...
+    private:
+        char _pass[15];
+        // storage ...
+    public:
+        void authenticate();
+        void connect();
+        // operations ...
 };
 
 class bluetooth_t{
-	private:
-		char _pass[15];
-		// storage ...
-	public:
-		void authenticate();
-		void connect();
-		// operations ...
+    private:
+        char _pass[15];
+        // storage ...
+    public:
+        void authenticate();
+        void connect();
+        // operations ...
 };
 ```
 - Now, below is the main application in which you want to connect your device to others.
 ```
 int main()
 {
-	wifi_t 		*wifi = new wifi_t;
-	bluetooth_t 	*bluetooth = new bluetooth_t;
+    wifi_t         *wifi = new wifi_t;
+    bluetooth_t     *bluetooth = new bluetooth_t;
 
-	int pt = selectProtocol();
-	
-	if(pt == BLUETOOTH){
-		bluetooth->authenticate();
-		bluetooth->connect();
-	}
-	else if(pt == WIFI){
-		wifi->authenticate();
-		wifi->connect();
-	}
-	return 0;
+    int pt = selectProtocol();
+    
+    if(pt == BLUETOOTH){
+        bluetooth->authenticate();
+        bluetooth->connect();
+    }
+    else if(pt == WIFI){
+        wifi->authenticate();
+        wifi->connect();
+    }
+    return 0;
 }
 ```
 - If you observe above code then you will find that despite selecting any protocol some steps are same.
@@ -52,48 +52,48 @@ int main()
 
 ```
 class protocol_t{
-	private:
-		uint8_t _type;
-		// storage ...
-	public:
-		virtual void authenticate(){};
-		virtual void connect(){};
-		// operations ...
+    private:
+        uint8_t _type;
+        // storage ...
+    public:
+        virtual void authenticate(){};
+        virtual void connect(){};
+        // operations ...
 };
 
 class wifi_t : public protocol_t{
-	private:
-		char _pass[15];
-		// storage ...
-	public:
-		virtual void authenticate(){};
-		virtual void connect(){};
-		// operations ...
+    private:
+        char _pass[15];
+        // storage ...
+    public:
+        virtual void authenticate(){};
+        virtual void connect(){};
+        // operations ...
 };
 
 class bluetooth_t : public protocol_t{
-	private:
-		char _pass[15];
-		// storage ...
-	public:
-		virtual void authenticate(){};
-		virtual void connect(){};
-		// operations ...
+    private:
+        char _pass[15];
+        // storage ...
+    public:
+        virtual void authenticate(){};
+        virtual void connect(){};
+        // operations ...
 };
 
 void makeConnection(protocol_t *protocol)
 {
-	protocol->authenticate();
-	protocol->connect();
-}	
+    protocol->authenticate();
+    protocol->connect();
+}    
 
 int main()
 {
-	int pt = selectProtocol();
+    int pt = selectProtocol();
   
-	makeConnection( (pt == WIFI) ? static_cast<protocol_t*>(new wifi_t) : static_cast<protocol_t*>(new bluetooth_t));	
+    makeConnection( (pt == WIFI) ? static_cast<protocol_t*>(new wifi_t) : static_cast<protocol_t*>(new bluetooth_t));    
 
-	return 0;
+    return 0;
 }
 ```
 
@@ -121,11 +121,11 @@ then it would probably be augmented by compiler like this
 Where the following holds:
 1. `vptr` represents the internally generated virtual table pointer inserted within each object whose class
 declares or inherits one or more virtual functions. In practice, its name is mangled. There may be
-multiple vptrs within a complex class derivation. As you can see in above image we have used `_vptr_protocol_t`.
+multiple vptrs within a complex class derivation. As you can see in the above image we have used `_vptr_protocol_t`.
 2. `1` in `vptr[ 1 ]` is the index into the virtual table slot associated with `authenticate()`.
 3. protocol in its second occurrence represents the `this` pointer.
 
-- When we inherit `protocol_t` class to `wifi_t` class, this virtual table will be literally overridden with its respective overridden/polymorphic function slot. Each virtual function has fixed index in the virtual table, no matter how long inheritance hierarchy is.
+- When we inherit `protocol_t` class to `wifi_t` class, this virtual table will be literally overridden with its respective overridden/polymorphic function slot. Each virtual function has a fixed index in the virtual table, no matter how long the inheritance hierarchy is.
 - If `derived` class introduce a new virtual function not present in the base class, the virtual table will be grown by a slot and the address of the function is placed within that slot.
 
 - If you want to summarize virtual keyword functionality in two words then its `indirect calling` of a polymorphic function.
@@ -134,14 +134,14 @@ multiple vptrs within a complex class derivation. As you can see in above image 
 
 **Q**. How do we know at runtime that pointer `protocol` will execute a right function(of the object pointed to)?
 
-**A**. In general, we don't know the exact type of the object `protocol` addresses at each invocation of `authenticate()`. We do know, however, that through `protocol` we can access the virtual table associated with the object's class. And the offset of `vptr` is fixed throughout the inheritance hierarchy. Again we also that index of function `authenticate()` in virtual table is fixed throughout the inheritance hierarchy.
+**A**. In general, we don't know the exact type of the object `protocol` addresses at each invocation of `authenticate()`. We do know, however, that through `protocol` we can access the virtual table associated with the object's class. And the offset of `vptr` is fixed throughout the inheritance hierarchy. Again we also that index of function `authenticate()` in a virtual table is fixed throughout the inheritance hierarchy.
 This way right `authenticate()` function execution will be guaranteed. 
 
 **Q**. Where & how this code augment by the compiler?
 
-**A**. The code necessary to fill virtual table stols are generated by compiler in constructors right before user written code.
+**A**. The code necessary to fill virtual table slot is generated by the compiler in constructors right before user-written code.
 
-**Q**. What if there is `derived` class having more that one base class?
+**Q**. What if there is a `derived` class having more that one base class?
 
 **A**. We will discuss this scenario in the subsequent topic.
 
@@ -204,7 +204,7 @@ class derived : public base1, public  base2{
 |                        |                     |----------------------|
 |                        |                     |   base2::base2_func  |
 |                        |                     |----------------------|
-                                               |    derived:::print   |
+                                               |    derived::print   |
                                                |----------------------|
 ```
 - To understand that, first let's assign a `base2` pointer the address of a `derived` class object allocated on the heap:
@@ -212,7 +212,7 @@ class derived : public base1, public  base2{
 ```
 base2 *pb = new derived;
 ```
-- The address of the new `derived` object must be adjusted to address of its `base2` subobject. The code to accomplish this is generated at compile time:
+- The address of the new `derived` object must be adjusted to address its `base2` subobject. The code to accomplish this is generated at compile time:
 ```
 // transformation to support second base class
 derived *temp = new derived;
@@ -252,7 +252,7 @@ would probably be transformed into
 ( * pb->_vptr_base2[ 2 ])( pb ); 
 ```
 
-NOTE: There is one extra ordinary case of virtual destructor which we will discuss in depth in another article.
+NOTE: There is one extraordinary case of virtual destructor which we will discuss in depth in another article.
 
 
 ### Reference 
