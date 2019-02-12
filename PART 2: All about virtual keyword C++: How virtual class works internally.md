@@ -333,7 +333,7 @@ Right* r = b;
 if(r == b)
    printf("Equal!\n");
 ```
-- Bear in mind that the two addresses are not actually equal (r is off by 8 bytes). However, that should be completely transparent to the user; so, the compiler actually subtracts the 8 bytes from r before comparing it to b; thus, the two addresses are considered equal.
+- Bear in mind that the two addresses are not actually equal (`r` is off by 8 bytes). However, that should be completely transparent to the user; so, the compiler actually subtracts the 8 bytes from `r` before comparing it to `b`; thus, the two addresses are considered equal.
 - Although, this also stands true for the following code.
 ```
 class base1{};
