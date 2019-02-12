@@ -68,12 +68,13 @@ int main()
 - An objects of `wifi_t`, `bluetooth_t` & `protocol_t` also uses heap memory at construction & destruction time.
 - Well, this code compiles & runs fine without any error. But when you run above code, at the time of `delete protocol` line it alwasy call destructor of `protocol_t` which you can verify by `~protocol_t` print on console.
 - We are freeing only sub-object resources which is `protocol_t` in call of `~protocol_t()` destructor. This means that there is memory leak as we are not freeing heap memory resource of object pointed by pointer `protocol_t` in function `makeConnection()`.
-- We even dont know the type of object `protocol_t` pointer pointed to.
+- We even dont know the type of object `protocol_t` pointer pointed to at run time.
 - Virtual destructors are there to solve this problem. What we have to do is that
 ```
 virtual ~protocol_t() { cout<<"~protocol_t"; delete _type; }
 ```
-- Put keyword virtual in front of `~protocol_t()` destructor. It will call the destructor of object pointed by pointer `protocol_t` & then call `~protocol_t()` destructor.
+- Put keyword virtual in front of `~protocol_t()` destructor. Now `delete protocol` line will not directly call destructor of `protocol`, rather it calls destructor indirectly i.e. using virtual table mechanism.
+- This way it calls the destructor of object pointed i.e. either `~wifi_t()` or `~bluetooth_t()` by pointer `protocol` & then call destructor of its base class i.e. `~protocol_t()`.
 
 ### How virtual destructor works?
 
@@ -85,7 +86,7 @@ delete protocol;
 - Here is memory layout of object `wifi_t`
 ```
 |                                |          
-|--------------------------------| <------ wifi_t object memory layout
+|--------------------------------| <------ wifi_t class object memory layout
 |  protocol_t::_type             |          
 |--------------------------------|          
 |  protocol_t::_vptr_protocol_t  |----------|
@@ -99,16 +100,16 @@ delete protocol;
 |                                |                     |   wifi_t::~wifi_t       |
 |                                |                     |-------------------------|
 ```
-- Now, the statement `delete protocol;` will be transformed into
+- Now, the statement `delete protocol;` will probably be transformed by compiler into
 ```
 ( * protocol->vptr[ 3 ])( protocol ); 
 ```
-- Till here it was simple for us to understand how things are working because this is virtual function mechanism. But real magic comes when destructor of `protocol_t` will be called.
+- Till here it was simple for us to understand how things are working because this is virtual function mechanism which we have seen in earlier articles. But real magic comes when destructor of class `protocol_t` will be called.
 - This is again augmented code by compiler in derived class destructor & probably would become:
 ```
 ~wifi_t() { 
 	cout<<"~wifi_t"; 
-	delete this->_pass; // Compiler will refer variable from start of object, so implicit 'this'
+	delete this->_pass;
 	
 	// Compiler augmented code ----------------------------------------------------
 	// Rewire virtual table
@@ -121,10 +122,10 @@ delete protocol;
 	protocol_t::~protocol_t(this); 
 }
 ```
-- The process of destructing an object takes more operations than those you write inside the body of the destructor. When the compiler generates the code for the destructor, it adds extra code both before and after the user defined code. Here we have only taken after code for sake of understanding.
+- The process of destructing an object takes more operations than those you write inside the body of the destructor. When the compiler generates the code for the destructor, it adds extra code both before and after the user defined code. Here we have only taken `after code` for the sake of understanding.
 - Same process will happen no mattern how long tree up there is.
 
-### Tricky example
+### Tricky example : guess the output
 ```
 struct base {
    virtual ~base() { f(); }
@@ -138,7 +139,7 @@ int main() {
    delete p;
 }
 ```
-- Output is `base`. Because standard mandates that the runtime type of the object is that of the class being constructed/destructed at this time, even if the original object that is being constructed/destructed is of a derived type.
+- Reason for answer : Standard mandates that the runtime type of the object is that of the class being constructed/destructed at this time, even if the original object that is being constructed/destructed is of a derived type. That's why it prints output `base`.
 
 ### Reference 
 - http://www.avabodh.com/cxxin/virtualbase.html
