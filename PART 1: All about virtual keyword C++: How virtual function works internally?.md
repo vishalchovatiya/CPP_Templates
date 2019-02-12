@@ -1,6 +1,7 @@
 ### Introduction
 - Before learning All about the virtual keyword in C++, I would like to clarify two things
-- Implementation of a virtual function is purely compiler dependent, no C++ standard is defined for this.
+    1. Implementation of a virtual function is purely compiler dependent
+    2. No C++ standard is defined for this.
 - Before learning anything new we have to see why it needed in first place.
 ### Why we need a virtual function?
 - Let us understand it with an example. Suppose you want to connect to the network or to other mobile using your smartphone.
