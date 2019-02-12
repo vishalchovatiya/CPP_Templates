@@ -1,10 +1,10 @@
 ### Introduction
-- In earlier article we have learned about virtual function. In this article we will learn about virtual class.
-- But i am iterating same thing as i have mentioned in earlier article as well. Implementation of a virtual mehcanism is purely compiler dependent, no C++ standard is defined for this. Here i am describing general approach.
-- Same as before, before learning anything new we have to see why it needed at first place.
+- In an earlier article, we have learned about virtual function. In this article, we will learn about the virtual class.
+- But I am iterating the same thing as I have mentioned in the earlier article as well. Implementation of a virtual mechanism is purely compiler dependent, no C++ standard is defined for this. Here I am describing the general approach.
+- Same as before, before learning anything new we have to see why it needed in first place.
 ### Why we need a virtual class?
-- When we use inheritance, we basically extending derived class wiht base class functionality. In simple word, base class object would be treated as sub-object in derived class.
-- This would create a problem in multiple inheritance, if base class sharing same mutual class as sub-object in top level hierarchy and you want to access its property. I know this statement is bit complex. Ok then let see example.
+- When we use inheritance, we basically extending derived class with base class functionality. In simple word, the base class object would be treated as sub-object in the derived class.
+- This would create a problem in multiple inheritances if base class sharing the same mutual class as sub-object in the top level hierarchy and you want to access its property. I know this statement is a bit complex. Ok then let see an example.
 ```
 class Top {public: int t; };
 class Left : public Top {public: int l; };
@@ -19,17 +19,17 @@ Left   Right
    \   /
    Bottom
 ```
-- An instance of `Bottom` will be made up of `Left`, which includes `Top`, and `Right` which also includes `Top`. So we have two sub-object of `Top`. This will create abiguity as follows:
+- An instance of `Bottom` will be made up of `Left`, which includes `Top`, and `Right` which also includes `Top`. So we have two sub-object of `Top`. This will create ambiguity as follows:
 ```
 Bottom *bot = new Bottom;
 bot->t = 5; // is this Left's t variable or Right's t variable ??
 ```
-- This was by far simplest reason for the need of virtual base class. Adding more to this, let we consider following scenarios for above example:
+- This was by far the simplest reason for the need of virtual base class. Adding more to this, let we consider the following scenarios for the above example:
 ```
 Top   *t_ptr1 = new Left;
 Top   *t_ptr2 = new Right; 
 ```
-These both will work fine as `Left` or `Right` object memory layout has `Top` subobject. You can see the memory layout of `Bottom` object for clear understanding.
+These both will work fine as `Left` or `Right` object memory layout has `Top` subobject. You can see the memory layout of the `Bottom` object for clear understanding.
 ```
 |                      |
 |----------------------|  <------ Bottom bot;   // Bottom object 
@@ -45,11 +45,11 @@ These both will work fine as `Left` or `Right` object memory layout has `Top` su
 |----------------------|
 |                      |
 ```
-Now what happens when we upcast a `Bottom` pointer?
+Now, what happens when we upcast a `Bottom` pointer?
 ```
 Left  *left = new Bottom;
 ```
-This will work fine as Bottom object memory layout start with `Left` subobject.
+This will work fine as Bottom object memory layout starts with `Left` subobject.
 However, what happens when we upcast to `Right`?
 ```
 Right  *right = new Bottom;
@@ -71,7 +71,7 @@ For this to work, we have to adjust the `right` pointer value to make it point t
 |                      |
 |                      |
 ```
-After this adjustment, we can access `Bottom` through the `right` pointer as a normal `Right` object.
+After this adjustment, we can access the `Bottom` through the `right` pointer as a normal `Right` object.
 But, what would happen when we do
 ```
 Top* Top = new Bottom;
@@ -87,7 +87,7 @@ Top* topR = (Right*) Bottom;
 ```
 
 ##### Solution 
-- Virtual inheritance is there to solve these problem. When you specify virtual when inheriting your classes, you're telling the compiler that you only want a single instance.
+- Virtual inheritance is there to solve this problem. When you specify virtual when inheriting your classes, you're telling the compiler that you only want a single instance.
 ```
 class Top {public: int t; };
 class Left : virtual public Top {public: int l; };
@@ -100,14 +100,14 @@ Bottom *bot = new Bottom;
 bot->t = 5; // no longer ambiguous
 ```
 - This may seem more obvious and simpler from a programmer's point of view, from the compiler's point of view, this is vastly more complicated. 
-- But interesting question is that How this `bot->t` will be addressed & handle by compiler ? Ok, this is the time to move on next point.
+- But interesting question is that How this `bot->t` will be addressed & handle by the compiler? Ok, this is the time to move on next point.
 
 ### How virtual class addressing mechanism works
 - A class containing one or more virtual base class subobjects, such as `Bottom`, is divided into two regions: 1). invariant region 2). a shared region. 
 - Data within the invariant region remains at a fixed offset(which will be decided in compilation step) from the start of the object regardless of subsequent derivations. So members within the invariant region can be accessed directly. In our case, its `Left` & `Right` & `Bottom`.
-- The shared region represents the virtual base class subobjects whose location within the shared region fluctuates with order of derivation & subsequent derivation. So members within the shared region need to be accessed indirectly.
-- An invariant region will be placed at start of objects memory layout and shared region will be placed at the end. 
-- The offset of these shared region objects will be updated in virtual table. Code necessary for this is augmented by compiler in constructor. See below image for reference.
+- The shared region represents the virtual base class subobjects whose location within the shared region fluctuates with an order of derivation & subsequent derivation. So members within the shared region need to be accessed indirectly.
+- An invariant region will be placed at the start of objects memory layout and the shared region will be placed at the end. 
+- The offset of these shared region objects will be updated in the virtual table. The code necessary for this is augmented by the compiler in the constructor. See below image for reference.
 ```
 |                        |          
 |------------------------| <------ Bottom bot;   // Bottom object           
@@ -137,13 +137,13 @@ Bottom *bot = new Bottom;
 (bot + _vptr_Left[-1])->t = 5;
 ```
 
-### Handling of virtual function in virtual base class
-- Handling of virtual function in virtual base class is same as we have discussed in our previour article with multiple inheritance. There is nothing special about it.
+### Handling of virtual function in the virtual base class
+- Handling of virtual function in virtual base class is the same as we have discussed in our previous article with multiple inheritances. There is nothing special about it.
 
-### Complications of using virtual base class
+### Complications of using the virtual base class
 > **Downcasting** 
-- As we have seen, casting of object Bottom to Right(in other words, upcasting) requires adding offset to pointer. One might be tempted to think that downcasting can then simply be implemented by subtracting the same offset.
-- This process is not easy for compiler as it seems. To understand this, let we go through example.
+- As we have seen, casting of object Bottom to Right(in other words, upcasting) requires adding offset to a pointer. One might be tempted to think that downcasting can then simply be implemented by subtracting the same offset.
+- This process is not easy for the compiler as it seems. To understand this, let us go through an example.
 ```
 class AnotherBottom : public Left, public Right
 {
@@ -152,7 +152,7 @@ public:
    int ab2;
 };
 ```
-- `Bottom` & `AnotherBottom` have same inhertance heirarchy except their own data members. Now consider the following code.
+- `Bottom` & `AnotherBottom` have the same inheritance hierarchy except for their own data members. Now consider the following code.
 ```
 Bottom* bottom1 = new Bottom();
 AnotherBottom* bottom2 = new AnotherBottom();
@@ -182,7 +182,7 @@ top1---->|------------------------|                     |-----------------------
 ```
 - Now consider how to implement the `static_cast` from `top1` to `left`, while taking into account that we do not know whether `top1` is pointing to an object of type `Bottom` or an object of type `AnotherBottom`. It can't be done! The necessary offset depends on the runtime type of `top1` (20 for `Bottom` and 24 for `AnotherBottom`). The compiler will complain:
 ```
-error: cannot convert from pointer to base class 'Top' to pointer to derived class 'Left' because the base is virtual
+error: cannot convert from a pointer to base class 'Top' to a pointer to derived class 'Left' because the base is virtual
 ```
 - Since we need runtime information, we need to use a dynamic cast instead:
 ```
@@ -192,7 +192,7 @@ Left* left = dynamic_cast<Left*>(top1);
 ```
 error: cannot dynamic_cast 'top1' (of type 'class Top*')to type 'class Left*' (source type is not polymorphic)
 ```
-- The problem is that a dynamic cast (as well as use of `typeid`) needs runtime type information about the object pointed to by `top1`. The compiler did not include that because it did not think that was necessary. To force the compiler to include that, we can add a virtual destructor to `Top`:
+- The problem is that a dynamic cast (as well as the use of `typeid`) needs runtime type information about the object pointed to by `top1`. The compiler did not include that because it did not think that was necessary. To force the compiler to include that, we can add a virtual destructor to `Top`:
 ```
 class Top
 {
@@ -201,15 +201,15 @@ public:
    int t;
 };
 ```
-- Thus, for downcasting object having virtual base class we need to have atleast one virtual function in virtual base class.
+- Thus, for a downcasting object having virtual base class we need to have at least one virtual function in the virtual base class.
 
 > **Double pointer hack**
-- Fow below code:
+- For below code:
 ```
 Bottom* b = new Bottom();
 Right* r = b;
 ```
-- We already know that the value of `b` gets adjusted by 8 bytes before it is assigned to `r`, so that it points to the `Right` section of the `Bottom` object). Thus, we can legally assign a `Bottom*` to a `Right*`. What about `Bottom**` and `Right**`?
+- We already know that the value of `b` gets adjusted by 8 bytes before it is assigned to `r` so that it points to the `Right` section of the `Bottom` object). Thus, we can legally assign a `Bottom*` to a `Right*`. What about `Bottom**` and `Right**`?
 ```
 Bottom** bb = &b;
 Right** rr = bb;
@@ -238,7 +238,7 @@ error: invalid conversion from `Bottom**' to `Right**'
 ```
 - So, `bb` and `rr` both point to `b`, and `b` and `r` point to the appropriate sections of the `Bottom` object. Now consider what happens when we assign to `*rr` (note that the type of `*rr` is `Right*`, so this assignment is valid):
 ```
-*rr = b;	
+*rr = b;    
 ```
 - This is essentially the same assignment as the assignment to `r` above. Thus, the compiler will implement it the same way! In particular, it will adjust the value of `b` by 8 bytes before it assigns it to `*rr`. But `*rr` pointed to `b`! If we visualise the result again:
 ```
@@ -262,7 +262,7 @@ error: invalid conversion from `Bottom**' to `Right**'
 - So, in summary, even if `*a` and `*b` are related by some subtyping relation, `**a` and `**b` are not.
 
 > **Constructors of virtual bases**
-- The compiler must guarantees that the constructor for all virtual bases of a class get invoked, and get invoked **only once**. If you don't explicitly call the constructors of your virtual base class (independent of how far up the tree they are), the compiler will automatically insert a call to their default constructors.
+- The compiler must guarantees that the constructor for all virtual bases of a class gets invoked, and get invoked **only once**. If you don't explicitly call the constructors of your virtual base class (independent of how far up the tree they are), the compiler will automatically insert a call to their default constructors.
 - This can lead to some unexpected results. Consider the same class hierarchy again we have been considering so far, extended with constructors:
 ```
 class Top
@@ -294,9 +294,9 @@ class Bottom : public Left, public Right
 public:
    Bottom() { d = -4; } 
    Bottom(int _a, int _b, int _c, int _d) : Left(_a, _b), Right(_a, _c) 
-	{ 
+    { 
       d = _d; 
-	}
+    }
    int d;
 };
 ```
@@ -334,7 +334,7 @@ if(r == b)
    printf("Equal!\n");
 ```
 - Bear in mind that the two addresses are not actually equal (r is off by 8 bytes). However, that should be completely transparent to the user; so, the compiler actually subtracts the 8 bytes from r before comparing it to b; thus, the two addresses are considered equal.
-- Although, this also stands true for following code.
+- Although, this also stands true for the following code.
 ```
 class base1{};
 class base2{};
