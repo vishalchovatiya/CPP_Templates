@@ -127,9 +127,49 @@ class Y : public X
     void printAll(){}
 };
 ```
-![](https://github.com/VisheshPatel/CPP_Templates/blob/master/images/Inheritence%20object%20model%20representation.png)
-
-- In the inheritance model, a base class is treated as a subobject of derived class & memory map is created accordingly(as you can see in above pic). Rest of the things are remaining the same.
+```
+      |                              |          
+      |------------------------------| <------ Y class object memory layout
+      |          int X::x            |
+stack |------------------------------|
+  |   |              int string::len |
+  |   |string X::str ----------------|
+  |   |            char* string::str |         
+ \|/  |------------------------------|      |-------|--------------------------|
+      |           Y::_vptr           |------|       |       type_info Y        |
+      |------------------------------|              |--------------------------|
+      |          int Y::y            |              |    address of Y::~Y()    |
+      |------------------------------|              |--------------------------|
+      |               o              |              | address of Y::printAll() |
+      |               o              |              |--------------------------|
+      |               o              |              
+      |                              |              
+------|------------------------------|--------
+      |           X::X()             | 
+      |------------------------------|       |   
+      |           X::~X()            |       |
+      |------------------------------|       | 
+      |         X::printAll()        |      \|/ 
+      |------------------------------|  text segment
+      |           Y::Y()             |
+      |------------------------------|
+      |           Y::~Y()            |
+      |------------------------------|
+      |         Y::printAll()        |
+      |------------------------------|
+      |      string::string()        |
+      |------------------------------|
+      |      string::~string()       |
+      |------------------------------|
+      |      string::length()        |
+      |------------------------------|
+      |               o              |
+      |               o              |
+      |               o              |
+      |                              |
+```
+- In the inheritance model, a base class is treated as a subobject of derived class & memory map is created accordingly(as you can see above). Rest of the things are remaining the same. 
+- All virtual function will be overridden in virtual table & code for this will generated in constructor of class by compiler. Which we have discussed in our [virtual function series](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%201:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20function%20works%20internally%3F.md).
 
 ### Multiple inheritence object model representation of below classes
 ```
