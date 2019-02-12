@@ -16,9 +16,30 @@ class X
     void printFloat(){}
 };
 ```
-![](https://github.com/VisheshPatel/CPP_Templates/blob/master/images/simple%20object%20model.png)
+```
+      |                        |          
+      |------------------------| <------ X class object memory layout
+      |        int X::x        |
+      |------------------------|  stack segment
+      |       float X::xx      |       |   
+      |------------------------|       |
+      |                        |      \|/
+      |                        |    
+      |                        |  
+      |                        |
+------|------------------------|----------------
+      |         X::X()         | 
+      |------------------------|       |   
+      |        X::~X()         |       |
+      |------------------------|      \|/
+      |      X::printInt()     |  text segment
+      |------------------------|
+      |     X::printFloat()    |
+      |------------------------|
+      |                        |            
+```
 
-- As you can see all data members are going into the stack with the same order of their declarations(which is guaranteed by most of the compilers, apparently) 
+- As you can see all data members are going into the stack with the same order of their declarations(which is guaranteed by most of the compilers, apparently).
 - All other methods, constructor, destructor & compiler augmented code(which I have not shown for simplicity) go into the text segment. These methods are then called using scope resolution operator & passed this pointer(not shown here for simplicity) of calling object in its 1st argument explicitly which we discuss in the separate article.
 
 ### Object with virtual & static keyword model representation of below class
