@@ -142,4 +142,5 @@ int main() {
 
 ### Reference 
 - http://www.avabodh.com/cxxin/virtualbase.html
-- 
+- https://stackoverflow.com/questions/7750280/how-does-virtual-destructor-work-in-c
+- Book: Inside C++ Object Model By Lippman
