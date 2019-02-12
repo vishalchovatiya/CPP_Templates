@@ -1,7 +1,7 @@
 ### Recap
 - We have already learned in our earlier post that how [virtual function]() & [virtual class]() works.
 - We left topic virtual destructor in these articles which we will learn now.
-- As usual, before learning about virtual destructor we will see why it needed at first place.
+- As usual, before learning about virtual destructor we will see why it needed in first place.
 ### Why we need a virtual destructor?
 - We will understand this with our earlier example(slightly twisted) which was as follow:
 ```
@@ -66,24 +66,24 @@ int main()
 ```
 - So, we have created `wifi_t` & `bluetooth_t` objects dynamically in `main()` and passed it to function `makeConnection()`.
 - An objects of `wifi_t`, `bluetooth_t` & `protocol_t` also uses heap memory at construction & destruction time.
-- Well, this code compiles & runs fine without any error. But when you run above code, at the time of `delete protocol` line it alwasy call destructor of `protocol_t` which you can verify by `~protocol_t` print on console.
-- We are freeing only sub-object resources which is `protocol_t` in call of `~protocol_t()` destructor. This means that there is memory leak as we are not freeing heap memory resource of object pointed by pointer `protocol_t` in function `makeConnection()`.
-- We even dont know the type of object `protocol_t` pointer pointed to at run time.
+- Well, this code compiles & runs fine without any error. But when you run above code, at the time of `delete protocol` line it always calls the destructor of `protocol_t` which you can verify by `~protocol_t` print on console.
+- We are freeing only sub-object resources which is `protocol_t` in call of `~protocol_t()` destructor. This means that there is a memory leak as we are not freeing heap memory resource of an object pointed by pointer `protocol_t` in function `makeConnection()`.
+- We even don't know the type of object `protocol_t` pointer pointed to at run time.
 - Virtual destructors are there to solve this problem. What we have to do is that
 ```
 virtual ~protocol_t() { cout<<"~protocol_t"; delete _type; }
 ```
-- Put keyword virtual in front of `~protocol_t()` destructor. Now `delete protocol` line will not directly call destructor of `protocol`, rather it calls destructor indirectly i.e. using virtual table mechanism.
+- Put keyword virtual in front of `~protocol_t()` destructor. Now `delete protocol` line will not directly call the destructor of `protocol`, rather it calls destructor indirectly i.e. using virtual table mechanism.
 - This way it calls the destructor of object pointed i.e. either `~wifi_t()` or `~bluetooth_t()` by pointer `protocol` & then call destructor of its base class i.e. `~protocol_t()`.
 
 ### How virtual destructor works?
 
-- The question is that how our destructor of derived class called. Answer is simple it just overridden in virtual table. Lets understand it with assumption that our pointer `protocol` points to object of type `wifi_t`.
+- The question is how our destructor of a derived class called. The answer is simple it just is overridden in the virtual table. Let's understand it with the assumption that our pointer `protocol` points to object of type `wifi_t`.
 ```
 protocol_t *protocol = new wifi_t;
 delete protocol;
 ```
-- Here is memory layout of object `wifi_t`
+- Here is the memory layout of object `wifi_t`
 ```
 |                                |          
 |--------------------------------| <------ wifi_t class object memory layout
@@ -104,8 +104,8 @@ delete protocol;
 ```
 ( * protocol->vptr[ 3 ])( protocol ); 
 ```
-- Till here it was simple for us to understand how things are working because this is virtual function mechanism which we have seen in earlier articles. But real magic comes when destructor of class `protocol_t` will be called.
-- This is again augmented code by compiler in derived class destructor & probably would become:
+- Till here it was simple for us to understand how things are working because this is a virtual function mechanism which we have seen in earlier articles. But the real magic comes when destructor of class `protocol_t` will be called.
+- This is again augmented code by the compiler in derived class destructor & probably would become:
 ```
 ~wifi_t() { 
 	cout<<"~wifi_t"; 
@@ -123,9 +123,9 @@ delete protocol;
 }
 ```
 - The process of destructing an object takes more operations than those you write inside the body of the destructor. When the compiler generates the code for the destructor, it adds extra code both before and after the user defined code. Here we have only taken `after code` for the sake of understanding.
-- Same process will happen no mattern how long tree up there is.
+- The same process will happen no matter how long tree up there is.
 
-### Tricky example : guess the output
+### Tricky example: guess the output
 ```
 struct base {
    virtual ~base() { f(); }
@@ -139,7 +139,7 @@ int main() {
    delete p;
 }
 ```
-- Reason for answer : Standard mandates that the runtime type of the object is that of the class being constructed/destructed at this time, even if the original object that is being constructed/destructed is of a derived type. That's why it prints output `base`.
+- Reason for answer: Standard mandates that the runtime type of the object is that of the class being constructed/destructed at this time, even if the original object that is being constructed/destructed is of a derived type. That's why it prints the output `base`.
 
 ### Reference 
 - http://www.avabodh.com/cxxin/virtualbase.html
