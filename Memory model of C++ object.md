@@ -103,6 +103,7 @@ stack |------------------------|
 - For virtual keyword, the compiler automatically inserts pointer(vptr) to a virtual table which is used to transform direct function calling in an indirect call(we will see this is a separate article). This virtual table will be created in data segment only.
 - In a virtual table, 1st entry points to a type_info object which contain information related to current class & DAG(Directed Acyclic Graph) of other base classes if it is derived from them.
 - Although, compiler performs name mangling which i have not shown for simplicity.
+- I have not mentioned data type of `vptr` which also standard does not mention(even i dont know that).
 
 ### Memory layout of class with inheritence
 ```
