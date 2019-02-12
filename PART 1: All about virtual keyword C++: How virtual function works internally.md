@@ -1,7 +1,7 @@
 ### Introduction
 - Before learning All about the virtual keyword in C++, I would like to clarify two things
 - Implementation of a virtual function is purely compiler dependent, no C++ standard is defined for this.
-- Before learning anything we have to see why it needed in first place.
+- Before learning anything new we have to see why it needed in first place.
 ### Why we need a virtual function?
 - Let us understand it with an example. Suppose you want to connect to the network or to other mobile using your smartphone.
 - You have two choices Bluetooth or Wifi. Although these two are completely different technologies, still some things are common in them at an abstract level like both are communication protocol, both need authentication, etc.
@@ -204,7 +204,7 @@ class derived : public base1, public  base2{
 |                        |                     |----------------------|
 |                        |                     |   base2::base2_func  |
 |                        |                     |----------------------|
-                                               |    derived::print   |
+                                               |    derived::print    |
                                                |----------------------|
 ```
 - To understand that, first let's assign a `base2` pointer the address of a `derived` class object allocated on the heap:
