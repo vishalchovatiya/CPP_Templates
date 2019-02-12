@@ -16,6 +16,7 @@ class X
     void printFloat(){}
 };
 ```
+- Memory layout: 
 ```
       |                        |          
       |------------------------| <------ X class object memory layout
@@ -60,6 +61,7 @@ class X
     static void printCount(){}
 };
 ```
+- Memory layout:
 ```
       |                        |          
       |------------------------| <------ X class object memory layout
@@ -127,6 +129,7 @@ class Y : public X
     void printAll(){}
 };
 ```
+- Memory layout:
 ```
       |                              |          
       |------------------------------| <------ Y class object memory layout
@@ -168,7 +171,7 @@ stack |------------------------------|
       |               o              |
       |                              |
 ```
-- In the inheritance model, a base class is treated as a subobject of derived class & memory map is created accordingly(as you can see above). Rest of the things are remaining the same. 
+- In the inheritance model, a base class & a data member classes is treated as a subobject of derived class & memory map is created accordingly(as you can see above). 
 - All virtual function will be overridden in virtual table & code for this will generated in constructor of class by compiler. Which we have discussed in our [virtual function series](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%201:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20function%20works%20internally%3F.md).
 
 ### Multiple inheritence object model representation of below classes
