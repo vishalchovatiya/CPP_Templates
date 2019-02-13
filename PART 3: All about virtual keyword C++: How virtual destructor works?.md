@@ -125,6 +125,34 @@ delete protocol;
 - The process of destructing an object takes more operations than those you write inside the body of the destructor. When the compiler generates the code for the destructor, it adds extra code both before and after the user defined code. Here we have only taken `after code` for the sake of understanding.
 - The same process will happen no matter how long tree up there is.
 
+### Verifying compiler augmented code in case of the virtual destructor
+- Although you can not see compiler augmented code(unless if you disassemble it), we can use one hack that will prove that compiler insert the call of base class destructor in a derived class destructor when we use a virtual destructor. Let see the following code
+```
+class base {
+  public:
+    virtual ~base()=0;
+};
+
+class derived : public base{
+  public:
+    ~derived(){}
+};
+
+int main(){
+  base *pbase = new derived;
+  delete pbase;
+  return 0;
+}
+```
+- When we make destructor of base class pure virtual, compiler will throw following error at the time of linking:
+```
+exit status 1
+/tmp/main-06bc44.o: In function `derived::~derived()':
+main.cpp:(.text._ZN7derivedD2Ev[_ZN7derivedD2Ev]+0x11): undefined reference to `base::~base()'
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+```
+- Hence, compiler tried to add the code of base class destructor call in derived class destructor, but due to unavailibility of base class destructor definition linker exited with error.
+
 ### Tricky example: guess the output
 ```
 struct base {
