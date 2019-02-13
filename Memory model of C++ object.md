@@ -1,4 +1,6 @@
-## How different object stores in memory ?
+### Bit about this article
+- Here i have tried to show you that how different objects are stored in memory. We are not going to discuss about compiler augmented code, name mangaling & working of any C++ mechanism.
+- Its just all about how different object will be represented in memory.
 
 ### Memory layout of simple non-polymorphic class
 
@@ -41,7 +43,7 @@ class X
 ```
 
 - As you can see all data members are going into the stack with the same order of their declarations(which is guaranteed by most of the compilers, apparently).
-- All other methods, constructor, destructor & compiler augmented code(which I have not shown for simplicity) go into the text segment. These methods are then called using scope resolution operator & passed this pointer(not shown here for simplicity) of calling object in its 1st argument explicitly which we discuss in the separate article.
+- All other methods, constructor, destructor & compiler augmented code(which I have not shown for simplicity) go into the text segment. These methods are then called & passed this pointer(not shown here for simplicity) of calling object in its 1st argument explicitly which we discuss in the separate article.
 
 ### Memory layout of class having virtual function & static data member 
 ```
@@ -97,12 +99,11 @@ stack |------------------------|
       |------------------------|
       |                        |
 ```
-- All non-static data members are going into the stack with the same order of their declaration as we already seen in above point.
-- Static data member goes into the data segment of memory & it is accessed by scope resolution operator.
+- All non-static data members are going into the stack with the same order of their declaration as we already seen in previous point.
+- Static data member goes into the data segment of memory & it is accessed by scope resolution operator. After compilation, there is nothing like scope & namespace, its just name mangling performed by compiler, everything will be referred by its address. You can google this to understand clearly.
 - Static methods are goes in text segment & are called with scope resolution operator except this pointer is not passed in its argument.
-- For virtual keyword, the compiler automatically inserts pointer(vptr) to a virtual table which is used to transform direct function calling in an indirect call(we will see this is a separate article). This virtual table will be created in data segment only.
+- For virtual keyword, the compiler automatically inserts pointer(vptr) to a virtual table which is used to transform direct function calling in an indirect call(we will also see this in a separate article). This virtual table will be created statically in data segment . Although this depends on compiler implementation.
 - In a virtual table, 1st entry points to a type_info object which contain information related to current class & DAG(Directed Acyclic Graph) of other base classes if it is derived from them.
-- Although, compiler performs name mangling which i have not shown for simplicity.
 - I have not mentioned data type of `vptr` which also standard does not mention(even i dont know that).
 
 ### Memory layout of class with inheritence
@@ -140,7 +141,7 @@ stack |------------------------------|
   |   |string X::str ----------------|
   |   |            char* string::str |         
  \|/  |------------------------------|      |-------|--------------------------|
-      |           Y::_vptr           |------|       |       type_info Y        |
+      |           X::_vptr           |------|       |       type_info Y        |
       |------------------------------|              |--------------------------|
       |          int Y::y            |              |    address of Y::~Y()    |
       |------------------------------|              |--------------------------|
@@ -173,7 +174,7 @@ stack |------------------------------|
       |                              |
 ```
 - In the inheritance model, a base class & a data member classes is treated as a subobject of derived class & memory map is created accordingly(as you can see above). 
-- All virtual function will be overridden in virtual table & code for this will generated in constructor of class by compiler. Which we have discussed in our [virtual function series](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%201:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20function%20works%20internally%3F.md).
+- All virtual function will be overridden in virtual table & code for this will be generated in constructor of class by compiler. Which we have discussed in our [virtual function series](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%201:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20function%20works%20internally%3F.md).
 
 ### Memory layout of class having multiple inheritence with virtual function
 ```
@@ -240,7 +241,8 @@ stack |          int X::x            |
       |               o              |
       |                              |
 ```
-
+- In multiple inhertance heirarchy, exact number of virtual table created will be N-1, where N represents number of classes.
+- Now, rest of things will be easy to understand for you, i guess.
 ### Memory layout of class having virtual inheritence
 ```
 class X {int x;};
@@ -272,4 +274,4 @@ shared sub-object   |------------------|             |       .....      |
     1. an invariant region
     2. a shared region. 
 - Data within the invariant region remains at a fixed offset from the start of the object regardless of subsequent
-derivations. But virtual base class memory region is not fixed because it is shared region & it fluctuates with subsequent derivation & order of derivation. We will see more on this in separate article.
+derivations. But virtual base class memory region is not fixed because it is shared region & it fluctuates with subsequent derivation & order of derivation. I have discusssed more on this in [PART 2:All about virtual keyword C++](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%202:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20class%20works%20internally%3F.md).
