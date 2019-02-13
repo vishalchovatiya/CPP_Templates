@@ -180,26 +180,67 @@ stack |------------------------------|
 class X {
   public:
     int x;
-    virtual ~X(){//...}
-    virtual void printX(){//...}
+    virtual ~X(){cout<<"~X()\n";}
+    virtual void printX(){cout<<"X::printX()\n";}
 };
 
 class Y {
   public:
     int y;
-    virtual ~Y(){//...}
-    virtual void printY(){//...}
+    virtual ~Y(){cout<<"~Y()\n";}
+    virtual void printY(){cout<<"Y::printY()\n";}
 };
 
 class Z : public X, public Y {
   public:
     int z;
-    ~Z(){//...}
-    void printX(){//...}
-    void printY(){//...}
-    void printZ(){//...}
+    ~Z(){cout<<"~Z()\n";}
+    void printX(){cout<<"Z::printX()\n";}
+    void printY(){cout<<"Z::printY()\n";}
+    void printZ(){cout<<"Z::printZ()\n";}
 };
 ```
+- Memory layout: 
+```
+      |                              |          
+      |------------------------------| <------ Z class object memory layout
+stack |          int X::x            |
+  |   |------------------------------|      |-------|--------------------------|
+  |   |          X:: _vptr           |------|       |       type_info Z        |
+  |   |------------------------------|              |--------------------------|
+ \|/  |          int Y::y            |              |    address of Z::~Z()    |
+      |------------------------------|              |--------------------------|
+      |          Y:: _vptr           |------|       |   address of Z::printX() |
+      |------------------------------|      |       |--------------------------|
+      |          int Z::z            |      |
+      |------------------------------|      |
+      |              o               |      |-------|--------------------------|
+      |              o               |              |       type_info Z        |
+      |              o               |              |--------------------------|
+      |                              |              |    address of Z::~Z()    |
+------|------------------------------|---------     |--------------------------|
+      |           X::~X()            |       |      |   address of Z::printY() |
+      |------------------------------|       |      |--------------------------|   
+      |          X::printX()         |       |
+      |------------------------------|       | 
+      |           Y::~Y()            |      \|/ 
+      |------------------------------|  text segment
+      |          Y::printY()         |
+      |------------------------------|
+      |           Z::~Z()            |
+      |------------------------------|
+      |          Z::printX()         |
+      |------------------------------|
+      |          Z::printY()         |
+      |------------------------------|
+      |          Z::printZ()         |
+      |------------------------------|
+      |               o              |
+      |               o              |
+      |               o              |
+      |                              |
+```
+
 ### Memory layout of class having virtual inheritence
 ```
 class X {};
@@ -207,7 +248,7 @@ class Y : public virtual X {};
 class Z : public virtual X {};
 class A : public Y, public Z {};
 ```
-![](Insert image HERE)
+
 - Memory representation of derived class having one or more virtual base class is divided into two regions: 1). an invariant region & 2). a shared region. Data within the invariant region remains at a fixed offset from the start of the object regardless of subsequent
 derivations. But base class memory region is not fixed because it is shared region & it fluctuates with each derivation. We will see the access of shared region in separate article.
 - Page 74 of 182
