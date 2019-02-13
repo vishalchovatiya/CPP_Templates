@@ -18,8 +18,8 @@ public:
 ```
 - So by default compiler will generate:
 	1. default constructor
-	2. copy constructor operator
-	3. copy-assign 
+	2. copy constructor 
+	3. copy-assign operator
 	4. desstructor
 	5. move constructor
 	6. move-assign operator
