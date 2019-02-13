@@ -15,7 +15,7 @@
 14. [Getting Started With Lambda Expression in C++](https://github.com/VisheshPatel/CPP_Templates/blob/master/Getting%20Started%20With%20Lambda%20Expression%20in%20C%2B%2B.md).
 15. [Printing containers](https://github.com/VisheshPatel/CPP_Templates/blob/master/Printing%20containers.md).
 16. [String processing in C++](https://github.com/VisheshPatel/CPP_Templates/blob/master/String%20processing%20in%20C++.md).
-17. [How C++ object transform in executable program](https://github.com/VisheshPatel/CPP_Templates/blob/master/How%20C++%20object%20transform%20in%20executable%20program.md).
+17. [How C++ uses an object in the executable program](https://github.com/VisheshPatel/CPP_Templates/blob/master/How%20C++%20uses%20an%20object%20in%20the%20executable%20program.md).
 18. [Memory model of C++ object](https://github.com/VisheshPatel/CPP_Templates/blob/master/Memory%20model%20of%20C++%20object.md)
 19. [All about copy constructor-----COMPLETED](https://github.com/VisheshPatel/CPP_Templates/blob/master/All%20about%20copy%20constructor.md)
 20. [PART 1: All about virtual keyword C++: How virtual function works internally?](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%201:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20function%20works%20internally%3F.md).
