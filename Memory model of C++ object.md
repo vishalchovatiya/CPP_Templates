@@ -1,8 +1,8 @@
 ### Bit about this article
-- Here i have tried to show you that how different objects are stored in memory. We are not going to discuss about compiler augmented code, name mangaling & working of any C++ mechanism.
-- Its just all about how different object will be represented in memory.
+- Here I have tried to show you how different objects are stored in memory. We are not going to discuss compiler augmented code, name mangling & working of any C++ mechanism.
+- It's just all about how different object will be represented in memory.
 
-### Memory layout of simple non-polymorphic class
+### Memory layout of the simple non-polymorphic class
 
 ```
 class X
@@ -99,14 +99,14 @@ stack |------------------------|
       |------------------------|
       |                        |
 ```
-- All non-static data members are going into the stack with the same order of their declaration as we already seen in previous point.
-- Static data member goes into the data segment of memory & it is accessed by scope resolution operator. After compilation, there is nothing like scope & namespace, its just name mangling performed by compiler, everything will be referred by its address. You can google this to understand clearly.
+- All non-static data members are going into the stack with the same order of their declaration as we already seen in the previous point.
+- Static data member goes into the data segment of memory & it is accessed by scope resolution operator. After compilation, there is nothing like scope & namespace, its just name mangling performed by the compiler, everything will be referred by its address. You can google this to understand clearly.
 - Static methods are goes in text segment & are called with scope resolution operator except this pointer is not passed in its argument.
-- For virtual keyword, the compiler automatically inserts pointer(vptr) to a virtual table which is used to transform direct function calling in an indirect call(we will also see this in a separate article). This virtual table will be created statically in data segment . Although this depends on compiler implementation.
-- In a virtual table, 1st entry points to a type_info object which contain information related to current class & DAG(Directed Acyclic Graph) of other base classes if it is derived from them.
-- I have not mentioned data type of `vptr` which also standard does not mention(even i dont know that).
+- For virtual keyword, the compiler automatically inserts pointer(vptr) to a virtual table which is used to transform direct function calling in an indirect call(we will also see this in a separate article). This virtual table will be created statically in the data segment. Although this depends on compiler implementation.
+- In a virtual table, 1st entry points to a type_info object which contains information related to current class & DAG(Directed Acyclic Graph) of other base classes if it is derived from them.
+- I have not mentioned data type of `vptr` which also standard does not mention(even I don't know that).
 
-### Memory layout of class with inheritence
+### Memory layout of class with inheritance
 ```
 class X
 {  
@@ -176,7 +176,7 @@ stack |------------------------------|
 - In the inheritance model, a base class & a data member classes is treated as a subobject of derived class & memory map is created accordingly(as you can see above). 
 - All virtual function will be overridden in virtual table & code for this will be generated in constructor of class by compiler. Which we have discussed in our [virtual function series](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%201:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20function%20works%20internally%3F.md).
 
-### Memory layout of class having multiple inheritence with virtual function
+### Memory layout of the class having multiple inheritance with virtual function
 ```
 class X {
   public:
@@ -274,4 +274,4 @@ shared sub-object   |------------------|             |       .....      |
     1. an invariant region
     2. a shared region. 
 - Data within the invariant region remains at a fixed offset from the start of the object regardless of subsequent
-derivations. But virtual base class memory region is not fixed because it is shared region & it fluctuates with subsequent derivation & order of derivation. I have discusssed more on this in [PART 2:All about virtual keyword C++](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%202:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20class%20works%20internally%3F.md).
+derivations. But virtual base class memory region is not fixed because it is a shared region & it fluctuates with subsequent derivation & order of derivation. I have discussed more on this in [PART 2: All about virtual keyword C++](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%202:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20class%20works%20internally%3F.md).
