@@ -17,7 +17,7 @@
 16. [String processing in C++](https://github.com/VisheshPatel/CPP_Templates/blob/master/String%20processing%20in%20C++.md).
 17. [How C++ uses an object in the executable program](https://github.com/VisheshPatel/CPP_Templates/blob/master/How%20C++%20uses%20an%20object%20in%20the%20executable%20program.md).
 18. [Memory model of C++ object](https://github.com/VisheshPatel/CPP_Templates/blob/master/Memory%20model%20of%20C++%20object.md)
-19. [All about copy constructor-----COMPLETED](https://github.com/VisheshPatel/CPP_Templates/blob/master/All%20about%20copy%20constructor.md)
+19. [All about copy constructor](https://github.com/VisheshPatel/CPP_Templates/blob/master/All%20about%20copy%20constructor.md)
 20. [PART 1: All about virtual keyword C++: How virtual function works internally?](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%201:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20function%20works%20internally%3F.md).
 21. [PART 2: All about virtual keyword C++: How virtual class works internally?](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%202:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20class%20works%20internally%3F.md).
 22. [PART 3: All about virtual keyword C++: How virtual destructor works?](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%203:%20All%20about%20virtual%20keyword%20C%2B%2B:%20How%20virtual%20destructor%20works%3F.md).
