@@ -127,3 +127,4 @@ this->_vptr[0] = type_info("class_name");
 ```
 ### Reference
 - https://stackoverflow.com/questions/3734247/what-are-all-the-member-functions-created-by-compiler-for-a-class-does-that-hap
+- Book: Inside C++ Object Model By Lippman
