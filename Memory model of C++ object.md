@@ -243,12 +243,33 @@ stack |          int X::x            |
 
 ### Memory layout of class having virtual inheritence
 ```
-class X {};
-class Y : public virtual X {};
-class Z : public virtual X {};
-class A : public Y, public Z {};
+class X {int x;};
+class Y : public virtual X {int y;};
+class Z : public virtual X {int z;};
+class A : public Y, public Z {int a;};
+```
+- Memory layout: 
+```
+                    |                  |          
+ Y class  --------> |------------------| <------ A class object memory layout
+sub-object          |    Y::y          |          
+                    |------------------|             |------------------| 
+                    |    Y::_vptr_Y    |------|      |    offset of X   | // offset starts from Y subobject = 20
+ Z class  --------> |------------------|      |----> |------------------|
+sub-object          |    Z::z          |             |       .....      |
+                    |------------------|             |------------------|  
+                    |    Z::_vptr_Z    |------|       
+                    |------------------|      |        
+ A sub-object ----> |    A::a          |      |      |------------------| 
+                    |------------------|      |      |    offset of X   | // offset starts from Z subobject = 12
+ X class ---------> |    X::x          |      |----> |------------------|                              
+shared sub-object   |------------------|             |       .....      |                                    
+                    |                  |             |------------------|                                            
+                    |                  |           
 ```
 
-- Memory representation of derived class having one or more virtual base class is divided into two regions: 1). an invariant region & 2). a shared region. Data within the invariant region remains at a fixed offset from the start of the object regardless of subsequent
-derivations. But base class memory region is not fixed because it is shared region & it fluctuates with each derivation. We will see the access of shared region in separate article.
-- Page 74 of 182
+- Memory representation of derived class having one or more virtual base class is divided into two regions: 
+    1. an invariant region
+    2. a shared region. 
+- Data within the invariant region remains at a fixed offset from the start of the object regardless of subsequent
+derivations. But virtual base class memory region is not fixed because it is shared region & it fluctuates with subsequent derivation & order of derivation. We will see more on this in separate article.
