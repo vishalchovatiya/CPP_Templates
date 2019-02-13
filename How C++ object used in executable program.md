@@ -20,7 +20,7 @@ X foobar()
 };
 
 ```
-- Probable internal transformation
+- Probable internal transformation would be:
 ```
 void foobar( X &_result )
 {
@@ -91,6 +91,11 @@ Bar::Bar()
 - In the case of inheritance, constructor calling sequence is started from base(top-down) to derived manner. Constructor synthesis & augmentation remain same as above. So in above case if you derive `Bar` from `Base` then constructor calling sequence would be `Base` -> `Foo` -> `Bar`.
 
 ### How & where destructor code transform/synthesize with inheritance & composition class ?
-- In case of destructor, calling sequence is exactly reverse that of a constructor. Like in above case it would be `Bar` -> `Foo` -> `Base`. Synthesis & augmentation remain same as above.
+- In case of destructor, calling sequence is exactly the reverse that of a constructor. Like in above case it would be `Bar` -> `Foo` -> `Base`. Synthesis & augmentation remain same as above.
 
-### How & where virtual table inserted in code ?
+### How & where virtual table code will be inserted?
+- Virtual table code will be insereted by compiler before & after user written code in constructor & destructor that too on demand of user implementation.
+- For the question "How virtual table code will be inserted?", my answer is this is purely compiler dependent. C++ standard only mandates behaviour. Although this would not be complex. It probably would look like:
+```
+this->_vptr[0] = type_info("class_name");
+```
