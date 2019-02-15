@@ -1,7 +1,7 @@
 ### Brief
 - Here we are going to learn about copy assignment operator. Although I am not an expert but this what I have learned so far from various sources. So this article is basically a collection of connected dots while i was introducing C++ to myself.
 - We will not learn basic things. I am not going to tell you that this is basic function compiler provides if you dont define that in your class nor i will tell calling & synthesis of this function. We will learn why it is needed & basic function to have in your class, why it like that only & what it should look like. So let's start.
-### Why we need it? <----- all time my faviroute quesion.
+### Why we need it? <----- my all time favriote quesion.
 
 ### Why we need to return something from copy assignment operator?
 ```
@@ -24,9 +24,74 @@ X x1(1), x2(2), x3(3);
 x3 = x2 = x1;
 ```
 - If you make return type of copy assignment operator function as `void`, compiler wont throw error till you are using `x2 = x1;`.But when assignment chain will be created you have to return something so that it can be argument on further call to copy assignment operator.
-- So we find out that we have return something from copy assignment operator to support assignment chainning feature. But what should be appropriate return type? This will lead us to our next topic as follows.
+- So we find out that we have to return something from copy assignment operator to support assignment chainning feature. But what should be appropriate return type? This will lead us to our next topic as follows.
 
 ### What should be the appropriate return type of copy assignment operator?
-https://www.youtube.com/watch?v=9WPUU9Uzaus
+- I know, you will say reference & its right but why not return by value or pointer ?
+
+> **Let's try `return by value`**
+
+```
+class X{
+public:
+  int var;
+
+  X(int x){this->var = x;}
+
+  X operator = (X &rhs){
+    this->var = rhs.var;
+    return *this;
+  }  
+};
+
+int main(){
+  X x1(1), x2(2), x3(3);
+
+  x2 = x1;          // Statement 1: Correct & works fine 
+  (x3 = x2) = x1;   // Statement 2: Correct, but meaning less statement
+  x3 = (x2 = x1);   // Statement 3: Meaningful but compiler won't alllow us
+  x3 = x2 = x1;     // Statement 4: Meaningful but compiler won't alllow us
+
+  cout<<x1.var<<"\n";
+  cout<<x2.var<<"\n";
+  cout<<x3.var<<"\n";
+  
+  return 0;
+ }
+```
+- When you will compile above code, gcc will throw error as follows:
+```
+error: no viable overloaded '='
+  x3 = (x2 = x1);   // Statement 3: Meaningful but compiler won't alllow us
+  ~~ ^ ~~~~~~~~~
+main.cpp:13:5: note: candidate function not viable: expects an l-value for 1st argument
+  X operator = (X &rhs){
+    ^
+```
+- Lets go one-by-one
+```
+x2 = x1;          // Statement 1: Correct & works fine
+(x3 = x2) = x1;   // Statement 2: Correct, but meaning less statement
+```
+- These two statements are perfectly fine & have no prblem in compilation. But `Statemetn 2` is meaning less as we are first assigning `x2` into `x3` which returns temporary object which again calls copy assignment operator with `x1` as argument. This works fine but at the end call of copy assignment operator we are assigning value of `x1` to temporary object.
+```
+(x3 = x2) = x1;   // Statement 2: Correct, but meaning less statement
+```
+- Probable transformation by compiler would be
+```
+(X::x3.operator=(x2))..operator=(x1);
+```
+- With more simplicity
+```
+X temp = X::x3.operator=(x2);
+X::temp.operator=(x1);
+```
+- So this way output would be `1 2 2` which is not correct. Now we will observe `Statement 3`
+```
+x3 = (x2 = x1);   // Statement 3: Meaningful but compiler won't alllow us
+```
+
+### addition & substraction operator overload
+
 ### References
 - https://stackoverflow.com/questions/3105798/why-must-the-copy-assignment-operator-return-a-reference-const-reference
