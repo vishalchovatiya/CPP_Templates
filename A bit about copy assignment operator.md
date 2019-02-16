@@ -194,9 +194,6 @@ a = b = c;
 X x1(5), x2, x3;
 x3 = x2 = x1;
 ```
-
-### addition & substraction operator overload
-
 ### References
 - https://stackoverflow.com/questions/3105798/why-must-the-copy-assignment-operator-return-a-reference-const-reference.
 - https://www.geeksforgeeks.org/assignment-operator-overloading-in-c/
