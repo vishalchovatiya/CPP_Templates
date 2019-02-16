@@ -2,7 +2,10 @@
 - Here we are going to learn about copy assignment operator. Although I am not an expert but this what I have learned so far from various sources. So this article is basically a collection of connected dots while i was introducing C++ to myself.
 - We will not learn basic things. I am not going to tell you that this is basic function compiler provides if you dont define that in your class nor i will tell calling & synthesis of this function. We will learn why it is needed & basic function to have in your class, why it like that only & what it should look like. So let's start.
 ### Why we need it? <----- my all time favriote quesion.
-
+- Simple answer is just to assign data. As we do assignment in primitive data like 'int a; a = 5' some times we also need to do this in our user defined data type i.e. class.
+- Class could be complex entity so that we need special function which does this task. Although compiler provide default copy constuctor. But in some cases you have to define your own copy assignment operator function like:
+  1. Write your own assignment operator that does deep copy if you are using dynamic memory.
+  2. Do not allow assignment of one object to other object. We can create our own dummy assignment operator and make it private.
 ### Why we need to return something from copy assignment operator?
 ```
 class X{
@@ -191,4 +194,5 @@ x3 = x2 = x1;
 ### addition & substraction operator overload
 
 ### References
-- https://stackoverflow.com/questions/3105798/why-must-the-copy-assignment-operator-return-a-reference-const-reference
+- https://stackoverflow.com/questions/3105798/why-must-the-copy-assignment-operator-return-a-reference-const-reference.
+- https://www.geeksforgeeks.org/assignment-operator-overloading-in-c/
