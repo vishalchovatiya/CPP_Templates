@@ -18,16 +18,16 @@ public:
 X x1(1), x2(2);
 x2 = x1;          // Probably be transform into X::x2.operator=(x1);
 ```
-- While i was learning about copy assignment operator, i always have doubt why we return value from copy assignment operator function. We dont need to, if you look at above code we are already assigning to current object i.e. `x2` who called copy assignment operator function. I can understand the need of `const` in argument of copy assignment operator function. But return value was not justifiable to me till i saw following code:
+- While i was learning about copy assignment operator, i always have doubt why we return value from copy assignment operator function. We dont need to, if you look at above code we are already assigning to current object i.e. `x2` using `this` pointer who called copy assignment operator function. I can understand the need of `const` in argument of copy assignment operator function. But return value was not justifiable to me till i saw following code:
 ```
 X x1(1), x2(2), x3(3);
 x3 = x2 = x1;
 ```
-- If you make return type of copy assignment operator function as `void`, compiler wont throw error till you are using `x2 = x1;`.But when assignment chain will be created you have to return something so that it can be argument on further call to copy assignment operator.
-- So we find out that we have to return something from copy assignment operator to support assignment chainning feature. But what should be appropriate return type? This will lead us to our next topic as follows.
+- If you make return type of copy assignment operator function as `void`, compiler wont throw error till you are using `x2 = x1;`.But when assignment chain will be created like `x3 = x2 = x1;` you have to return something so that it can be argument on further call to copy assignment operator.
+- So it is to return something from copy assignment operator to support assignment chainning feature. But what should be appropriate return type? This will lead us to our next topic as follows.
 
 ### What should be the appropriate return type of copy assignment operator?
-- I know, you will say reference & its right but why not return by value or pointer ?
+- I know, you will say we have to return reference to current object in which we have assigned rvalue & yeh! that's corrent also but why not return by value or pointer ?
 
 > **Let's try `return by value`**
 
@@ -68,25 +68,25 @@ main.cpp:13:5: note: candidate function not viable: expects an l-value for 1st a
   X operator = (X &rhs){
     ^
 ```
-- Lets go one-by-one
+- Lets understand all these statements one-by-one
 ```
 x2 = x1;          // Statement 1: Correct & works fine
+```
+- This is correct & works fine as we are not using return value provided by copy assignment operator fiunction anywhere else.
+```
 (x3 = x2) = x1;   // Statement 2: Correct, but meaning less statement
 ```
-- These two statements are perfectly fine & have no prblem in compilation. But `Statemetn 2` is meaning less as we are first assigning `x2` into `x3` which returns temporary object which again calls copy assignment operator with `x1` as argument. This works fine but at the end call of copy assignment operator we are assigning value of `x1` to temporary object.
+- This statements is perfectly fine & have no prblem in compilation. But `Statemetn 2` is meaning less as we are first assigning `x2` into `x3` which returns temporary object which again calls copy assignment operator with `x1` as argument. This works fine but at the end call of copy assignment operator, we are assigning value of `x1` to temporary object which is meaning less thing.
+- Probable transformation of `Statemetn 2` by compiler would be
 ```
-(x3 = x2) = x1;   // Statement 2: Correct, but meaning less statement
-```
-- Probable transformation by compiler would be
-```
-(X::x3.operator=(x2))..operator=(x1);
+(X::x3.operator=(x2)).operator=(x1);
 ```
 - With more simplicity
 ```
 X temp = X::x3.operator=(x2);
 X::temp.operator=(x1);
 ```
-- So this way output would be `1 2 2` which is not correct. Now we will observe `Statement 3`
+- As you can see i have taken `temp` object which usually created by compiler as we are returning object by value. So this way output would be `1 2 2` which is not correct. Now we will observe `Statement 3`
 ```
 x3 = (x2 = x1);   // Statement 3: Meaningful but compiler won't alllow us
 ```
