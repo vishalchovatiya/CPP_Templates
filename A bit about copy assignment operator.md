@@ -47,7 +47,7 @@ public:
 int main(){
   X x1(1), x2(2), x3(3);
 
-  x2 = x1;          // Statement 1: Correct & works fine 
+  x2 = x1;          // Statement 1: Works fine 
   (x3 = x2) = x1;   // Statement 2: Correct, but meaning less statement
   x3 = (x2 = x1);   // Statement 3: Meaningful but compiler won't alllow us
   x3 = x2 = x1;     // Statement 4: Meaningful but compiler won't alllow us
@@ -111,11 +111,83 @@ error: non-const lvalue reference to type 'basic_string<...>' cannot bind to a t
           ^      ~~~~~~~~~~~~~
 1 error generated.
 ```
-- Now we will move to `Statement 4`
+- Note that above code will work in some of old compiler like VC2012,etc. Now we will move to `Statement 4`
 ```
 x3 = x2 = x1;     // Statement 4: Meaningful but compiler won't alllow us
 ```
 - This will also throw same error as `Statement 3`, because conceptually both are same. Although `Statement 3` & `Statement 4` can also be valid if you modify argument of copy assignement ooperator from `pass by reference` to `pass by value` which we know unnecessary overhead of calling copy constructor which also stands true for return type.
+
+> **Let's try `return by pointer`**
+```
+class X{
+public:
+  int var;
+
+  X(int x){this->var = x;}
+
+  X* operator = (X &rhs){
+    this->var = rhs.var;
+    return this;
+  }  
+};
+
+int main(){
+  X x1(1), x2(2), x3(3);
+
+  x2 = x1;          // Statement 1: Works fine 
+  x3 = x2 = x1;     // Statement 4: Meaningful but compiler won't alllow us
+
+  cout<<x1.var<<"\n";
+  cout<<x2.var<<"\n";
+  cout<<x3.var<<"\n";
+  
+  return 0;
+ }
+```
+- This time we will not observe for all four statements rather will go for 2 basic statement which are also valid for primitive data.
+- `Statement 1` is not correct but still works fine. While `Statement 4` throws error
+```
+clang version 6.0.0-1ubuntu2 (tags/RELEASE_600/final)
+exit status 1
+error: no viable overloaded '='
+  x3 = x2 = x1;     // Statement 4: Meaningful but compiler wont alllow us
+  ~~ ^ ~~~~~~~
+note: candidate function not viable: no known conversion from 'X *' to 'X &' for 1st argument; dereference the argument with *
+  X* operator = (X &rhs){
+     ^
+1 error generated.
+```
+- Probable transformation of `Statemetn 4` by compiler would be
+```
+(X::x3.operator=( ( x2 = x1 ) );
+```
+- This will not work simply because result of operation `( x2 = x1 )` is pointer & copy assignement operator function wants reference as argument.
+- Now you will tell me that why we just not change arguemtn with pointer rather than accepting it as reference. Nice idea! i would say
+```
+X* operator = (X *rhs){
+  cout<<"THIS\n";
+  this->var = rhs->var;
+  return this;
+}  
+```
+- Now to call above copy assignment operator you need to use following operation
+```
+x2 = &x1;
+```
+- Because we are expecting pointer as argument in copy assignment operator. `x1 = x2` or `x3 = x2 = x1` wont work anymore. If you are still gettin correct answer as `1 1 1` in your output window then just consider print from `cout`. You are getting correct answer `1 1 1` because default copy constructor is getting called everytime, we have just overloaded copy constructor by changing its return type & argument as pointer.
+
+> **Conclusion**
+- Above are the reason why it is not feasible to use `pass by value` or `pointer` in argument or return type of copy assignment operator.
+- Compiler designer have designed standard in such a way that your class object should also work same as primitive types like
+```
+// Primitive type & operations
+int a = 5, b, c;
+a = b = c;
+// User defined types & operations
+X x1(5), x2, x3;
+x3 = x2 = x1;
+```
+
 ### addition & substraction operator overload
 
 ### References
