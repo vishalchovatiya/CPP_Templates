@@ -64,7 +64,7 @@ int main(){
 error: no viable overloaded '='
   x3 = (x2 = x1);   // Statement 3: Meaningful but compiler won't alllow us
   ~~ ^ ~~~~~~~~~
-main.cpp:13:5: note: candidate function not viable: expects an l-value for 1st argument
+note: candidate function not viable: expects an l-value for 1st argument
   X operator = (X &rhs){
     ^
 ```
@@ -90,7 +90,32 @@ X::temp.operator=(x1);
 ```
 x3 = (x2 = x1);   // Statement 3: Meaningful but compiler won't alllow us
 ```
-
+- Probable transformation of `Statemetn 3` by compiler would be
+```
+(X::x3.operator=((x2 = x1));
+```
+- Code till operation `x2 = x1` is fine but when the result of that operation becomes argument to another copy assignment operator function, it will create problem of temporary object binding to non-const reference. If you dont know about "temporary object binding to non-const reference" then you should find out the reason behind why following program is not working, you will understand everything you wanted to know for `Statement 3`.
+```
+int main() {
+  const string& val1 = string("123");   // Works fine
+  string& val2 = string("123");         // Will throw error
+  return 0;
+}
+```
+- Error:
+```
+clang version 6.0.0-1ubuntu2 (tags/RELEASE_600/final)
+exit status 1
+error: non-const lvalue reference to type 'basic_string<...>' cannot bind to a temporary of type 'basic_string<...>'
+  string& val2 = string("123");
+          ^      ~~~~~~~~~~~~~
+1 error generated.
+```
+- Now we will move to `Statement 4`
+```
+x3 = x2 = x1;     // Statement 4: Meaningful but compiler won't alllow us
+```
+- This will also throw same error as `Statement 3`, because conceptually both are same. Although `Statement 3` & `Statement 4` can also be valid if you modify argument of copy assignement ooperator from `pass by reference` to `pass by value` which we know unnecessary overhead of calling copy constructor which also stands true for return type.
 ### addition & substraction operator overload
 
 ### References
