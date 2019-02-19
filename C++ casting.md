@@ -208,6 +208,7 @@ typeid of c1 Pi
 - Here, 
 PVKi (pointer to a volatile and constant integer) 
 Pi (Pointer to integer)
+Whatever we have discussed above in const_cast is also valid for volatile keyword.
 
 ### dynamic cast
 - dynamic_cast uses the type checking at runtime in oppose to static_cast which does it compile time. dynamic_cast is more usefull when you dont know the type of input is representing to. Let assume:
@@ -229,7 +230,7 @@ if(pD1){
   pD1->Method1();
 }
 ```
-- In case if `base` does not point to `Derived1`, dynamic_cast will return `NULL`. In order to work with dynamic_cast, your classes must be polymorphic type i.e. must include 'virtual' methods.
+- In case if `base` does not point to `Derived1`, it will return nullptr for pointers or throw a std::bad_cast exception for references. In order to work with dynamic_cast, your classes must be polymorphic type i.e. must include 'virtual' at least one methods.
 - dynamic_cast take advantage of RTTI(Run Time Type Identification) mechanism which we have already learned a bit in our previous articles.
 
 ### reinterpret_cast
@@ -248,6 +249,10 @@ error: static_cast from 'int *' to 'uintptr_t'
 ```
 uintptr_t ptr = reinterpret_cast<uintptr_t>(p);
 ```
+
+### Cheat code for C developers moving to C++
+
+
 ### References
 - https://www.learncpp.com/cpp-tutorial/4-4a-explicit-type-conversion-casting/
 - https://www.learncpp.com/cpp-tutorial/44-implicit-type-conversion-coercion/
