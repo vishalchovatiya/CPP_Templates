@@ -1,6 +1,7 @@
 ### Brief
 - Here we are going to learn about the type-casting. Although I am not an expert but this what I have learned so far from various sources. So this article is basically a collection of connected dots while I was introducing C++ to myself.
 - In C++, there are 5 different types of casts: C-style casts, static casts, const casts, dynamic casts, and reinterpret casts.
+- I have tried to cover most of the intricacies to clear main concept, but still there might be chance that i may miss some.
 - As usual, we will start with `why we need it?`
 ### why we need it?
 There are two basic types of type conversion: 
@@ -188,8 +189,34 @@ typeid of c1 Pi
 PVKi (pointer to a volatile and constant integer) 
 Pi (Pointer to integer)
 
+### reinterpret_cast
+- TODO
+
+### dynamic cast
+- dynamic_cast uses the type checking at runtime in oppose to static_cast which does it compile time. dynamic_cast is more usefull when you dont know the type of input is representing to. Let assume:
+```
+Base* CreateRandom()
+{
+    if( (rand()%2) == 0 )
+        return new Derived1;
+    else
+        return new Derived2;
+}
+
+Base* base = CreateRandom();
+```
+- You dont know which object will be return by `CreateRandom()` at run time but you want to execute `Method1()` of `Derived1` if it returns `Derived1`. So in this scenario you can use dynamic_cast as follows
+```
+Derived1 *pD1 = dynamic_cast<Derived1*>(base);
+if(pD1){
+  pD1->Method1();
+}
+```
+- In case if `base` does not point to `Derived1`, dynamic_cast will return `NULL`. In order to work with dynamic_cast, your classes must be polymorphic type i.e. must include 'virtual' methods.
+- dynamic_cast take advantage of RTTI(Run Time Type Identification) mechanism which we have already learned a bit in our previous articles.
 ### References
 - https://www.learncpp.com/cpp-tutorial/4-4a-explicit-type-conversion-casting/
 - https://www.learncpp.com/cpp-tutorial/44-implicit-type-conversion-coercion/
 - https://stackoverflow.com/questions/103512/why-use-static-castintx-instead-of-intx
 - https://www.geeksforgeeks.org/const_cast-in-c-type-casting-operators/
+- https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-in-c
