@@ -76,32 +76,29 @@ int main ()
 }
 ```
 ### const_cast
-- const_cast can be used to remove or add const to a variable; no other C++ cast is capable of removing it (not even reinterpret_cast). It is important to note that modifying a formerly const value is only undefined if the original variable is const; if you use it to take the const off a reference to something that wasn't declared with const, it is safe. This can be useful when overloading member functions based on const, for instance. It can also be used to add const to an object, such as to call a member function overload.
-
-const_cast also works similarly on volatile, though that's less common.
-
-You are not allowed to const_cast variables that are actually const. This results in undefined behavior. const_cast is used to remove the const-ness from references and pointers that ultimately refer to something that is not const.
-
-So, this is allowed:
+- Rather going about description on const_cast, why dont we start seeing usecases.
+> **1. Not allowed to const_cast variables that are actually const**
+ - You are not allowed to const_cast variables that are actually const. This results in undefined behavior. const_cast is used to remove the const-ness from references and pointers that ultimately refer to something that is not const.
+- So, this is allowed:
 ```
 int i = 0;
 const int& ref = i;
 const int* ptr = &i;
-```
+
 const_cast<int&>(ref) = 3;
 *const_cast<int*>(ptr) = 3;
-It's allowed because i, the object being assigned to, is not const. The below is not allowed:
+```
+- It's allowed because i, the object being assigned to, is not const. The below is not allowed:
 ```
 const int i = 0;
 const int& ref = i;
 const int* ptr = &i;
-```
+
 const_cast<int&>(ref) = 3;
 *const_cast<int*>(ptr) = 3;
-because here i is const and you are modifying it by assigning it a new value. The code will compile, but its behavior is undefined (which can mean anything from "it works just fine" to "the program will crash".)
-
-You should initialize constant data members in the constructor's initializers instead of assigning them in the body of constructors:
-
+```
+- Because here i is const and you are modifying it by assigning it a new value. The code will compile, but its behavior is undefined (which can mean anything from "it works just fine" to "the program will crash".)
+> **2. Modifying data member using `const` `this` pointer**
 - const_cast can be used to change non-const class members by method in which use declared this pointer as const. See following example:
 ```
 class X {
@@ -112,9 +109,7 @@ public:
   {
     this->var = temp;   // Throw compilation error
 
-    (const_cast<X*>(this))->var = temp; // Works fine
-
-    cout<<var<<"\n";
+    (const_cast<X*>(this))->var = temp; // Works fine    
   }
 };
 
@@ -122,9 +117,41 @@ int main ()
 {
   X x;
   x.changeAndPrint(5);
+  cout<<var<<"\n";
   return 0;
 }
 ```
+- This can also be useful when overloading member functions based on const, for instance:
+```
+class X {
+public:
+  int var;
+
+  void changeAndPrint(int temp) const
+  {
+    (const_cast<X*>(this))->var = temp; // Works fine    
+  }
+
+  void changeAndPrint(int *temp)
+  {
+    // Do some stuff
+  }
+};
+
+int main ()
+{
+  int a = 4;
+  X x;
+
+  x.changeAndPrint(&a);
+  x.changeAndPrint(5);
+
+  cout<<x.var<<"\n";
+  
+  return 0;
+}
+```
+> **3. Pass const argument to function which accept only non-const argument**
 - const_cast can also be used to pass const data to a function that doesn’t receive const argument. See following code:
 ```
 int fun(int* ptr) 
@@ -139,7 +166,7 @@ int main(void)
     return 0; 
 } 
 ```
-- It is undefined behavior to modify a value using const_cast which is initially declared as const. We have already seen this use case.
+> **4. Cast away volatile attribute**
 - const_cast can also be used to cast away volatile attribute. For example:
 ```
 int main(void) 
@@ -157,8 +184,10 @@ int main(void)
 typeid of b1 PVKi
 typeid of c1 Pi
 ```
+- Here, 
 PVKi (pointer to a volatile and constant integer) 
 Pi (Pointer to integer)
+
 ### References
 - https://www.learncpp.com/cpp-tutorial/4-4a-explicit-type-conversion-casting/
 - https://www.learncpp.com/cpp-tutorial/44-implicit-type-conversion-coercion/
