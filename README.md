@@ -22,3 +22,4 @@
 21. [PART 2: All about virtual keyword C++: How virtual class works internally?](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%202:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20class%20works%20internally%3F.md).
 22. [PART 3: All about virtual keyword C++: How virtual destructor works?](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%203:%20All%20about%20virtual%20keyword%20C%2B%2B:%20How%20virtual%20destructor%20works%3F.md).
 23. [A bit about copy assignment operator](https://github.com/VisheshPatel/CPP_Templates/blob/master/A%20bit%20about%20copy%20assignment%20operator.md)
+24. [C++ casting](https://github.com/VisheshPatel/CPP_Templates/blob/master/C%2B%2B%20casting.md);
