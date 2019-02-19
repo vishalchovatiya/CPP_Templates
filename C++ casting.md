@@ -2,12 +2,16 @@
 - Here we are going to learn about the type-casting. Although I am not an expert but this what I have learned so far from various sources. So this article is basically a collection of connected dots while I was introducing C++ to myself.
 - In C++, there are 5 different types of casts: C-style casts, static casts, const casts, dynamic casts, and reinterpret casts.
 - I have tried to cover most of the intricacies to clear main concept, but still there might be chance that i may miss some.
+
+
 - As usual, we will start with `why we need it?`
-### why we need it?
-There are two basic types of type conversion: 
+
+### Jargons you need to face
   1. Implicit conversion : where the compiler automatically transforms one fundamental data type into another, hence also called automatic type conversion.
-  2. Explicit conversions, where the developer uses a casting operator to direct the conversion.
-All types of casting falls under explicit type conversions.
+  2. Explicit conversions, where the developer uses a casting operator to direct the conversion. All types of manual casting falls under explicit type conversions catogory.
+
+### Why we need it?
+
 
 
 
