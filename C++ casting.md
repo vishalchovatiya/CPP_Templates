@@ -38,6 +38,26 @@ float res = float(var_1) / var_2;
 - C-style casts can change a data type without changing the underlying representation which may lead to garbage results. You should only use C-style cast when you know the data type & data representation of `lvalue` & `rvalue` good enough.
 
 ### static_cast
+- If you from C background like me, then this will be your best goto cast. For example:
+```
+int * p = malloc(10);
+```
+- When you try to compile above code using C compiler it works fine. But C++ compiler is not kind enough. It will throw error as follows :
+```
+exit status 1
+error: cannot initialize a variable of type 'int *' with an rvalue of type 'void *'
+  int * p = malloc(10);
+        ^   ~~~~~~~~~~
+1 error generated.
+```
+- The first thing that comes to your mind is our friend, the C-style cast:
+```
+int * p = (int*)malloc(10);
+```
+- This will work, but this style of cast is not recommended in C++. static_cast handles implicit conversions like this. We will primarily use it for converting in places where implicit conversions fail, such as malloc.
+```
+int * y = static_cast<int*>(malloc(10));
+```
 - The main advantage of static_cast is that it provides compile-time type checking, making it harder to make an inadvertent error. Let's understand this with C++ example:
 ```
 class Derive : public Base {...};
