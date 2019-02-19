@@ -14,29 +14,6 @@ Const casts and reinterpret casts should generally be avoided because they are o
 
 Rule: Avoid const casts and reinterpret casts unless you have a very good reason to use them.
 
-```
-#include <iostream>
-using namespace std;
-
-class A {};
-
-class B {
-public:
-  operator A() {
-    cout<<"TYPE-CAST\n";
-    return A();
-  }
-};
-
-int main ()
-{
-  A foo;
-  B bar;
-  foo = bar;      // calls type-cast operator
-  return 0;
-}
-
-```
 
 ### C-style casts
 ```
@@ -83,7 +60,7 @@ pOtherClass = static_cast<OtherClass*>(pSomething); // Compiler error: Can't con
 pOtherClass = (OtherClass*)(pSomething);            // No compiler error. and it's wrong!!!
 ```
 - As you can see, there is no easy way to distinguish between the two situations without knowing a lot about all the classes involved.
-- The second problem is that the C-style casts are too hard to locate. In complex expressions it can be very hard to see C-style casts. 
+- The second problem is that the C-style casts are too hard to locate/visualize. In complex expressions it can be very hard to see C-style casts e.g. `T(something)` syntax is equivalent to `(T)something`.
 - Following example is also one of the use case & self-explanatory:
 ```
 int main ()
@@ -98,7 +75,92 @@ int main ()
   return 0;
 }
 ```
+### const_cast
+- const_cast can be used to remove or add const to a variable; no other C++ cast is capable of removing it (not even reinterpret_cast). It is important to note that modifying a formerly const value is only undefined if the original variable is const; if you use it to take the const off a reference to something that wasn't declared with const, it is safe. This can be useful when overloading member functions based on const, for instance. It can also be used to add const to an object, such as to call a member function overload.
+
+const_cast also works similarly on volatile, though that's less common.
+
+You are not allowed to const_cast variables that are actually const. This results in undefined behavior. const_cast is used to remove the const-ness from references and pointers that ultimately refer to something that is not const.
+
+So, this is allowed:
+```
+int i = 0;
+const int& ref = i;
+const int* ptr = &i;
+```
+const_cast<int&>(ref) = 3;
+*const_cast<int*>(ptr) = 3;
+It's allowed because i, the object being assigned to, is not const. The below is not allowed:
+```
+const int i = 0;
+const int& ref = i;
+const int* ptr = &i;
+```
+const_cast<int&>(ref) = 3;
+*const_cast<int*>(ptr) = 3;
+because here i is const and you are modifying it by assigning it a new value. The code will compile, but its behavior is undefined (which can mean anything from "it works just fine" to "the program will crash".)
+
+You should initialize constant data members in the constructor's initializers instead of assigning them in the body of constructors:
+
+- const_cast can be used to change non-const class members by method in which use declared this pointer as const. See following example:
+```
+class X {
+public:
+  int var;
+
+  void changeAndPrint(int temp) const
+  {
+    this->var = temp;   // Throw compilation error
+
+    (const_cast<X*>(this))->var = temp; // Works fine
+
+    cout<<var<<"\n";
+  }
+};
+
+int main ()
+{
+  X x;
+  x.changeAndPrint(5);
+  return 0;
+}
+```
+- const_cast can also be used to pass const data to a function that doesn’t receive const argument. See following code:
+```
+int fun(int* ptr) 
+{ 
+    return (*ptr + 10); 
+} 
+  
+int main(void) 
+{ 
+    const int val = 10; 
+    cout << fun(const_cast <int *>(&val)); 
+    return 0; 
+} 
+```
+- It is undefined behavior to modify a value using const_cast which is initially declared as const. We have already seen this use case.
+- const_cast can also be used to cast away volatile attribute. For example:
+```
+int main(void) 
+{ 
+    int a1 = 40; 
+    const volatile int* b1 = &a1; 
+    cout << "typeid of b1 " << typeid(b1).name() << '\n'; 
+    int* c1 = const_cast <int *> (b1); 
+    cout << "typeid of c1 " << typeid(c1).name() << '\n'; 
+    return 0; 
+} 
+```
+- output
+```
+typeid of b1 PVKi
+typeid of c1 Pi
+```
+PVKi (pointer to a volatile and constant integer) 
+Pi (Pointer to integer)
 ### References
 - https://www.learncpp.com/cpp-tutorial/4-4a-explicit-type-conversion-casting/
 - https://www.learncpp.com/cpp-tutorial/44-implicit-type-conversion-coercion/
 - https://stackoverflow.com/questions/103512/why-use-static-castintx-instead-of-intx
+- https://www.geeksforgeeks.org/const_cast-in-c-type-casting-operators/
