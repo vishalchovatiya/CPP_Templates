@@ -1,11 +1,11 @@
 ### Brief
 - Here we are going to learn about the type-casting. Although I am not an expert but this what I have learned so far from various sources. So this article is basically a collection of connected dots while I was introducing C++ to myself.
 - In C++, there are 5 different types of casts: C-style casts, static casts, const casts, dynamic casts, and reinterpret casts.
-- As always we will start with `why we need it?`
+- As usual, we will start with `why we need it?`
 ### why we need it?
 There are two basic types of type conversion: 
-implicit type conversion : where the compiler automatically transforms one fundamental data type into another, hence also called automatic type conversion.
-explicit type conversions, where the developer uses a casting operator to direct the conversion.
+  1. Implicit conversion : where the compiler automatically transforms one fundamental data type into another, hence also called automatic type conversion.
+  2. Explicit conversions, where the developer uses a casting operator to direct the conversion.
 All types of casting falls under explicit type conversions.
 
 
@@ -78,8 +78,30 @@ Casting an int (4 bytes) to a char (1 byte) is potentially unsafe, and the compi
 int i = 48;
 char ch = static_cast<char>(i);
 ```
+- Let's understand this with C++ example:
+```
+class Derive : public Base {...};
+class OtherClass {...} ;
 
+Base  *pSomething; // filled somewhere, Can point to Base or Derived object
+```
+- Now, these two are compiled the same way:
+```
+Derive *pDerive;
+
+pDerive = static_cast<Derive*>(pSomething);       // Safe, checked at run time by static_cast
+pDerive = (Derive*)(pSomething);                  // coercion/forceful conversion
+```
+- However, let's see this almost identical code:
+```
+
+OtherClass *pOtherClass;
+
+pOtherClass = static_cast<OtherClass*>(pSomething); // Compiler error: Can't convert
+pOtherClass = (OtherClass*)(pSomething);            // No compiler error. and it's wrong!!!
+```
 
 ### References
 - https://www.learncpp.com/cpp-tutorial/4-4a-explicit-type-conversion-casting/
 - https://www.learncpp.com/cpp-tutorial/44-implicit-type-conversion-coercion/
+- https://stackoverflow.com/questions/103512/why-use-static-castintx-instead-of-intx
