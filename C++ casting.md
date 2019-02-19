@@ -3,4 +3,83 @@
 - In C++, there are 5 different types of casts: C-style casts, static casts, const casts, dynamic casts, and reinterpret casts.
 - As always we will start with `why we need it?`
 ### why we need it?
-- 
+There are two basic types of type conversion: 
+implicit type conversion : where the compiler automatically transforms one fundamental data type into another, hence also called automatic type conversion.
+explicit type conversions, where the developer uses a casting operator to direct the conversion.
+All types of casting falls under explicit type conversions.
+
+
+
+Const casts and reinterpret casts should generally be avoided because they are only useful in rare cases and can be harmful if used incorrectly.
+
+Rule: Avoid const casts and reinterpret casts unless you have a very good reason to use them.
+
+```
+#include <iostream>
+using namespace std;
+
+class A {};
+
+class B {
+public:
+  B (const A& x) {
+    cout<<"CC\n";
+  }
+  B& operator= (const A& x) {
+    cout<<"ASSIGNMENT\n";
+    return *this;
+  }
+  operator A() {
+    cout<<"TYPE-CAST\n";
+    return A();
+  }
+};
+
+int main ()
+{
+  A foo;
+  B bar = foo;    // calls constructor
+  bar = foo;      // calls assignment
+  foo = bar;      // calls type-cast operator
+  return 0;
+}
+
+```
+
+### C-style casts
+```
+int main() { 
+    int var_1 = 10;
+    int var_2 = 4;
+    float res = var_1 / var_2;
+    cout<<res<<"\n";
+    return 0; 
+}
+```
+- When you will try to run above code, you will get `2` as output which we dont want. To initialize `res` variable correctly we need to type cast using float as follows:
+```
+float res = (float)var_1 / var_2;
+```
+- Now your answer will be `2.5`. This type of casting is very simple & staight forward as it appear.
+- You can also write above casting in C++ as:
+```
+float res = float(var_1) / var_2;
+```
+- C-style casts can change a data type without changing the underlying representation which may lead to garbage results. You should only use C-style cast when you know the data type & data representation of `lvalue` & `rvalue` good enough.
+
+### static_cast
+- The main advantage of static_cast is that it provides compile-time type checking, making it harder to make an inadvertent error. 
+```
+int i = 48;
+char ch = i; // implicit conversion
+```
+Casting an int (4 bytes) to a char (1 byte) is potentially unsafe, and the compiler will typically complain. In order to announce to the compiler that you are explicitly doing something you recognize is potentially unsafe (but want to do anyway), you can use a cast:
+```
+int i = 48;
+char ch = static_cast<char>(i);
+```
+
+
+### References
+- https://www.learncpp.com/cpp-tutorial/4-4a-explicit-type-conversion-casting/
+- https://www.learncpp.com/cpp-tutorial/44-implicit-type-conversion-coercion/
