@@ -84,7 +84,20 @@ pOtherClass = (OtherClass*)(pSomething);            // No compiler error. and it
 ```
 - As you can see, there is no easy way to distinguish between the two situations without knowing a lot about all the classes involved.
 - The second problem is that the C-style casts are too hard to locate. In complex expressions it can be very hard to see C-style casts. 
+- Following example is also one of the use case & self-explanatory:
+```
+int main ()
+{
+  char c = 10;       // 1 byte
+  int *p = (int*)&c; // 4 bytes
 
+  *p = 5; // stack corruption
+
+  int *q = static_cast<int*>(&c); // compile-time error
+
+  return 0;
+}
+```
 ### References
 - https://www.learncpp.com/cpp-tutorial/4-4a-explicit-type-conversion-casting/
 - https://www.learncpp.com/cpp-tutorial/44-implicit-type-conversion-coercion/
