@@ -22,13 +22,6 @@ class A {};
 
 class B {
 public:
-  B (const A& x) {
-    cout<<"CC\n";
-  }
-  B& operator= (const A& x) {
-    cout<<"ASSIGNMENT\n";
-    return *this;
-  }
   operator A() {
     cout<<"TYPE-CAST\n";
     return A();
@@ -38,8 +31,7 @@ public:
 int main ()
 {
   A foo;
-  B bar = foo;    // calls constructor
-  bar = foo;      // calls assignment
+  B bar;
   foo = bar;      // calls type-cast operator
   return 0;
 }
@@ -68,17 +60,7 @@ float res = float(var_1) / var_2;
 - C-style casts can change a data type without changing the underlying representation which may lead to garbage results. You should only use C-style cast when you know the data type & data representation of `lvalue` & `rvalue` good enough.
 
 ### static_cast
-- The main advantage of static_cast is that it provides compile-time type checking, making it harder to make an inadvertent error. 
-```
-int i = 48;
-char ch = i; // implicit conversion
-```
-Casting an int (4 bytes) to a char (1 byte) is potentially unsafe, and the compiler will typically complain. In order to announce to the compiler that you are explicitly doing something you recognize is potentially unsafe (but want to do anyway), you can use a cast:
-```
-int i = 48;
-char ch = static_cast<char>(i);
-```
-- Let's understand this with C++ example:
+- The main advantage of static_cast is that it provides compile-time type checking, making it harder to make an inadvertent error. Let's understand this with C++ example:
 ```
 class Derive : public Base {...};
 class OtherClass {...} ;
@@ -100,6 +82,8 @@ OtherClass *pOtherClass;
 pOtherClass = static_cast<OtherClass*>(pSomething); // Compiler error: Can't convert
 pOtherClass = (OtherClass*)(pSomething);            // No compiler error. and it's wrong!!!
 ```
+- As you can see, there is no easy way to distinguish between the two situations without knowing a lot about all the classes involved.
+- The second problem is that the C-style casts are too hard to locate. In complex expressions it can be very hard to see C-style casts. 
 
 ### References
 - https://www.learncpp.com/cpp-tutorial/4-4a-explicit-type-conversion-casting/
