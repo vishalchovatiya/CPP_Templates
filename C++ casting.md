@@ -209,9 +209,6 @@ typeid of c1 Pi
 PVKi (pointer to a volatile and constant integer) 
 Pi (Pointer to integer)
 
-### reinterpret_cast
-- TODO
-
 ### dynamic cast
 - dynamic_cast uses the type checking at runtime in oppose to static_cast which does it compile time. dynamic_cast is more usefull when you dont know the type of input is representing to. Let assume:
 ```
@@ -234,6 +231,23 @@ if(pD1){
 ```
 - In case if `base` does not point to `Derived1`, dynamic_cast will return `NULL`. In order to work with dynamic_cast, your classes must be polymorphic type i.e. must include 'virtual' methods.
 - dynamic_cast take advantage of RTTI(Run Time Type Identification) mechanism which we have already learned a bit in our previous articles.
+
+### reinterpret_cast
+- reinterpret_cast is a compiler directive which tells the compiler to treat the current type as a new type.
+- You can use reinterpret_cast to cast any pointer or integral type to any other pointer or integral type. 
+- This can lead to dangerous situations: nothing will stop you from converting an int to a std::string *.
+- You will use reinterpret_cast in your embedded systems. A common scenario where reinterpret_cast applies is converting between uintptr_t and an actual pointer or between:
+```
+error: static_cast from 'int *' to 'uintptr_t'
+      (aka 'unsigned long') is not allowed
+        uintptr_t ptr = static_cast<uintptr_t>(p);
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+```
+- Instead, use this:
+```
+uintptr_t ptr = reinterpret_cast<uintptr_t>(p);
+```
 ### References
 - https://www.learncpp.com/cpp-tutorial/4-4a-explicit-type-conversion-casting/
 - https://www.learncpp.com/cpp-tutorial/44-implicit-type-conversion-coercion/
