@@ -7,8 +7,8 @@
 - As usual, we will start with `why we need it?`
 
 ### Jargons you need to face
-  1. Implicit conversion : where the compiler automatically transforms one fundamental data type into another, hence also called automatic type conversion.
-  2. Explicit conversions, where the developer uses a casting operator to direct the conversion. All types of manual casting falls under explicit type conversions catogory.
+  1. Implicit conversion : where the compiler automatically transforms one fundamental data type into another, hence also called automatic type conversion. Like `float f = 3;`, here compiler will not complain but directly transform 3 which is of type integer into float & assign to `f`.
+  2. Explicit conversions, where the developer uses a casting operator to direct the conversion. All types of manual casting falls under explicit type conversions catogory. Like `int * p = (int*)malloc(10);`, here we explicitly casting `void*` to `int*`.
   3. l-value = locator value = identifier which represents memory location. For example, variable name, `*ptr` where ptr points to memory location, etc.
   4. r-value = value which is not l-value = value appear on right hand side of assignment(=) operator.
   
