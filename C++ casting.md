@@ -9,6 +9,10 @@
 ### Jargons you need to face
   1. Implicit conversion : where the compiler automatically transforms one fundamental data type into another, hence also called automatic type conversion.
   2. Explicit conversions, where the developer uses a casting operator to direct the conversion. All types of manual casting falls under explicit type conversions catogory.
+  3. l-value = locator value = identifier which represents memory location. For example, variable name, `*ptr` where ptr points to memory location, etc.
+  4. r-value = value which is not l-value = value appear on right hand side of assignment(=) operator.
+  
+  Note: Although there are some exceptions in l-value & r-value which i have not discussed here. And it is also not easy to understand as it seems but i have tried to make it easy for you to remember.
 
 ### Why we need it?
 
