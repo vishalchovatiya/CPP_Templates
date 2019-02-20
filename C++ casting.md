@@ -15,7 +15,7 @@
 ### Why we need it?
 
 - Data is representation of the bits(0s & 1s) in memory.
-- Data-type is compiler indentifier which tells compiler how to store particular data.
+- Data-type is compiler directive which tells compiler how to store particular data.
 - `unsigned int a = 5;` by this statement you can presume that 4 byte will be reserved in your memomry & when this statement executes, it will store `0000 0000 0000 0000 0000 0000 0000 0101` data bits in that 4 byte memory location. This was plain & simple. 
 - Lets go bit further, `float f = 3.0;` this statement will also reserve 4 byte in memory & store data bits in form of 1). sign bit, 2). exponent & 3). mantisa. Recall how float stored in memory.
 - So this is how compiler stores the value in variable/object by identifying data-type of `l-vlaue`.
@@ -102,28 +102,20 @@ int * p = static_cast<int*>(malloc(10));
 ```
 - The main advantage of static_cast is that it provides compile-time type checking, making it harder to make an inadvertent error. Let's understand this with C++ example:
 ```
-class Derive : public Base {...};
-class OtherClass {...} ;
+class B {};
+class D : public B {};
+class X {};
 
-Base  *pSomething; // filled somewhere, Can point to Base or Derived object
-```
-- Now, these two are compiled the same way:
-```
-Derive *pDerive;
-
-pDerive = static_cast<Derive*>(pSomething);       // Safe, checked at run time by static_cast
-pDerive = (Derive*)(pSomething);                  // coercion/forceful conversion
-```
-- However, let's see this almost identical code:
-```
-
-OtherClass *pOtherClass;
-
-pOtherClass = static_cast<OtherClass*>(pSomething); // Compiler error: Can't convert
-pOtherClass = (OtherClass*)(pSomething);            // No compiler error. and it's wrong!!!
+int main()
+{
+  D* d = new D;
+  B* b = static_cast<B*>(d); // this works
+  X* x = static_cast<X*>(d); // ERROR - Won't compile
+  return 0;
+}
 ```
 - As you can see, there is no easy way to distinguish between the two situations without knowing a lot about all the classes involved.
-- The second problem is that the C-style casts are too hard to locate/visualize. In complex expressions it can be very hard to see C-style casts e.g. `T(something)` syntax is equivalent to `(T)something`.
+- The second problem is that the C-style casts are too hard to locate. In complex expressions it can be very hard to see C-style casts e.g. `T(something)` syntax is equivalent to `(T)something`.
 - Following example is also one of the use case & self-explanatory:
 ```
 int main ()
@@ -162,7 +154,7 @@ const_cast<int&>(ref) = 3;
 ```
 - Because here i is const and you are modifying it by assigning it a new value. The code will compile, but its behavior is undefined (which can mean anything from "it works just fine" to "the program will crash".)
 > **2. Modifying data member using `const` `this` pointer**
-- const_cast can be used to change non-const class members by method in which use declared this pointer as const. See following example:
+- const_cast can be used to change non-const class members by method in which use declared this pointer as const. - This can also be useful when overloading member functions based on const, for instance:
 ```
 class X {
 public:
@@ -171,27 +163,6 @@ public:
   void changeAndPrint(int temp) const
   {
     this->var = temp;   // Throw compilation error
-
-    (const_cast<X*>(this))->var = temp; // Works fine    
-  }
-};
-
-int main ()
-{
-  X x;
-  x.changeAndPrint(5);
-  cout<<var<<"\n";
-  return 0;
-}
-```
-- This can also be useful when overloading member functions based on const, for instance:
-```
-class X {
-public:
-  int var;
-
-  void changeAndPrint(int temp) const
-  {
     (const_cast<X*>(this))->var = temp; // Works fine    
   }
 
@@ -230,30 +201,10 @@ int main(void)
 } 
 ```
 > **4. Cast away volatile attribute**
-- const_cast can also be used to cast away volatile attribute. For example:
-```
-int main(void) 
-{ 
-    int a1 = 40; 
-    const volatile int* b1 = &a1; 
-    cout << "typeid of b1 " << typeid(b1).name() << '\n'; 
-    int* c1 = const_cast <int *> (b1); 
-    cout << "typeid of c1 " << typeid(c1).name() << '\n'; 
-    return 0; 
-} 
-```
-- output
-```
-typeid of b1 PVKi
-typeid of c1 Pi
-```
-- Here, 
-PVKi (pointer to a volatile and constant integer) 
-Pi (Pointer to integer)
-Whatever we have discussed above in const_cast is also valid for volatile keyword.
+- const_cast can also be used to cast away volatile attribute.Whatever we have discussed above in const_cast is also valid for volatile keyword.
 
 ### dynamic cast
-- dynamic_cast uses the type checking at runtime in oppose to static_cast which does it compile time. dynamic_cast is more usefull when you dont know the type of input is representing to. Let assume:
+- dynamic_cast uses the type checking at runtime in contrary to static_cast which does it at compile time. dynamic_cast is more usefull when you dont know the type of input which it representing to. Let assume:
 ```
 Base* CreateRandom()
 {
@@ -265,15 +216,15 @@ Base* CreateRandom()
 
 Base* base = CreateRandom();
 ```
-- You dont know which object will be return by `CreateRandom()` at run time but you want to execute `Method1()` of `Derived1` if it returns `Derived1`. So in this scenario you can use dynamic_cast as follows
+- As you can see, we dont know which object will be return by `CreateRandom()` at run time but you want to execute `Method1()` of `Derived1` if it returns `Derived1`. So in this scenario you can use dynamic_cast as follows
 ```
 Derived1 *pD1 = dynamic_cast<Derived1*>(base);
 if(pD1){
   pD1->Method1();
 }
 ```
-- In case if `base` does not point to `Derived1`, it will return nullptr for pointers or throw a std::bad_cast exception for references. In order to work with dynamic_cast, your classes must be polymorphic type i.e. must include 'virtual' at least one methods.
-- dynamic_cast take advantage of RTTI(Run Time Type Identification) mechanism which we have already learned a bit in our previous articles.
+- In case if input of dynamic_cast does not point to valid data, it will return `nullptr` for pointers or throw a `std::bad_cast` exception for references. In order to work with dynamic_cast, your classes must be polymorphic type i.e. must include 'virtual' at least one methods.
+- dynamic_cast take advantage of RTTI(Run Time Type Identification) mechanism which we have already seen a bit in our previous articles of [All about virtual keyword C++](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%201:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20function%20works%20internally%3F.md).
 
 ### reinterpret_cast
 - reinterpret_cast is a compiler directive which tells the compiler to treat the current type as a new type.
