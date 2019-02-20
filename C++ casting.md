@@ -2,9 +2,7 @@
 - Here we are going to learn about the type-casting. Although I am not an expert but this what I have learned so far from various sources. So this article is basically a collection of connected dots while I was introducing C++ to myself.
 - In C++, there are 5 different types of casts: C-style casts, static casts, const casts, dynamic casts, and reinterpret casts.
 - I have tried to cover most of the intricacies to clear main concept, but still there might be chance that i may miss some.
-
-
-- As usual, we will start with `why we need it?`
+- I usually start with `why we need it?`, but this time we have to learn some jargons
 
 ### Jargons you need to face
   1. Implicit conversion : where the compiler automatically transforms one fundamental data type into another, hence also called automatic type conversion. Like `float f = 3;`, here compiler will not complain but directly transform 3 which is of type integer into float & assign to `f`.
