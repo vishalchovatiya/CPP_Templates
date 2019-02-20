@@ -20,7 +20,7 @@
 - Lets go bit further, `float f = 3.0;` this statement will also reserve 4 byte in memory & store data bits in form of 1). sign bit, 2). exponent & 3). mantisa. Recall how float stored in memory.
 - So this is how compiler stores the value in variable/object by identifying data-type of `l-vlaue`.
 - But when you write like `float f = 3;`, compiler will confuse in how to store integer value in float type of memory. So it will automatically presume(Implicit conversion) that you want to store `3.0` rather that `3` which is technically same from human point of view but its different when you think from computer memory perspective cause they stored differently.
-- There are many such scenarios where you provide data to store in memory which is used to store different data type.
+- There are many such scenarios where you provide data to store in memory which used to represent different data type.
 - For example, in following example you are trying to assign object of type `B` into object of type `A`
 ```
 class A{};
@@ -33,7 +33,7 @@ int main ()
   return 0;
 }
 ```
-- In such scenario compiler can not presume anything & simple throws an compilation error:
+- In such scenario compiler can not presume anything & simply throws an compilation error:
 ```
 exit status 1
 error: no viable conversion from 'B' to 'A'
@@ -52,12 +52,12 @@ class A{};
 class B {
 public:
   operator A(){
-    cout<<"TYPE-CAST OPERATOR\n";
+    cout<<"CONVERSION OPERATOR\n";
     return A();
   } 
 };
 ```
-- Compiler will simple call this function & wont throw any error because use explicitly mentioning that this is how i want assign r-value to l-value.
+- Compiler will simple call this function & wont throw any error because programmer explicitly mentioning that this is how he/she wants to assign r-value to l-value.
 
 
 ### C-style casts
