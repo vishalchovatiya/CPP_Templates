@@ -254,7 +254,13 @@ error: static_cast from 'int *' to 'uintptr_t'
 uintptr_t ptr = reinterpret_cast<uintptr_t>(p);
 ```
 
-### Cheat code for C developers moving to C++
+### Cheat code for C developers moving to C++ on casting
+After reading all this you may confuse on what to use & when! That's why i have created this cheatcode 
+- Avoid C-style casts. Be sure on what you want while casting.
+- Use static_cast wherever you were using C-style cast.
+- Use reinterpret_cast for specific cases were you need to reinterpret underlying data (e.g. converting from a pointer to uintptr_t)
+- Use dynamic_cast wherever you casting pointers and references which points to inheritance hierarchy. Keep in mind that only use dynamic_cast on classes with atleast one virtual member.
+- Use const_cast when you need to remove const or volatile keywords. Think carefully before using this cast.
 
 
 ### References
