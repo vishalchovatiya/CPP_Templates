@@ -16,12 +16,50 @@
 
 ### Why we need it?
 
+- Data is representation of the bits(0s & 1s) in memory.
+- Data-type is compiler indentifier. Each data-type is stored differently in computer memory. Data-type tells compiler to how to store particular data.
+- `unsigned int a = 5;` by this statement you can presume that 4 byte will be reserved in your memomry & when this statement executes, it will store `0000 0000 0000 0101` data bits in that 4 byte memory location. This was plain & simple. 
+- Lets go bit further, `float f = 3.0;` this statement will store data bits in form of 1). sign bit, 2). exponent & 3). mantisa. Recall how float stored in memory.
+- So this is how compiler stores the value in variable/object by identifying type of `l-vlaue`.
+- But when you write like `float f = 3;`, compiler will confuse in how to store integer value in float type of memory. So it will automatically presume that you want to store `3.0` rather that `3` which is technically same from human point of view but its different when you think from computer memory perspective.
+- There are many such scenarios where you provide data to store in memory which is used to store different data type.
+- For example, in following example you are trying to assign object of type `B` into object of type `A`
+```
+class A{};
+class B {};
 
-
-
-Const casts and reinterpret casts should generally be avoided because they are only useful in rare cases and can be harmful if used incorrectly.
-
-Rule: Avoid const casts and reinterpret casts unless you have a very good reason to use them.
+int main ()
+{
+  B b;
+  A a = b; 
+  return 0;
+}
+```
+- In such scenario compiler can not presume anything & simple throws an compilation error:
+```
+exit status 1
+error: no viable conversion from 'B' to 'A'
+  A a = b;
+    ^   ~
+note: candidate constructor (the implicit copy constructor) not viable: no known conversion from 'B' to 'const A &' for 1st argument
+class A{};
+      ^
+note: candidate constructor (the implicit move constructor) not viable: no known conversion from 'B' to 'A &&' for 1st argument
+class A{};
+      ^
+1 error generated.
+```
+- But when you define conversion operator as follows:
+```
+class B {
+public:
+  operator A(){
+    cout<<"TYPE-CAST OPERATOR\n";
+    return A();
+  } 
+};
+```
+- Compiler will simple call this function & wont throw any error because use explicitly mentioning that this is how i want assign r-value to l-value.
 
 
 ### C-style casts
@@ -266,6 +304,7 @@ After reading all this you may confuse on what to use & when! That's why i have 
 - Use dynamic_cast wherever you casting pointers and references which points to inheritance hierarchy. Keep in mind that only use dynamic_cast on classes with atleast one virtual member.
 - Use const_cast when you need to remove const or volatile keywords. Think carefully before using this cast.
 
+Note: Const casts and reinterpret casts should generally be avoided because they are only useful in rare cases and can be harmful if used incorrectly. Avoid const casts and reinterpret casts unless you have a very good reason to use them.
 
 ### References
 - https://www.learncpp.com/cpp-tutorial/4-4a-explicit-type-conversion-casting/
