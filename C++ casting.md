@@ -63,21 +63,19 @@ public:
 ### C-style casts
 ```
 int main() { 
-    int var_1 = 10;
-    int var_2 = 4;
-    float res = var_1 / var_2;
+    float res = 10 / 2;
     cout<<res<<"\n";
     return 0; 
 }
 ```
-- When you will try to run above code, you will get `2` as output which we dont want. To initialize `res` variable correctly we need to type cast using float as follows:
+- When you will try to run above code, you will get `2` as output which we didnt expect. To initialize `res` variable correctly we need to type cast using float as follows:
 ```
-float res = (float)var_1 / var_2;
+float res = (float)10 / 2;
 ```
 - Now your answer will be `2.5`. This type of casting is very simple & staight forward as it appear.
 - You can also write above casting in C++ as:
 ```
-float res = float(var_1) / var_2;
+float res = float(10) / 2;
 ```
 - C-style casts can change a data type without changing the underlying representation which may lead to garbage results. You should only use C-style cast when you know the data type & data representation of `lvalue` & `rvalue` good enough.
 
