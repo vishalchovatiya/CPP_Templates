@@ -15,11 +15,11 @@
 ### Why we need it?
 
 - Data is representation of the bits(0s & 1s) in memory.
-- Data-type is compiler indentifier. Each data-type is stored differently in computer memory. Data-type tells compiler to how to store particular data.
-- `unsigned int a = 5;` by this statement you can presume that 4 byte will be reserved in your memomry & when this statement executes, it will store `0000 0000 0000 0101` data bits in that 4 byte memory location. This was plain & simple. 
-- Lets go bit further, `float f = 3.0;` this statement will store data bits in form of 1). sign bit, 2). exponent & 3). mantisa. Recall how float stored in memory.
-- So this is how compiler stores the value in variable/object by identifying type of `l-vlaue`.
-- But when you write like `float f = 3;`, compiler will confuse in how to store integer value in float type of memory. So it will automatically presume that you want to store `3.0` rather that `3` which is technically same from human point of view but its different when you think from computer memory perspective.
+- Data-type is compiler indentifier which tells compiler how to store particular data.
+- `unsigned int a = 5;` by this statement you can presume that 4 byte will be reserved in your memomry & when this statement executes, it will store `0000 0000 0000 0000 0000 0000 0000 0101` data bits in that 4 byte memory location. This was plain & simple. 
+- Lets go bit further, `float f = 3.0;` this statement will also reserve 4 byte in memory & store data bits in form of 1). sign bit, 2). exponent & 3). mantisa. Recall how float stored in memory.
+- So this is how compiler stores the value in variable/object by identifying data-type of `l-vlaue`.
+- But when you write like `float f = 3;`, compiler will confuse in how to store integer value in float type of memory. So it will automatically presume(Implicit conversion) that you want to store `3.0` rather that `3` which is technically same from human point of view but its different when you think from computer memory perspective cause they stored differently.
 - There are many such scenarios where you provide data to store in memory which is used to store different data type.
 - For example, in following example you are trying to assign object of type `B` into object of type `A`
 ```
