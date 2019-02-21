@@ -8,4 +8,4 @@
 |  | `int add(int x, int y);` | `auto add(int x, int y) -> int;` | | |
 | C | ```struct Rectangle{\\double length;\\double width;\\};``` | ```struct Rectangle { 	double length = 1.0; // non-static member initialization  	double width = 1.0; };``` | C++14 | C++17 |
 | C | C++ | C++11 | C++14 | C++17 |
-| first line \ second line|||||
+| first line <br> second line|||||
