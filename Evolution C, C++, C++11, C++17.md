@@ -1,6 +1,9 @@
 
-| C | C++ | C++11 | C++17 |
-| :---: | :---: | :---: | :---: |
-| `typedef double new_t;`  |   `typedef double new_t;`   | `using new_t = double;`    | |
-| `int a = 2;`| `int a(2);` |||
-| first line<br>second line||||
+| C | C++ | C++11 | C++14 | C++17 |
+| :---: | :---: | :---: | :---: | :---: |
+| `typedef double new_t;`  |   `typedef double new_t;`   | `using new_t = double;`    | | |
+| `int a = 2;`| `int a(2);` ||||
+||`auto` = local variables|`auto` = automatically deduce the type based on data|||
+|||`auto` can not use in function argument & return type|`auto` can be use in function return type||
+| C | C++ | C++11 | C++14 | C++17 |
+| first line<br>second line|||||
