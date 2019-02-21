@@ -1,15 +1,14 @@
-##### `typedef`
+#### `typedef`
 | C/C++ | C++11|
 | :---: | :---: |
 |`typedef double new_t;`   | `using new_t = double;`    |
 
-##### Initialization
+#### Initialization
 | C/C++ | C++11|
 | :---: | :---: |
 | `int a = 2;`| `int a(2);` or `int a{2};` |
 
-
-##### `auto`
+#### `auto`
 | C/C++ | C++11|
 | :---: | :---: |
 |`auto` = local variables|`auto` = automatically deduce the type based on data|
