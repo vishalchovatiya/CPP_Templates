@@ -8,20 +8,24 @@
 | :---: | :---: |
 | `int a = 2;`| `int a(2);` or `int a{2};` |
 
-C++
+- C++
 ```
+// 1. Static array initialization
 int arr[2];
 arr[0] = 9;
 arr[1] = 7;
 
+// 2. Dynamic array initialization
 int *array = new int[2];
 array[0] = 1;
 array[1] = 2;
 ```
-C++11
+- C++11
 ```
+// 1. Static array initialization
 int arr[2] = {1, 2}; // Note `=` operator
 
+// 2. Dynamic array initialization
 int *array = new int[2] {1, 2}; // Note no `=` operator
 ```
 
