@@ -40,6 +40,10 @@ for (int i = 0; i < arrSize; ++i)
 // range-based for loop
 for(int element : arr)	
     var = element;
+
+// Can also use auto keyword here efficiently
+for(auto element : arr)	
+    var = element;    
 ```
 
 #### `auto`
