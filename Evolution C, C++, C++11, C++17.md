@@ -41,8 +41,8 @@ for (int i = 0; i < arrSize; ++i)
 for(int element : arr)	
     var = element;
 
-// Can also use auto keyword here efficiently
-for(auto element : arr)	
+// Can also use auto keyword & reference here efficiently
+for(auto &element : arr)	
     var = element;    
 ```
 
