@@ -8,6 +8,24 @@
 | :---: | :---: |
 | `int a = 2;`| `int a(2);` or `int a{2};` |
 
+C++
+```
+int arr[2];
+arr[0] = 9;
+arr[1] = 7;
+
+int *array = new int[2];
+array[0] = 1;
+array[1] = 2;
+```
+C++11
+```
+int arr[2] = {1, 2}; // Note `=` operator
+
+int *array = new int[2] {1, 2}; // Note no `=` operator
+```
+
+
 #### `auto`
 | C/C++ | C++11|
 | :---: | :---: |
