@@ -29,6 +29,18 @@ int arr[2] = {1, 2}; // Note `=` operator
 int *array = new int[2] {1, 2}; // Note no `=` operator
 ```
 
+#### `for` loop
+- C++
+```
+for (int i = 0; i < arrSize; ++i)
+    var = arr[i];
+```
+- C++11
+```
+// range-based for loop
+for(int element : arr)	
+    var = element;
+```
 
 #### `auto`
 | C/C++ | C++11|
