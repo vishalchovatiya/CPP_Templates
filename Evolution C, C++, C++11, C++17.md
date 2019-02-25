@@ -2,7 +2,7 @@
 | C/C++ | C++11|
 | :---: | :---: |
 |`typedef double new_t;`   | `using new_t = double;`    |
-|`bool (*fcnPtr)(int, int)`|`using fcnPtr = bool (*)(int, int)`|
+|`bool (*fcnPtr)(int, int)`|`using fcnPtr = bool (*)(int, int)` <br>or<br>`std::function<bool(int, int)> fcnPtr`|
 #### Initialization
 | C/C++ | C++11|
 | :---: | :---: |
