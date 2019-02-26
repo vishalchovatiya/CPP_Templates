@@ -19,6 +19,13 @@ arr[1] = 7;
 int *array = new int[2];
 array[0] = 1;
 array[1] = 2;
+
+// 3. Non-static member initialization
+struct Rectangle
+{
+	double length;
+	double width;
+};  
 ```
 - C++11
 ```
@@ -27,6 +34,15 @@ int arr[2] = {1, 2}; // Note `=` operator
 
 // 2. Dynamic array initialization
 int *array = new int[2] {1, 2}; // Note no `=` operator
+
+// 3. Non-static member initialization
+struct Rectangle
+{
+	double length = 1.0; // non-static member initialization
+	double width = 1.0;
+};
+```
+
 ```
 
 #### `for` loop
@@ -55,20 +71,3 @@ for(auto &element : arr)
 | C++11 | C++14|
 | :---: | :---: |
 |`auto` can not use in function argument & return type|`auto` can be use in function return type|
-
-- C++
-```
-struct Rectangle
-{
-	double length;
-	double width;
-};  
-```
-- C++11/14
-```
-struct Rectangle
-{
-	double length = 1.0; // non-static member initialization
-	double width = 1.0;
-};
-```
