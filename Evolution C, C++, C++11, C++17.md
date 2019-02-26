@@ -20,7 +20,7 @@ int *array = new int[2];
 array[0] = 1;
 array[1] = 2;
 
-// 3. Non-static member initialization
+// 3. Non-static member initialization, not allowed in older versions
 struct Rectangle
 {
 	double length;
