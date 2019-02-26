@@ -43,8 +43,6 @@ struct Rectangle
 };
 ```
 
-```
-
 #### `for` loop
 - C++
 ```
