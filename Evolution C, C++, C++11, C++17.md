@@ -10,6 +10,9 @@
 
 - C++
 ```
+// 0. Initialization
+int value1 = 1; // copy initialization
+
 // 1. Static array initialization
 int arr[2];
 arr[0] = 9;
@@ -29,6 +32,10 @@ struct Rectangle
 ```
 - C++11
 ```
+// 0. Initialization
+double value2(2.2); // direct initialization
+char value3 {'c'}; // uniform initialization
+
 // 1. Static array initialization
 int arr[2] = {1, 2}; // Note `=` operator
 
