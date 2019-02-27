@@ -51,18 +51,14 @@ X foobar()
 - Probable internal transformation would be:
 ```
 void foobar( X &_result )
-{
-    // _result replaces local xx & constructor called
-    _result.X::X();
-    // expand X *px = new X;
-    px = _new( sizeof( X ));
+{    
+    X::X(&_result);                 // _result replaces local xx & constructor called    
+    px = _new( sizeof( X ));        // expand X *px = new X;
     if ( px != 0 )
         px->X::X();
-    
-    // expand xx.foo(): replaced xx with _result
-    foo( &_result );
-    // expand px->foo() using virtual mechanism
-    ( *px->_vtbl[ 2 ] )( px )
+        
+    foo( &_result );                // expand xx.foo(): replaced xx with _result    
+    ( *px->_vtbl[ 2 ] )( px )       // expand px->foo() using virtual mechanism
     
     // expand delete px;
     if ( px != 0 ) {
