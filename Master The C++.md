@@ -14,3 +14,6 @@
 10. [marcoarena](https://marcoarena.wordpress.com/2016/02/15/cpp-in-competitive-programming-intro/).
 11. [Learening C++ as C programmer](https://www.reddit.com/r/cpp/comments/4viw9w/learning_c_as_c_programmer_stl_and_oops/).
 12. [Fluent C++](https://www.fluentcpp.com/2018/06/29/7-more-ways-to-get-better-at-c-this-summer-2018-edition/)
+13. [C vs C++: 30 Differences that Every Programmer Must Know](https://hackr.io/blog/c-vs-cpp).
+14. [C++ Interview Questions](https://hackr.io/blog/cpp-interview-questions).
+15. [C++ Language: Features, Uses, Applications & Advantages](https://hackr.io/blog/features-uses-applications-of-c-plus-plus-language).
