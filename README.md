@@ -24,3 +24,4 @@
 23. [A bit about copy assignment operator](https://github.com/VisheshPatel/CPP_Templates/blob/master/A%20bit%20about%20copy%20assignment%20operator.md)
 24. [C++ casting](https://github.com/VisheshPatel/CPP_Templates/blob/master/C%2B%2B%20casting.md).
 25. [Evolution C,C++, C++11, C++17](https://github.com/VisheshPatel/CPP_Templates/blob/master/Evolution%20C,%20C++,%20C++11,%20C++17.md)
+26. [Move constructors and move assignment operator with smart pointer](https://github.com/VisheshPatel/CPP_Templates/blob/master/Move%20constructors%20and%20move%20assignment%20operator%20with%20smart%20pointer.md)
