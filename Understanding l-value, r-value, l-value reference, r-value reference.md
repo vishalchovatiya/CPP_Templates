@@ -125,52 +125,51 @@ int main()
 }
 ```
 - By observing this code we conclude that `obj` is not useful after return of `func` function. But when you return object by value it will invoke copy constructor & which will copy all the content from `obj` to `arr` in `main` function by acquiring new resource.
-- Rather than initializing new resources & copying data to it why dont we just simply use `obj`'s resources? Because `obj` is anyway goind out of scope after return of `func` function.
+- Rather than initializing new resources & copying data to it why dont we just simply use `obj`'s resources? Because `obj` is anyway goind out of scope after return of `func` function. Let's do that:
+```
+IntArray(IntArray&& rhs){
+	m_arr = rhs.m_arr;
+	m_len = rhs.m_len;
 
-- l-value reference r-value reference is used to take ownership of object.
-Consider following code to understand this more solid:
+	rhs.m_arr = nullptr; // To prevent destructor from crash our code
+}
+```
+- I have just modified copy constructor code as above, in which we just simply took ownership of resources from `obj` to `arr`. Infact this is move constructor not copy constructor. Whose primary task to take ownership.
+
+Consider following move constructor prototype for more solid understanding:
 
 ```
-void f(MyClass&& x)
+IntArray(IntArray&& rhs)
 {
     ...
 }
 ```
-The message of this code to f is this: “The object that x binds to is YOURS. Do whatever you like with it, no one will care anyway.” It’s a bit like giving a copy to f… but without making a copy.
-This can be interesting for two purposes: improving performance (see move constructors below) and taking over ownership (since the object the reference binds to has been abandoned by the caller.
+The message of this code is this: “The object that rhs binds to is YOURS. Do whatever you like with it, no one will care anyway.” It’s a bit like giving a copy to IntArray but without making a copy.
+This can be interesting for two purposes: 
+	1. improving performance (see move constructors below)
+	2. taking over ownership (since the object the reference binds to has been abandoned by the caller.
 
-Note that this could not be achieved with lvalue references. For example this function:
+- I know you might be thingking that why just we dont modify copy constructor by remving `const` keyword from it. Let's do that as well
 ```
-void f(MyClass& x)
-{
-    ...
+IntArray(IntArray& rhs){
 }
 ```
-can modify the value of the object that x binds to, but since it is an lvalue reference, it means that somebody probably cares about it at call site.
-I mentioned that lvalue const references could bind to rvalues:
-
+- Compilation error
 ```
-void f(MyClass const& x)
-{
-    ...
-}
+exit status 1
+error: no matching constructor for initialization of 'IntArray'
+  IntArray arr = func();
+           ^     ~~~~~~
+note: candidate constructor not viable: expects an l-value for 1st argument
+    IntArray(IntArray& rhs){
+    ^
+1 error generated.
 ```
-but they are const, so even though they can bind to a temporary unnamed object that no one cares about, f can’t modify it.
-Note that we cannot pass an lvalue to f, because an rvalue reference cannot bind to an lvalue. The following code:
+- We got compilation error. There are two reasons we can not do that
+	1. If you see the `note` our overloaded copy constructor asking for l-value. What we are doing is providing r-value. As when we return object by value, temporary(anonymous) object will be created and supplied to our copy constructor which falls under r-value category as it is temporary object.
+	2. As we have discussed earlier by using l-value referece we means that somebody probably cares about it at call site. 
 
 
-MyClass x;
-f(x);
-1
-2
-MyClass x;
-f(x);
-triggers this compilation error:
-
-
-error: cannot bind rvalue reference of type 'MyClass&&' to lvalue of type 'MyClass'
-f(x);
-   ^
 There is a way to call f with our lvalue x: by casting it explicitly into an rvalue reference. This is what std::move does:
 
 
