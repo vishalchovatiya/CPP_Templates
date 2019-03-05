@@ -37,29 +37,38 @@ There are two types of l-value modifiable & non-modifiable(which are const).
 4. ``
 5. ``
 6. ``
-- r-value could be function which eventually represet object which in turn is data representation.
+- r-value could be function which eventually represet object(primitive or user defined) which in turn is data value.
 - r-values are typically evaluated for their values, have expression scope (they die at the end of the expression they are in), and cannot be assigned to. For example:
 ```
 int a, b = 5;
-a = b
+a = b;
 ```
 - In above assignment we dont want `b` to be change. This non-assignment rule makes sense, because assigning a value applies a side-effect to the object. 
 - Since r-values have expression scope, if we were to assign a value to an r-value, then the r-value would either go out of scope before we had a chance to use the assigned value in the next expression (which makes the assignment useless) or we’d have to use a variable with a side effect applied more than once in an expression (which by now you should know causes undefined behavior!).
 
 ### l-value reference
-Now an lvalue reference is a reference that binds to an lvalue. lvalue references are marked with one ampersand (&).
-
-Prior to C++11, only one type of reference existed in C++, and so it was just called a “reference”. However, in C++11, it’s sometimes called an l-value reference. L-value references can only be initialized with modifiable l-values.
-
-### r-value reference
-And an rvalue reference is a reference that binds to an rvalue. rvalue references are marked with two ampersands (&&).
+- Now an lvalue reference is a reference that binds to an lvalue. 
+- lvalue references are marked with one ampersand (`&`).
 ```
 int x = 5;
 int &lref = x; // l-value reference initialized with l-value x
+```
+- Prior to C++11, only one type of reference existed in C++, and so it was just called a “reference”. However, in C++11, it’s sometimes called an l-value reference. 
+- l-value references can only be initialized with modifiable l-values.
+```
+const int a = 5;
+int &ref = a; // Invalid & error will be thrown by compiler
+```
+### r-value reference
+- And an rvalue reference is a reference that binds to an rvalue. rvalue references are marked with two ampersands (`&&`).
+```
 int &&rref = 5; // r-value reference initialized with r-value 5
 ```
-
-R-values references cannot be initialized with l-values.
+- R-values references cannot be initialized with l-values i.e. 
+```
+int a = 5;
+int &&ref = a; // Invalid & error will be thrown by compiler
+```
 - R-value references are more often used as function parameters. This is most useful for function overloads when you want to have different behavior for l-value and r-value arguments.
 ```
 void fun(const int &lref) // l-value arguments will select this function
@@ -81,8 +90,44 @@ int main()
 	return 0;
 }
 ```
-Why we need r-value reference?
-unlike l-value reference r-value reference is used to take ownership of object.
+### Why we need r-value references?
+- If you observe copy constructor & copy assignment operator prototype, it always takes `const` reference object as arguemtn. Because their primary work is to copy the object. And while copying we dont want to modify our r-value as we have already seen in above `a = b` example.
+- But there are some scenarios where we dont care about the r-value or object we have provided to copy from. For example:
+```
+class IntArray{
+    int *m_arr;
+    int m_len;
+public:
+    IntArray(int len) : m_len(len), m_arr(new int[len]){}
+    ~IntArray(){delete [] m_arr;}
+
+    // Copy Constructor
+    IntArray(const IntArray& rhs){
+      m_arr = new int[rhs.m_len];
+      m_len = rhs.m_len;
+
+      for(int i=0;i<m_len;i++)
+        m_arr[i] = rhs.m_arr[i];
+    }
+};
+
+IntArray func()
+{
+	IntArray obj(5);	
+	// process obj	
+	return obj;
+}
+
+int main()
+{
+  IntArray arr = func();   
+  return 0;
+}
+```
+- By observing this code we conclude that `obj` is not useful after return of `func` function. But when you return object by value it will invoke copy constructor & which will copy all the content from `obj` to `arr` in `main` function by acquiring new resource.
+- Rather than initializing new resources & copying data to it why dont we just simply use `obj`'s resources? Because `obj` is anyway goind out of scope after return of `func` function.
+
+- l-value reference r-value reference is used to take ownership of object.
 Consider following code to understand this more solid:
 
 ```
