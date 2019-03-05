@@ -60,6 +60,7 @@ const int a = 5;
 int &ref = a; // Invalid & error will be thrown by compiler
 ```
 ### r-value reference
+- This is by far most usefull & bit complex thing you will learn.
 - And an rvalue reference is a reference that binds to an rvalue. rvalue references are marked with two ampersands (`&&`).
 ```
 int &&rref = 5; // r-value reference initialized with r-value 5
@@ -123,6 +124,8 @@ int main()
   IntArray arr = func();   
   return 0;
 }
+
+// Note: use "-fno-elide-constructors" option while compiling otherwise it will create copy elision 
 ```
 - By observing this code we conclude that `obj` is not useful after return of `func` function. But when you return object by value it will invoke copy constructor & which will copy all the content from `obj` to `arr` in `main` function by acquiring new resource.
 - Rather than initializing new resources & copying data to it why dont we just simply use `obj`'s resources? Because `obj` is anyway goind out of scope after return of `func` function. Let's do that:
@@ -131,23 +134,21 @@ IntArray(IntArray&& rhs){
 	m_arr = rhs.m_arr;
 	m_len = rhs.m_len;
 
-	rhs.m_arr = nullptr; // To prevent destructor from crash our code
+	rhs.m_arr = nullptr; // To prevent destructor from crashing code
 }
 ```
-- I have just modified copy constructor code as above, in which we just simply took ownership of resources from `obj` to `arr`. Infact this is move constructor not copy constructor. Whose primary task to take ownership.
-
-Consider following move constructor prototype for more solid understanding:
-
+- I have just modified copy constructor code as above which accept r-value reference rather than l-value, implementation simply took ownership of resources from `obj` to `arr`. Infact this is move constructor not copy constructor. Whose primary task to take ownership.
+- Consider following move constructor prototype for more solid understanding:
 ```
 IntArray(IntArray&& rhs)
 {
     ...
 }
 ```
-The message of this code is this: “The object that rhs binds to is YOURS. Do whatever you like with it, no one will care anyway.” It’s a bit like giving a copy to IntArray but without making a copy.
-This can be interesting for two purposes: 
-	1. improving performance (see move constructors below)
-	2. taking over ownership (since the object the reference binds to has been abandoned by the caller.
+- The message of this code is this: "The object that `rhs` binds to is YOURS. Do whatever you like with it, no one will care anyway." It's a bit like giving a copy to `IntArray` but without making a copy.
+- This can be interesting for two purposes: 
+	1. improving performance (as we are not allocating new resources & transferring content).
+	2. taking over ownership (since the object the reference binds to has been abandoned by the caller).
 
 - I know you might be thingking that why just we dont modify copy constructor by remving `const` keyword from it. Let's do that as well
 ```
@@ -165,17 +166,10 @@ note: candidate constructor not viable: expects an l-value for 1st argument
     ^
 1 error generated.
 ```
-- We got compilation error. There are two reasons we can not do that
-	1. If you see the `note` our overloaded copy constructor asking for l-value. What we are doing is providing r-value. As when we return object by value, temporary(anonymous) object will be created and supplied to our copy constructor which falls under r-value category as it is temporary object.
-	2. As we have discussed earlier by using l-value referece we means that somebody probably cares about it at call site. 
+- If you see the `note` our overloaded copy constructor asking for l-value. What we are doing is providing r-value. As when we return object by value, temporary(anonymous) object will be created and supplied to our copy constructor which falls under r-value category as it is temporary object.
+- As we have discussed earlier we can only bind l-values to l-value referece.
 
-
-There is a way to call f with our lvalue x: by casting it explicitly into an rvalue reference. This is what std::move does:
-
-
-MyClass x;
-f(std::move(x));
-
-MyClass x;
-f(std::move(x));
-So when you std::move an lvalue, you need to be sure you won’t use it any more, because it will be considered like a disposable object by the rest of the code.
+### References
+- https://www.fluentcpp.com/2018/02/06/understanding-lvalues-rvalues-and-their-references/
+- https://www.learncpp.com/cpp-tutorial/15-2-rvalue-references/
+- https://www.geeksforgeeks.org/lvalue-and-rvalue-in-c-language/
