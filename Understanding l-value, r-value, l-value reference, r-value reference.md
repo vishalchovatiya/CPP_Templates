@@ -19,7 +19,7 @@ movl    $5, -4(%ebp)
 - This is straight forward as long as we are using premitive data types like int, dobule, char, etc. So compiler will store raw value directly instruction code itself like in our case its `$5`. After the execution of that instruction, `$5` is not used, so it has expression scope, in other word it is temporary.
 - But when we use class & struct which are user defined type, things get bit complex & compiler introduce temporary object instead of directly storing value in instruction code itself.
 
-Bottom Line: we need this kind of jargons to understand compilation error & to see thing from compilers perspective. 
+Bottom Line: we need this kind of jargons to understand compilation error & to see thing from compilers perspective. And yes! if you are using C++11 or above it, you need to understand this jargons to write robust, fast & optimize code.
 ### What are l-value & r-value?
 - l-value & r-value is compiler identifiers to evalute expression.
 - Any compiler identifier which points-to/represent memory location is l-value. 
