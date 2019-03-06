@@ -26,34 +26,49 @@ Bottom Line: we need this kind of jargons to understand compilation error & to s
 - Any compiler identifier which represent data value on right hand side of an assignment operator(=) is r-value. .
 
 > **Examples of l-value**
-There are two types of l-value modifiable & non-modifiable(which are const).
+
+- There are two types of l-value modifiable & non-modifiable(which are const).
+
 **modifiable l-value**
-1. `a = 1; // a is l-value`
-2. `int b = a; // b is l-value`
-3. `struct S* ptr = &obj; // ptr is l-value`
-4. `arr[20] = 5; // location index 20 in arr is l-value`
-5. ``
-6. ``
+
+1. `a = 1; // a is l-value as it represent memory of primitive data type`,
+2. `int b = a; // b & a is l-value, when a is assigned to b it becomes an implicit rvalue because a copy of a is stored in b, not a itself`,
+3. `struct S* ptr = &obj; // ptr is l-value`,
+4. `arr[20] = 5; // location index 20 in arr is l-value`,
+6. `int *pi = &i;  // i is l-value as it is addressable`
+5. `*pi = 10; // *pi is l-value`,
+6. `class cat {}; cat c;   // c is l-value as it represent memory of user defined type`
+etc.
+
+**non-modifiable l-value**
+
+1. `const int a=1; // a is non-modifiable l-value`,
+2. `const int *p=&a; // p is non-modifiable l-value`,
+etc.
 
 > **Examples of r-value**
-1. `int a = 1; // 1 is r-value`
-2. `int b = a; // a is r-value`
-3. `q = p + 5; // valid - "p + 5" is an r-value `
-4. ``
-5. ``
-6. ``
-- r-value could be function which eventually represet object(primitive or user defined) which in turn is data value.
-- r-values are typically evaluated for their values, have expression scope (they die at the end of the expression they are in), and cannot be assigned to. For example:
+1. `int a = 1; // 1 is r-value`,
+2. `int b = a; // a is implicit r-value this case we have already discussed in 2nd point of "Examples of l-value"`,
+3. `q = p + 5; // valid - "p + 5" is an r-value `,
+4. `int result = getInteger(); // value returned by getInteger() is r-value`,
+5. `class cat {}; c = cat();   // cat() is an rvalue`,
+etc.
+- r-value could be a function on right hand side of `=` assignment operator which eventually evaluate to object(primitive or user defined) which in turn is data value.
+- r-values are typically evaluated for their values, have expression scope (they die at the end of the expression they are in) most of the time, and cannot be assigned to. For example:
 ```
-int a, b = 5;
-a = b;
+5 = a; // invalid
+getInt() = 2; // invalid
+```
+
+```
+a = b; // a & b are of same type, defined somewhere else
 ```
 - In above assignment we dont want `b` to be change. This non-assignment rule makes sense, because assigning a value applies a side-effect to the object. 
 - Since r-values have expression scope, if we were to assign a value to an r-value, then the r-value would either go out of scope before we had a chance to use the assigned value in the next expression (which makes the assignment useless) or we’d have to use a variable with a side effect applied more than once in an expression (which by now you should know causes undefined behavior!).
 
 ### l-value reference
 - Now an lvalue reference is a reference that binds to an lvalue. 
-- lvalue references are marked with one ampersand (`&`).
+- lvalue references are marked with one ampersand `&`.
 ```
 int x = 5;
 int &lref = x; // l-value reference initialized with l-value x
@@ -64,18 +79,28 @@ int &lref = x; // l-value reference initialized with l-value x
 const int a = 5;
 int &ref = a; // Invalid & error will be thrown by compiler
 ```
+> **Exception**
+- We cannot bind lvalue reference to rvalue
+```
+int &a = 5; // error: lvalue cannot be bound to rvalue 7
+```
+However, we can bind an rvalue to a const lvalue reference (const reference):
+```
+const int &a = 5;  // Valid
+```
+- In this case compiler convert 5 into lvalue first & then it assign memory location to const reference.
 ### r-value reference
 - This is by far most usefull & bit complex thing you will learn.
-- And an rvalue reference is a reference that binds to an rvalue. rvalue references are marked with two ampersands (`&&`).
+- And an rvalue reference is a reference that binds to an rvalue. rvalue references are marked with two ampersands `&&`.
 ```
 int &&rref = 5; // r-value reference initialized with r-value 5
 ```
-- R-values references cannot be initialized with l-values i.e. 
+- r-values references cannot be initialized with l-values i.e. 
 ```
 int a = 5;
 int &&ref = a; // Invalid & error will be thrown by compiler
 ```
-- R-value references are more often used as function parameters. This is most useful for function overloads when you want to have different behavior for l-value and r-value arguments.
+- r-value references are more often used as function parameters. This is most useful for function overloads when you want to have different behavior for l-value and r-value arguments.
 ```
 void fun(const int &lref) // l-value arguments will select this function
 {
@@ -178,3 +203,4 @@ note: candidate constructor not viable: expects an l-value for 1st argument
 - https://www.fluentcpp.com/2018/02/06/understanding-lvalues-rvalues-and-their-references/
 - https://www.learncpp.com/cpp-tutorial/15-2-rvalue-references/
 - https://www.geeksforgeeks.org/lvalue-and-rvalue-in-c-language/
+- https://www.bogotobogo.com/cplusplus/C11/4_C11_Rvalue_Lvalue.php
