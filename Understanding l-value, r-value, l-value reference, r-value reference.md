@@ -8,22 +8,23 @@
 ```
 int a = 5;
 ```
-- Here compiler identifies `a` & `5` as operand & `=`(assignment) as operation. Furthermore, compiler divides operand in subcategory named as rvalues, lvalues, xvalues, glvalues, and prvalues to distinguish between them. This different value tells the compiler about the source of information, destination to store the result, the scope of information, etc.
+- Here compiler identifies `a` & `5` as operand and `=`(assignment) as operation. Furthermore, compiler divides operand in subcategory named as rvalues, lvalues, xvalues, glvalues, and prvalues to distinguish between them. This different value tells the compiler about the source of information, destination to store the result, the scope of information, etc.
 - In the above expression `a` is l-value as it indicates destination memory where r-value i.e. `5` will be stored.
 - When you compile & see above statement in assembly, it would probably look like :
-```...
+```
+...
 movl    $5, -4(%ebp)
 ...
 ```
 - Here, `(%ebp)` is current frame pointer which pull down by `4` bytes which indicates space allocated by compiler for variable `a` in stack. And `movl` instruction store `5` to that memory location directly.
-- This is straight forward as long as we are using primitive data types like int, double, char, etc. So compiler will store raw value directly instruction code itself like in our case its `$5`. After the execution of that instruction, `$5` is not used, so it has expression scope, in other word it is temporary.
+- This is straight forward as long as we are using primitive data types like int, double, char, etc. So compiler will store raw value directly in instruction code itself like in our case its `$5`. After the execution of that instruction, `$5` is not used, so it has expression scope, in other word it is temporary.
 - But when we use class & struct which are the user-defined type, things get bit complex & compiler introduce temporary object instead of directly storing the value in instruction code itself.
 
 Bottom Line: we need this kind of jargons to understand compilation error & to see thing from a compilers perspective. And yes! if you are using C++11 or above it, you need to understand these jargons to write robust, fast & optimize code.
 ### What are l-value & r-value?
 - l-value & r-value is compiler identifiers to evaluate expression.
-- Any compiler identifier which points-to/represent memory location is l-value. 
-- Any compiler identifier which represents data value on the right-hand side of an assignment operator(=) is R-value. .
+- Any compiler identifier which represent memory location is l-value. 
+- Any compiler identifier which represents data value on the right-hand side of an assignment operator(=) is r-value. .
 
 > **Examples of l-value**
 
@@ -31,27 +32,27 @@ Bottom Line: we need this kind of jargons to understand compilation error & to s
 
 **modifiable l-value**
 
-1. `a = 1; // a is l-value as it represent memory of primitive data type`,
-2. `int b = a; // b & a is l-value, when a is assigned to b it becomes an implicit rvalue because a copy of a is stored in b, not a itself`,
-3. `struct S* ptr = &obj; // ptr is l-value`,
-4. `arr[20] = 5; // location index 20 in arr is l-value`,
-6. `int *pi = &i;  // i is l-value as it is addressable`
-5. `*pi = 10; // *pi is l-value`,
-6. `class cat {}; cat c;   // c is l-value as it represent memory of user defined type`
+1. `a = 1;`: `a` is l-value as it represent memory,
+2. `int b = a;`: `b` & a is l-value, when `a` is assigned to `b` it becomes an implicit rvalue because a copy of `a` is stored in `b`, not `a` itself,
+3. `struct S* ptr = &obj;`: `ptr` is l-value,
+4. `arr[20] = 5;`: location index 20 in `arr` is l-value,
+6. `int *pi = &i;`: `i` is l-value as it is addressable
+5. `*pi = 10;`: `*pi` is l-value as it points to `i`,
+6. `class MyClass {}; MyClass X;`: `X` is l-value as it represent memory of user defined type`,
 etc.
 
 **non-modifiable l-value**
 
-1. `const int a=1; // a is non-modifiable l-value`,
-2. `const int *p=&a; // p is non-modifiable l-value`,
+1. `const int a=1;`: `a` is non-modifiable l-value,
+2. `const int *p=&a;`: `p` is non-modifiable l-value,
 etc.
 
 > **Examples of r-value**
-1. `int a = 1; // 1 is r-value`,
-2. `int b = a; // a is implicit r-value this case we have already discussed in 2nd point of "Examples of l-value"`,
-3. `q = p + 5; // valid - "p + 5" is an r-value `,
-4. `int result = getInteger(); // value returned by getInteger() is r-value`,
-5. `class cat {}; c = cat();   // cat() is an rvalue`,
+1. `int a = 1;`: `1` is r-value,
+2. `int b = a;`: `a` is implicit r-value this case we have already discussed in 2nd point of "Examples of l-value",
+3. `q = p + 5;`: valid - `p + 5` is an r-value,
+4. `int result = getInteger();`: value returned by `getInteger()` is r-value,
+5. `class cat {}; c = cat();`: `cat()` is an rvalue,
 etc.
 - r-value could be a function on right hand side of `=` assignment operator which eventually evaluate to object(primitive or user defined) which in turn is data value.
 - r-values are typically evaluated for their values, have expression scope (they die at the end of the expression they are in) most of the time, and cannot be assigned to. For example:
