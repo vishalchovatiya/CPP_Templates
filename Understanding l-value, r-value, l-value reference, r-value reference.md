@@ -59,13 +59,6 @@ etc.
 5 = a; // invalid
 getInt() = 2; // invalid
 ```
-
-```
-a = b; // a & b are of same type, defined somewhere else
-```
-- In the above assignment, we don't want `b` to be changed. This non-assignment rule makes sense because assigning a value applies a side-effect to the object. 
-- Since r-values have expression scope, if we were to assign a value to an r-value, then the r-value would either go out of scope before we had a chance to use the assigned value in the next expression (which makes the assignment useless) or we’d have to use a variable with a side effect applied more than once in an expression (which by now you should know causes undefined behaviour!).
-
 ### l-value reference
 - Now an lvalue reference is a reference that binds to an lvalue. 
 - lvalue references are marked with one ampersand `&`.
