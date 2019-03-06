@@ -32,27 +32,27 @@ Bottom Line: we need this kind of jargons to understand compilation error & to s
 
 **modifiable l-value**
 
-1. `a = 1;`: `a` is l-value as it represent memory,
-2. `int b = a;`: `b` & a is l-value, when `a` is assigned to `b` it becomes an implicit rvalue because a copy of `a` is stored in `b`, not `a` itself,
-3. `struct S* ptr = &obj;`: `ptr` is l-value,
-4. `arr[20] = 5;`: location index 20 in `arr` is l-value,
-6. `int *pi = &i;`: `i` is l-value as it is addressable
-5. `*pi = 10;`: `*pi` is l-value as it points to `i`,
-6. `class MyClass {}; MyClass X;`: `X` is l-value as it represent memory of user defined type`,
+1. `a = 1;`**:** `a` is l-value as it represent memory,
+2. `int b = a;`**:** `b` & a is l-value, when `a` is assigned to `b` it becomes an implicit rvalue because a copy of `a` is stored in `b`, not `a` itself,
+3. `struct S* ptr = &obj;`**:** `ptr` is l-value,
+4. `arr[20] = 5;`**:** location index 20 in `arr` is l-value,
+6. `int *pi = &i;`**:** `i` is l-value as it is addressable
+5. `*pi = 10;`**:** `*pi` is l-value as it points to `i`,
+6. `class MyClass {}; MyClass X;`**:** `X` is l-value as it represent memory of user defined type`,
 etc.
 
 **non-modifiable l-value**
 
-1. `const int a=1;`: `a` is non-modifiable l-value,
-2. `const int *p=&a;`: `p` is non-modifiable l-value,
+1. `const int a=1;`**:** `a` is non-modifiable l-value,
+2. `const int *p=&a;`**:** `p` is non-modifiable l-value,
 etc.
 
 > **Examples of r-value**
-1. `int a = 1;`: `1` is r-value,
-2. `int b = a;`: `a` is implicit r-value this case we have already discussed in 2nd point of "Examples of l-value",
-3. `q = p + 5;`: valid - `p + 5` is an r-value,
-4. `int result = getInteger();`: value returned by `getInteger()` is r-value,
-5. `class cat {}; c = cat();`: `cat()` is an rvalue,
+1. `int a = 1;`**:** `1` is r-value,
+2. `int b = a;`**:** `a` is implicit r-value this case we have already discussed in 2nd point of "Examples of l-value",
+3. `q = p + 5;`**:** valid - `p + 5` is an r-value,
+4. `int result = getInteger();`**:** value returned by `getInteger()` is r-value,
+5. `class cat {}; c = cat();`**:** `cat()` is an rvalue,
 etc.
 - r-value could be a function on right hand side of `=` assignment operator which eventually evaluate to object(primitive or user defined) which in turn is data value.
 - r-values are typically evaluated for their values, have expression scope (they die at the end of the expression they are in) most of the time, and cannot be assigned to. For example:
