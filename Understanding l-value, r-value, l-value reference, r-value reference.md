@@ -1,7 +1,7 @@
 ### Intro
 - While i was introducing myself with C++. Most of the time i was struck by compiler saying this is l-value & that is r-value kind of things. I was unable to uderstand util i have googled a bit for the same.
-- This my habit to preserve the knowledge in term of article. So here is bit about things i have learned so far.
-- There is always one thought in my mind before learning anything that why i need that ? So lets start wiht it.
+- This is my habit to preserve the knowledge in term of article. So here is bit about things i have learned so far.
+- There is always one thought in my mind before learning anything new: "why i need that?" So lets start with it.
 ### Why we need l-value & r-value kind of jargons?
 - If you are using C++ prior to C++11 then you dont need this jargons to write code. But yes it is still useful to understand compilation errors.
 - Compiler sees things by expression & to evaluate expression it identify operand & operation. Let's understand this by example:
@@ -16,8 +16,10 @@ movl    $5, -4(%ebp)
 ...
 ```
 - Here, `(%ebp)` is current frame pointer which pull down by `4` bytes which indicates space allocated by compiler for variable `a` in stack. And `movl` instruction store `5` to that memory location directly.
-- This is straight forward as long as we are using premitive data types like int, dobule, char, etc. So compiler will store raw value directly in struction code itself like in our case its `$5`.
-- But when we use class & struct which are user defined type, things get bit complex & compiler introduce temporary object instead of directly storing `5` to memory location. In
+- This is straight forward as long as we are using premitive data types like int, dobule, char, etc. So compiler will store raw value directly instruction code itself like in our case its `$5`. After the execution of that instruction, `$5` is not used, so it has expression scope, in other word it is temporary.
+- But when we use class & struct which are user defined type, things get bit complex & compiler introduce temporary object instead of directly storing value in instruction code itself.
+
+Bottom Line: we need this kind of jargons to understand compilation error & to see thing from compilers perspective. 
 ### What are l-value & r-value?
 - l-value & r-value is compiler identifiers to evalute expression.
 - Any compiler identifier which points-to/represent memory location is l-value. 
