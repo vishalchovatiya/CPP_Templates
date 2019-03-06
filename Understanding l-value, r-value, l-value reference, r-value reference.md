@@ -54,15 +54,15 @@ etc.
 4. `int result = getInteger();`**:** value returned by `getInteger()` is r-value,
 5. `class cat {}; c = cat();`**:** `cat()` is an rvalue,
 etc.
-- r-value could be a function on right hand side of `=` assignment operator which eventually evaluate to object(primitive or user defined) which in turn is data value.
+- r-value could be a function on right hand side of `=` assignment operator which eventually evaluate to object(primitive or user defined).
 - r-values are typically evaluated for their values, have expression scope (they die at the end of the expression they are in) most of the time, and cannot be assigned to. For example:
 ```
 5 = a; // invalid
 getInt() = 2; // invalid
 ```
 ### l-value reference
-- Now an lvalue reference is a reference that binds to an lvalue. 
-- lvalue references are marked with one ampersand `&`.
+- Now an lvalue reference is a reference that binds to an l-value. 
+- l-value references are marked with one ampersand `&`.
 ```
 int x = 5;
 int &lref = x; // l-value reference initialized with l-value x
@@ -74,18 +74,18 @@ const int a = 5;
 int &ref = a; // Invalid & error will be thrown by compiler
 ```
 > **Exception**
-- We cannot bind lvalue reference to rvalue
+- We cannot bind l-value reference to r-value
 ```
-int &a = 5; // error: lvalue cannot be bound to rvalue 7
+int &a = 5; // error: l-value cannot be bound to r-value 5
 ```
-However, we can bind an rvalue to a const lvalue reference (const reference):
+However, we can bind an r-value to a const l-value reference (const reference):
 ```
 const int &a = 5;  // Valid
 ```
-- In this case compiler convert 5 into lvalue first & then it assign memory location to const reference.
+- In this case, compiler convert 5 into l-value first & then it assign memory location to const reference.
 ### r-value reference
-- This is by far most usefull & bit complex thing you will learn.
-- And an rvalue reference is a reference that binds to an rvalue. rvalue references are marked with two ampersands `&&`.
+- This is by far most useful & bit complex thing you will learn.
+- And an r-value reference is a reference that binds to an r-value. r-value references are marked with two ampersands `&&`.
 ```
 int &&rref = 5; // r-value reference initialized with r-value 5
 ```
@@ -151,7 +151,7 @@ int main()
 
 // Note: use "-fno-elide-constructors" option while compiling otherwise it will create copy elision 
 ```
-- By observing this code we conclude that `obj` is not useful after the return of `func` function. But when you return an object by the value it will invoke copy constructor & which will copy all the content from `obj` to `arr`(declared in `main()`) by allocating new resource for `arr`. And also when obj goes out of scope it will deallocate its resources.
+- By observing this code we conclude that `obj` is not useful after the return of `func` function. But when you return an object by the value it will invoke copy constructor & which will copy all the content from `obj` to `arr`(declared in `main()`) by allocating new resource for `arr`. And when obj goes out of scope it will deallocate its resources.
 - Rather than allocating new resources & copying data into it why don't we simply use those existing `obj`'s resources? Let's do that:
 ```
 IntArray(IntArray&& rhs){
@@ -193,7 +193,7 @@ note: candidate constructor not viable: expects an l-value for 1st argument
 1 error generated.
 ```
 - If you see the `note` our overloaded copy constructor asking for l-value. What we are doing is providing r-value. As when we return an object by value, temporary(which falls under r-value category) object will be created and supplied to our copy constructor. And as we have already seen above l-value reference cannot bind to r-value object.
-- Don't think about changing your copy constructor's argument as `const` l-value reference, I know we have studied that its exception & we can bind const l-value reference to r-value/temporary object. But in that case, you can not move/transfer resource as it is const.
+- Don't think about changing your copy constructor's argument as `const` l-value reference, I know we have studied that its exception & we can bind `const` l-value reference to r-value/temporary object. But in that case, you can not move/transfer resource as it is `const`.
 
 ### References
 - https://www.fluentcpp.com/2018/02/06/understanding-lvalues-rvalues-and-their-references/
