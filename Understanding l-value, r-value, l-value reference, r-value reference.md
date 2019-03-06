@@ -1,29 +1,29 @@
 ### Intro
-- While i was introducing myself with C++. Most of the time i was struck by compiler saying this is l-value & that is r-value kind of things. I was unable to uderstand util i have googled a bit for the same.
-- This is my habit to preserve the knowledge in term of article. So here is bit about things i have learned so far.
-- There is always one thought in my mind before learning anything new: "why i need that?" So lets start with it.
+- While I was introducing myself with C++. Most of the time I was struck by compiler saying this is l-value & that is r-value kind of things. I was unable to understand until i have googled a bit for the same.
+- This is my habit to preserve knowledge in term of an article. So here is a bit about things I have learned so far.
+- There is always one thought in my mind before learning anything new: "why I need that?" So let's start with it.
 ### Why we need l-value & r-value kind of jargons?
-- If you are using C++ prior to C++11 then you dont need this jargons to write code. But yes it is still useful to understand compilation errors.
-- Compiler sees things by expression & to evaluate expression it identify operand & operation. Let's understand this by example:
+- If you are using C++ prior to C++11 then you don't need these jargons to write code. But yes it is still useful to understand compilation errors.
+- The compiler sees things by expression & to evaluate expression it identify operand & operation. Let's understand this by example:
 ```
 int a = 5;
 ```
-- Here compiler identifies `a` & `5` as operand & `=`(assignment) as operation. Further more compiler devides operand in subcatagory named as rvalues, lvalues, xvalues, glvalues, and prvalues to distinguish between them. These different value tells compiler about source of information, destination to store result, scope of information, etc.
-- In above expression `a` is l-value as it indicates destination memory where r-value i.e. `5` will be stored.
+- Here compiler identifies `a` & `5` as operand & `=`(assignment) as operation. Furthermore, compiler divides operand in subcategory named as rvalues, lvalues, xvalues, glvalues, and prvalues to distinguish between them. This different value tells the compiler about the source of information, destination to store the result, the scope of information, etc.
+- In the above expression `a` is l-value as it indicates destination memory where r-value i.e. `5` will be stored.
 - When you compile & see above statement in assembly, it would probably look like :
 ```...
 movl    $5, -4(%ebp)
 ...
 ```
 - Here, `(%ebp)` is current frame pointer which pull down by `4` bytes which indicates space allocated by compiler for variable `a` in stack. And `movl` instruction store `5` to that memory location directly.
-- This is straight forward as long as we are using premitive data types like int, dobule, char, etc. So compiler will store raw value directly instruction code itself like in our case its `$5`. After the execution of that instruction, `$5` is not used, so it has expression scope, in other word it is temporary.
-- But when we use class & struct which are user defined type, things get bit complex & compiler introduce temporary object instead of directly storing value in instruction code itself.
+- This is straight forward as long as we are using primitive data types like int, double, char, etc. So compiler will store raw value directly instruction code itself like in our case its `$5`. After the execution of that instruction, `$5` is not used, so it has expression scope, in other word it is temporary.
+- But when we use class & struct which are the user-defined type, things get bit complex & compiler introduce temporary object instead of directly storing the value in instruction code itself.
 
-Bottom Line: we need this kind of jargons to understand compilation error & to see thing from compilers perspective. And yes! if you are using C++11 or above it, you need to understand this jargons to write robust, fast & optimize code.
+Bottom Line: we need this kind of jargons to understand compilation error & to see thing from a compilers perspective. And yes! if you are using C++11 or above it, you need to understand these jargons to write robust, fast & optimize code.
 ### What are l-value & r-value?
-- l-value & r-value is compiler identifiers to evalute expression.
+- l-value & r-value is compiler identifiers to evaluate expression.
 - Any compiler identifier which points-to/represent memory location is l-value. 
-- Any compiler identifier which represent data value on right hand side of an assignment operator(=) is r-value. .
+- Any compiler identifier which represents data value on the right-hand side of an assignment operator(=) is R-value. .
 
 > **Examples of l-value**
 
@@ -63,8 +63,8 @@ getInt() = 2; // invalid
 ```
 a = b; // a & b are of same type, defined somewhere else
 ```
-- In above assignment we dont want `b` to be change. This non-assignment rule makes sense, because assigning a value applies a side-effect to the object. 
-- Since r-values have expression scope, if we were to assign a value to an r-value, then the r-value would either go out of scope before we had a chance to use the assigned value in the next expression (which makes the assignment useless) or we’d have to use a variable with a side effect applied more than once in an expression (which by now you should know causes undefined behavior!).
+- In the above assignment, we don't want `b` to be changed. This non-assignment rule makes sense because assigning a value applies a side-effect to the object. 
+- Since r-values have expression scope, if we were to assign a value to an r-value, then the r-value would either go out of scope before we had a chance to use the assigned value in the next expression (which makes the assignment useless) or we’d have to use a variable with a side effect applied more than once in an expression (which by now you should know causes undefined behaviour!).
 
 ### l-value reference
 - Now an lvalue reference is a reference that binds to an lvalue. 
@@ -104,26 +104,26 @@ int &&ref = a; // Invalid & error will be thrown by compiler
 ```
 void fun(const int &lref) // l-value arguments will select this function
 {
-	std::cout << "l-value reference to const\n";
+    std::cout << "l-value reference to const\n";
 }
  
 void fun(int &&rref) // r-value arguments will select this function
 {
-	std::cout << "r-value reference\n";
+    std::cout << "r-value reference\n";
 }
  
 int main()
 {
-	int x = 5;
-	fun(x); // l-value argument calls l-value version of function
-	fun(5); // r-value argument calls r-value version of function
+    int x = 5;
+    fun(x); // l-value argument calls l-value version of function
+    fun(5); // r-value argument calls r-value version of function
  
-	return 0;
+    return 0;
 }
 ```
 ### Why we need r-value references?
-- If you observe copy constructor & copy assignment operator prototype, it always takes `const` reference object as arguemtn. Because their primary work is to copy the object. And while copying we dont want to modify our r-value as we have already seen in above `a = b` example.
-- But there are some scenarios where we dont care about the r-value or object we have provided to copy from. For example:
+- If you observe the copy constructor & copy assignment operator prototype, it always takes `const` reference object as an argument. Because their primary work is to copy the object. And while copying we don't want to modify the object we have provided on the right-hand side.
+- But there are some scenarios where we don't care about the right-hand side object we have provided to copy from. For example:
 ```
 class IntArray{
     int *m_arr;
@@ -144,9 +144,9 @@ public:
 
 IntArray func()
 {
-	IntArray obj(5);	
-	// process obj	
-	return obj;
+    IntArray obj(5);    
+    // process obj    
+    return obj;
 }
 
 int main()
@@ -157,17 +157,19 @@ int main()
 
 // Note: use "-fno-elide-constructors" option while compiling otherwise it will create copy elision 
 ```
-- By observing this code we conclude that `obj` is not useful after return of `func` function. But when you return object by value it will invoke copy constructor & which will copy all the content from `obj` to `arr` in `main` function by acquiring new resource.
-- Rather than initializing new resources & copying data to it why dont we just simply use `obj`'s resources? Because `obj` is anyway goind out of scope after return of `func` function. Let's do that:
+- By observing this code we conclude that `obj` is not useful after the return of `func` function. But when you return an object by the value it will invoke copy constructor & which will copy all the content from `obj` to `arr`(declared in `main()`) by allocating new resource for `arr`. And also when obj goes out of scope it will deallocate its resources.
+- Rather than allocating new resources & copying data into it why don't we simply use those existing `obj`'s resources? Let's do that:
 ```
 IntArray(IntArray&& rhs){
-	m_arr = rhs.m_arr;
-	m_len = rhs.m_len;
+    m_arr = rhs.m_arr;
+    m_len = rhs.m_len;
 
-	rhs.m_arr = nullptr; // To prevent destructor from crashing code
+    rhs.m_arr = nullptr; // To prevent code crashing 
 }
 ```
-- I have just modified copy constructor code as above which accept r-value reference rather than l-value, implementation simply took ownership of resources from `obj` to `arr`. Infact this is move constructor not copy constructor. Whose primary task to take ownership.
+- I have just modified copy constructor code as above which accept r-value reference as an argument rather than l-value so that our overloaded copy constructor will only be called when there is r-value is used on the right-hand side. Which simply means this constructor will only be called when right-hand side object is temporary or programmer is no longer care about that object. 
+- Implementation simply took ownership of resources from `obj` to `arr` and set right-hand side object's pointer to `NULL` so that it's destructor won't deallocate resource which it is no longer owning.
+- In fact, this is move constructor, not a copy constructor. Whose primary task is to take/move ownership of resources.
 - Consider following move constructor prototype for more solid understanding:
 ```
 IntArray(IntArray&& rhs)
@@ -177,10 +179,10 @@ IntArray(IntArray&& rhs)
 ```
 - The message of this code is this: "The object that `rhs` binds to is YOURS. Do whatever you like with it, no one will care anyway." It's a bit like giving a copy to `IntArray` but without making a copy.
 - This can be interesting for two purposes: 
-	1. improving performance (as we are not allocating new resources & transferring content).
-	2. taking over ownership (since the object the reference binds to has been abandoned by the caller).
+    1. improving performance (as we are not allocating new resources & transferring content).
+    2. taking over ownership (since the object the reference binds to has been abandoned by the caller).
 
-- I know you might be thingking that why just we dont modify copy constructor by remving `const` keyword from it. Let's do that as well
+- I know you might be thinking that why just we don't modify copy constructor by removing `const` keyword from it. Let's do that as well
 ```
 IntArray(IntArray& rhs){
 }
@@ -196,8 +198,8 @@ note: candidate constructor not viable: expects an l-value for 1st argument
     ^
 1 error generated.
 ```
-- If you see the `note` our overloaded copy constructor asking for l-value. What we are doing is providing r-value. As when we return object by value, temporary(anonymous) object will be created and supplied to our copy constructor which falls under r-value category as it is temporary object.
-- As we have discussed earlier we can only bind l-values to l-value referece.
+- If you see the `note` our overloaded copy constructor asking for l-value. What we are doing is providing r-value. As when we return an object by value, temporary(which falls under r-value category) object will be created and supplied to our copy constructor. And as we have already seen above l-value reference cannot bind to r-value object.
+- Don't think about changing your copy constructor's argument as `const` l-value reference, I know we have studied that its exception & we can bind const l-value reference to r-value/temporary object. But in that case, you can not move/transfer resource as it is const.
 
 ### References
 - https://www.fluentcpp.com/2018/02/06/understanding-lvalues-rvalues-and-their-references/
