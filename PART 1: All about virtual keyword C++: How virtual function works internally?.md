@@ -109,7 +109,7 @@ As you can see there are some benefits we have achieved using virtual keywords a
 
 - When you declare any function virtual, the compiler will transform(augment is the precise word here) some of your code at compile time.
 - Like in our case class `protocol_t` class object will be augmented by a pointer called `vptr` which points to the virtual table.
-- This is nothing but an array of a void pointer which includes offset/address of your virtual function. So that it can call your function through that table rather than calling it directly by adding offset to `this` pointer.
+- This is nothing but a pointer(`vptr`) which points to an array of a function pointer which includes offset/address of your virtual function. So that it can call your function through that table rather than calling it directly by adding offset to `this` pointer.
 
 So if you call function `authenticate()` using a pointer of `protocol_t` 
 ```
