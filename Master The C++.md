@@ -17,3 +17,4 @@
 13. [C vs C++: 30 Differences that Every Programmer Must Know](https://hackr.io/blog/c-vs-cpp).
 14. [C++ Interview Questions](https://hackr.io/blog/cpp-interview-questions).
 15. [C++ Language: Features, Uses, Applications & Advantages](https://hackr.io/blog/features-uses-applications-of-c-plus-plus-language).
+16. [M Chowdhury's answer on quora](https://qr.ae/TWR1Dk)
