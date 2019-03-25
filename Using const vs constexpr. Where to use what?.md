@@ -3,13 +3,31 @@
 - Initially i was bit confuse & comparing `constexpr` with `const` which was not allowing new thought & thinking in my mind about how this `constexpr` works & differ with `const`. So i have studied this in different steps & here is glimps of it:
 ### All about `constexpr`
 
+##### `constexpr` with primitive variables
+```
+int varA = 3;
+const int varB = 5;
+constexpr int varC = 7;
+```
+- All of above variable having a value which is known at compile time. `varA` is normal scenario while `varB` & `varC` will not take further value or assignment. so they are fixed at compile time if we have defined them like above.
+- But, `varB` is not the way of getting compile time value. For example if i declare them as follows:
+```c++
+int getRandomNo()
+{
+  return rand() % 10;
+}
+
+int main()
+{
+    const int varB = getRandomNo();       // OK
+    constexpr int varC = getRandomNo();   // not OK! compilation error
+
+    return 0;
+}
+```
+- Value of `varB` would not be anymore compile time. While statement with `varC` will throw compilation error. The reason is `constexpr` will always accept strictly compile time value.
 ##### Function as `constexpr`
 ```c++
-#include <iostream>
-#include <bits/stdc++.h>
-
-using namespace std;
-
 constexpr int sum(int x, int y)
 {
     return x + y;
@@ -17,12 +35,12 @@ constexpr int sum(int x, int y)
 
 int main()
 {
-    int result = sum(10, 20);
+    const int result = sum(10, 20);     // Here, you can use constexpr as well
     cout << result;
     return 0;
 }
 ```
-- constexpr specifies that the value of an object, variable or a function can be evaluated at compile time and the expression can be used in other constant expressions. 
+- constexpr specifies that the value of an object, variable or a function can be evaluated strictly at compile time and the expression can be used in other constant expressions. 
 ```
 +--------------------------------------+--------------------------------------+
 |       int result = sum(10, 20);      |    const int result = sum(10, 20);   |
@@ -32,7 +50,7 @@ int main()
 |  3   ....                            |      ....                            |
 |  4   ....                            |      ....                            |
 |  5           subl    $20, %esp       |      	      subl    $20, %esp       |
-|  6           subl    $8, %esp        |              movl    $30, -12(%ebp)  |
+|  6           subl    $8, %esp        |              movl    $30, -12(%ebp)  | <<<---------- Direct result substitution
 |  7           pushl   $20             |              subl    $8, %esp        |
 |  8           pushl   $10             |              pushl   $30             |
 |  9           call    _Z3sumii        |              pushl   $_ZSt4cout      |
@@ -47,6 +65,7 @@ int main()
 |  18  ....                            |                                      |
 +--------------------------------------+--------------------------------------+
 ```
+- If you observe above code, you can see that when you catch result as `const` or `constexpr`, call to function `sum` is not there in assembly rather compiler will execute that function by it self & replace the result with function.
 By specifying `constexpr`, we suggest compiler to evaluate function `sum` at compiler time.
 - Rules:
 1. In C++ 11, a `constexpr` function should contain only one return statement. C++ 14 allows more than one statements.
@@ -62,3 +81,5 @@ Both of them can be applied to member methods. Member methods are made const to 
 - const can only be used with non-static member function whereas constexpr can be used with with member and non-member functions, even with constructors but with condition that argument and return type must be of literal types.
 
 ### References
+- https://blog.quasardb.net/2016/11/22/demystifying-constexpr
+- 
