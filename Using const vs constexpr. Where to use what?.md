@@ -68,17 +68,30 @@ int main()
 - If you observe above code, you can see that when you catch result as `const` or `constexpr`, call to function `sum` is not there in assembly rather compiler will execute that function by it self & replace the result with function.
 - By specifying `constexpr`, we suggest compiler to evaluate function `sum` at compile time.
 - Here are basic rules for that:
-1. In C++ 11, a `constexpr` function should contain only one return statement. C++ 14 allows more than one statements.
-2. `constexpr` function should refer only constant global variables.
-3. `constexpr` function can call only other constexpr function not simple function.
-4. Function should not be of void type and some operator like prefix increment (++v) are not allowed in constexpr function.
-
+  1. In C++ 11, a `constexpr` function should contain only one return statement. C++ 14 allows more than one statements.
+  2. `constexpr` function should refer only constant global variables.
+  3. `constexpr` function can call only other constexpr function not simple function.
+  4. Function should not be of void type and some operator like prefix increment (++v) are not allowed in constexpr function.
+- A `constexpr` function is able to compute its result at compilation time, if its input is known at compilation time. In other words, any function that has "everything it needs" to compute its result at compile-time, can be a constant expression.
 ##### `constexpr` with constructors
+
 
 ### `constexpr` vs `const`
 - They serve different purposes. constexpr is mainly for optimization while const is for practically const objects like value of Pi.
 Both of them can be applied to member methods. Member methods are made const to make sure that there are no accidental changes by the method. On the other hand, the idea of using constexpr is to compute expressions at compile time so that time can be saved when code is run.
 - const can only be used with non-static member function whereas constexpr can be used with with member and non-member functions, even with constructors but with condition that argument and return type must be of literal types.
+
+### Where to use what ?
+- Where you need value once & calculating it would be a bit complex, that is the place you need constexpr. Otherwise things are fine with older buddy `const`. For example, fibonacci number, factorial, etc.
+```c++
+constexpr unsigned int factorial(unsigned int n)
+{
+    return (n <= 1) ? 1 : (n * factorial(n - 1));
+}
+
+static constexpr auto magic_value = factorial(5);
+```
+
 
 ### References
 - https://blog.quasardb.net/2016/11/22/demystifying-constexpr
