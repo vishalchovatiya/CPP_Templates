@@ -50,7 +50,7 @@ int main()
 |  3   ....                            |      ....                            |
 |  4   ....                            |      ....                            |
 |  5           subl    $20, %esp       |      	      subl    $20, %esp       |
-|  6           subl    $8, %esp        |              movl    $30, -12(%ebp)  | <<<---------- Direct result substitution
+|  6           subl    $8, %esp        |              movl    $30, -12(%ebp)  | <----- Direct result substitution
 |  7           pushl   $20             |              subl    $8, %esp        |
 |  8           pushl   $10             |              pushl   $30             |
 |  9           call    _Z3sumii        |              pushl   $_ZSt4cout      |
@@ -66,8 +66,8 @@ int main()
 +--------------------------------------+--------------------------------------+
 ```
 - If you observe above code, you can see that when you catch result as `const` or `constexpr`, call to function `sum` is not there in assembly rather compiler will execute that function by it self & replace the result with function.
-By specifying `constexpr`, we suggest compiler to evaluate function `sum` at compiler time.
-- Rules:
+- By specifying `constexpr`, we suggest compiler to evaluate function `sum` at compile time.
+- Here are basic rules for that:
 1. In C++ 11, a `constexpr` function should contain only one return statement. C++ 14 allows more than one statements.
 2. `constexpr` function should refer only constant global variables.
 3. `constexpr` function can call only other constexpr function not simple function.
