@@ -23,12 +23,11 @@ int main()
 3. `constexpr` function can call only other constexpr function not simple function.
 4. Function should not be of void type and some operator like prefix increment (++v) are not allowed in constexpr function.
 
-First header | Second header
--------------|---------------
-List:        | More  \
-- over       | data  \
-- several    |       \
-- lines      |
+| Format   | Tag example |
+| -------- | ----------- |
+| Headings | =heading1=<br>==heading2==<br>===heading3=== |
+| New paragraph | A blank line starts a new paragraph |
+| Source code block |  // all on one line<br> {{{ if (foo) bar else   baz }}} |
 ###
 
 ### References
