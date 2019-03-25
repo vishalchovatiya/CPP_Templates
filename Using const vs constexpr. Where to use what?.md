@@ -109,3 +109,4 @@ Here you can use `constexpr`
 ### References
 - https://blog.quasardb.net/2016/11/22/demystifying-constexpr
 - https://en.cppreference.com/w/cpp/language/constexpr
+- https://www.geeksforgeeks.org/understanding-constexper-specifier-in-c/
