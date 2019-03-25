@@ -1,5 +1,6 @@
 ### Intro
-
+- While introducing myself to C++ & its new features introduced in C++11 & C++14, i have completely neglected this keyword `constexpr`. 
+- Initially i was bit confuse & comparing `constexpr` with `const` which was not allowing new thought & thinking in my mind about how this `constexpr` works & differ with `const`. So i have studied this in different steps & here is glimps of it:
 ### All about `constexpr`
 
 ##### Function as `constexpr`
