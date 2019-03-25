@@ -21,7 +21,7 @@ int main()
     return 0;
 }
 ```
-- constexpr specifies that the value of an object or a function can be evaluated at compile time and the expression can be used in other constant expressions. 
+- constexpr specifies that the value of an object, variable or a function can be evaluated at compile time and the expression can be used in other constant expressions. 
 ```
 +--------------------------------------+--------------------------------------+
 |       int result = sum(10, 20);      |    const int result = sum(10, 20);   |
