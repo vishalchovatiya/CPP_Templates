@@ -23,14 +23,14 @@ int main()
 ```
 - constexpr specifies that the value of an object or a function can be evaluated at compile time and the expression can be used in other constant expressions. 
 ```
-+--------------------------------------|--------------------------------------+
++--------------------------------------+--------------------------------------+
 |       int result = sum(10, 20);      |    const int result = sum(10, 20);   |
-+--------------------------------------|--------------------------------------+
++--------------------------------------+--------------------------------------+
 |  1   main:                           |      main:                           |
 |  2   ....                            |      ....                            |
 |  3   ....                            |      ....                            |
 |  4   ....                            |      ....                            |
-|  5           subl    $20, %esp       |      	subl    $20, %esp        	  |
+|  5           subl    $20, %esp       |      	      subl    $20, %esp       |
 |  6           subl    $8, %esp        |              movl    $30, -12(%ebp)  |
 |  7           pushl   $20             |              subl    $8, %esp        |
 |  8           pushl   $10             |              pushl   $30             |
@@ -44,7 +44,7 @@ int main()
 |  16  ....                            |                                      |
 |  17  ....                            |                                      |
 |  18  ....                            |                                      |
-+--------------------------------------|--------------------------------------+
++--------------------------------------+--------------------------------------+
 ```
 By specifying `constexpr`, we suggest compiler to evaluate function `sum` at compiler time.
 - Rules:
