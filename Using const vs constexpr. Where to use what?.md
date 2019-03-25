@@ -1,9 +1,7 @@
 ### Intro
 - While introducing myself to C++ & its new features introduced in C++11 & C++14, i have completely neglected this keyword `constexpr`. 
 - Initially i was bit confuse & comparing `constexpr` with `const` which was not allowing new thought & thinking in my mind about how this `constexpr` works & differ with `const`. So i have studied this in different steps & here is glimps of it:
-### All about `constexpr`
-
-##### `constexpr` with primitive variables
+### `constexpr` with primitive variables
 ```c++
 int varA = 3;
 const int varB = 5;
@@ -26,7 +24,7 @@ int main()
 }
 ```
 - Value of `varB` would not be anymore compile time. While statement with `varC` will throw compilation error. The reason is `constexpr` will always accept strictly compile time value.
-##### Function as `constexpr`
+### Function as `constexpr`
 ```c++
 constexpr int sum(int x, int y)
 {
@@ -73,7 +71,7 @@ int main()
   3. `constexpr` function can call only other constexpr function not simple function.
   4. Function should not be of void type and some operator like prefix increment (++v) are not allowed in constexpr function.
 - A `constexpr` function is able to compute its result at compilation time, if its input is known at compilation time. In other words, any function that has "everything it needs" to compute its result at compile-time, can be a constant expression.
-##### `constexpr` with constructors
+### `constexpr` with constructors
 
 
 ### `constexpr` vs `const`
