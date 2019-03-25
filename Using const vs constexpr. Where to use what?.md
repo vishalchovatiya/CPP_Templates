@@ -100,7 +100,7 @@ static constexpr auto magic_value = factorial(5);
 ```
 - Often programmer would suggest using `constexpr` instead of macro. 
 - Sometimes, you have something that can be evaluated down to a constant while maintaining good readability and allowing slightly more complex processing than just setting a constant to a number. For example:
-```
+```c++
 template< typename Type > 
 constexpr Type max( Type a, Type b ) 
 { 
@@ -109,7 +109,7 @@ constexpr Type max( Type a, Type b )
 ```
 Its a pretty simple choice there but it does mean that if you call `max` with constant values it is explicitly calculated at compile time and not at runtime.
 - Another good exmple is converting units like
-```
+```c++
 const float rupee = dollarToRupee( 9.4 );
 ```
 Here you can use `constexpr`.
