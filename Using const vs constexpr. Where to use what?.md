@@ -72,7 +72,22 @@ int main()
   4. Function should not be of void type and some operator like prefix increment (++v) are not allowed in constexpr function.
 - A `constexpr` function is able to compute its result at compilation time, if its input is known at compilation time. In other words, any function that has "everything it needs" to compute its result at compile-time, can be a constant expression.
 ### `constexpr` with constructors
-
+```c++
+class INT 
+{ 
+    int _no; 
+public: 
+    constexpr INT (int no) : _no(no){}       
+    constexpr int getInt ()  {   return _no; } 
+}; 
+  
+int main() 
+{ 
+    constexpr INT obj(INT(5).getInt()); 
+    cout << obj.getInt(); 
+    return 0; 
+} 
+```
 
 ### `constexpr` vs `const`
 - They serve different purposes. constexpr is mainly for optimization while const is for practically const objects like value of Pi.
