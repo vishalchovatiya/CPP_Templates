@@ -41,7 +41,7 @@ int main()
 }
 ```
 - constexpr specifies that the value of an object, variable or a function can be evaluated strictly at compile time and the expression can be used in other constant expressions. 
-```
+```assembly
 +--------------------------------------+--------------------------------------+
 |       int result = sum(10, 20);      |    const int result = sum(10, 20);   |
 +--------------------------------------+--------------------------------------+
