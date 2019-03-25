@@ -91,6 +91,7 @@ constexpr unsigned int factorial(unsigned int n)
 
 static constexpr auto magic_value = factorial(5);
 ```
+- Often programmer would suggest using `constexpr` instead of macro. 
 
 
 ### References
