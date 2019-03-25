@@ -27,3 +27,4 @@
 26. [Move constructors and move assignment operator with smart pointer](https://github.com/VisheshPatel/CPP_Templates/blob/master/Move%20constructors%20and%20move%20assignment%20operator%20with%20smart%20pointer.md)
 27. [Understanding l-value, r-value, l-value reference, r-value reference](https://github.com/VisheshPatel/CPP_Templates/blob/master/Understanding%20l-value%2C%20r-value%2C%20l-value%20reference%2C%20r-value%20reference.md)
 28. [Using const vs constexpr. Where to use what?](https://github.com/VisheshPatel/CPP_Templates/blob/master/Using%20const%20vs%20constexpr.%20Where%20to%20use%20what%3F.md)
+29. [Smart pointer & why we need move constructors and move assignment?](https://github.com/VisheshPatel/CPP_Templates/blob/master/Smart%20pointer%20%26%20why%20we%20need%20move%20constructors%20and%20move%20assignment%3F.md)
