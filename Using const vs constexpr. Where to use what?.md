@@ -3,7 +3,7 @@
 ### All about `constexpr`
 
 ##### Function as `constexpr`
-```
+```c++
 constexpr int sum(int x, int y) 
 { 
     return x + y; 
