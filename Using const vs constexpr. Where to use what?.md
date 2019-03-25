@@ -27,7 +27,10 @@ int main()
 | -------- | ----------- |
 | Headings | =heading1=<br>==heading2==<br>===heading3=== |
 | New paragraph | A blank line starts a new paragraph |
-| Source code block |  ```if (foo) bar else   baz ``` |
+| Source code block |  ```if (foo) bar else   baz 
+sdfsd
+sfsd
+sdfs``` |
 ###
 
 ### References
