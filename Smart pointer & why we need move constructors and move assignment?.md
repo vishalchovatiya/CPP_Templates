@@ -180,13 +180,17 @@ Resource destroyed
 - Overriding the copy semantics to implement move semantics leads to weird edge cases and inadvertent bugs. Because of this, in C++11, the concept of “move” was formally defined, and “move semantics” were added to the language to properly differentiate copying from moving. In C++11, std::auto_ptr has been replaced by a bunch of other types of “move-aware” smart pointers: std::scoped_ptr, std::unique_ptr, std::weak_ptr, and std::shared_ptr. We’ll also explore the two most popular of these: unique_ptr (which is a direct replacement for auto_ptr) and shared_ptr.
 
 ### std::unique_ptr
+- std::unique_ptr is the C++11 replacement for std::auto_ptr. It should be used to manage any dynamically allocated object that is not shared by multiple objects. That is, std::unique_ptr should completely own the object it manages, not share that ownership with other classes. std::unique_ptr lives in the <memory> header.
 ```c++
+#include <iostream>
+#include <memory> // for std::unique_ptr
+	
 template<class T>
 class Auto_ptr4
 {
 	T* m_ptr;
 public:
-	Auto_ptr4(T* ptr = nullptr):m_ptr(ptr){}
+	Auto_ptr4(T* ptr = nullptr) : m_ptr(ptr){}
  
 	~Auto_ptr4()
 	{
@@ -243,6 +247,7 @@ Auto_ptr4<Resource> func(Auto_ptr4<Resource> temp)
 int main()
 {
 	Auto_ptr4<Resource> res1(new Resource);
+	// Auto_ptr4<Resource> res3 = res1; // Won't compile, as copy contructor is deleted
 	Auto_ptr4<Resource> res3 = func(std::move(res1));
  
 	return 0;
@@ -255,7 +260,7 @@ MOVED
 MOVED
 Resource destroyed
 ```
-- As you can see we are moving our pointer as copy constructor & assignment operator methods are deleted. This is not the exact implementation of std::unique_ptr as there is deleter & other security features are there, but gives you bigger picture of how unique_ptr is implemented.
+- As you can see we are moving our pointer as copy constructor & assignment operator methods are deleted. This is not the exact implementation of std::unique_ptr as there is deleter, implicit cast to bool & other security features are there, but this gives you bigger picture of how unique_ptr is implemented.
 ### std::shared_ptr
 ```
 
