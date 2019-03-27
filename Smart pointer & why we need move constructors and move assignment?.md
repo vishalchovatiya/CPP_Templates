@@ -179,7 +179,129 @@ Resource destroyed
 
 - Overriding the copy semantics to implement move semantics leads to weird edge cases and inadvertent bugs. Because of this, in C++11, the concept of “move” was formally defined, and “move semantics” were added to the language to properly differentiate copying from moving. In C++11, std::auto_ptr has been replaced by a bunch of other types of “move-aware” smart pointers: std::scoped_ptr, std::unique_ptr, std::weak_ptr, and std::shared_ptr. We’ll also explore the two most popular of these: unique_ptr (which is a direct replacement for auto_ptr) and shared_ptr.
 
-### 
+### std::unique_ptr
+```c++
+template<class T>
+class Auto_ptr4
+{
+	T* m_ptr;
+public:
+	Auto_ptr4(T* ptr = nullptr):m_ptr(ptr){}
+ 
+	~Auto_ptr4()
+	{
+		delete m_ptr;
+	}
+ 
+	// Copy constructor
+	Auto_ptr4(const Auto_ptr4& a) = delete;
+ 
+	// Move constructor
+	Auto_ptr4(Auto_ptr4&& a)
+		: m_ptr(a.m_ptr)
+	{
+    cout<<"MOVED\n";
+		a.m_ptr = nullptr;
+	}
+ 
+	// Copy assignment
+	Auto_ptr4& operator=(const Auto_ptr4& a) = delete;
+ 
+	// Move assignment
+	Auto_ptr4& operator=(Auto_ptr4&& a)
+	{
+    cout<<"MOVED\n";
+		
+		if (&a == this)
+			return *this;
+ 
+		delete m_ptr;
+ 
+		m_ptr = a.m_ptr;
+		a.m_ptr = nullptr;
+ 
+		return *this;
+	}
+ 
+	T& operator*() const { return *m_ptr; }
+	T* operator->() const { return m_ptr; }
+};
+ 
+class Resource
+{
+public:
+	Resource() { std::cout << "Resource acquired\n"; }
+	~Resource() { std::cout << "Resource destroyed\n"; }
+};
+ 
+Auto_ptr4<Resource> func(Auto_ptr4<Resource> temp) 
+{
+  // Do something
+  return temp;
+}
 
+int main()
+{
+	Auto_ptr4<Resource> res1(new Resource);
+	Auto_ptr4<Resource> res3 = func(std::move(res1));
+ 
+	return 0;
+}
+```
+- Output
+```
+Resource acquired
+MOVED
+MOVED
+Resource destroyed
+```
+- As you can see we are moving our pointer as copy constructor & assignment operator methods are deleted. This is not the exact implementation of std::unique_ptr as there is deleter & other security features are there, but gives you bigger picture of how unique_ptr is implemented.
+### std::shared_ptr
+```
+
+```
+### Bit about move constructor & move assignment operator
+##### When are the move constructor and move assignment called?
+- The move constructor and move assignment are called when those functions have been defined, and the argument for construction or assignment is an r-value. Most typically, this r-value will be a literal or temporary value.
+- In most cases, a move constructor and move assignment operator will not be provided by default, unless the class does not have any defined copy constructors, copy assignment, move assignment, or destructors. However, the default move constructor and move assignment do the same thing as the default copy constructor and copy assignment (**make copies, not do moves**).
+
+##### l-value reference & r-value reference
+- I have already written separate article for that. 
+
+##### std::move
+- In C++11, std::move is a standard library function that serves a single purpose -- **to convert its argument into an r-value**.
+- Once you start using move semantics more regularly, you’ll start to find cases where you want to invoke move semantics, but the objects you have to work with are l-values, not r-values. Consider the following swap function as an example:
+```c++
+template<class T>
+void swap(T& a, T& b) 
+{ 
+  T tmp { a }; // invokes copy constructor
+  a = b; // invokes copy assignment
+  b = tmp; // invokes copy assignment
+}
+ 
+int main()
+{
+	std::string x{ "abc" };
+	std::string y{ "de" };
+
+	swap(x, y);
+
+	return 0;
+}
+```
+- Above function swap makes 3 copies. That leads to a lot of excessive string creation and destruction, which is slow.
+- However, doing copies isn’t necessary here. All we’re really trying to do is swap the values of a and b, which can be accomplished just as well using 3 moves instead! So if we switch from copy semantics to move semantics, we can make our code more performant.
+```c++
+template<class T>
+void swap(T& a, T& b) 
+{ 
+  T tmp { std::move(a) }; // invokes move constructor
+  a = std::move(b); // invokes move assignment
+  b = std::move(tmp); // invokes move assignment
+}
+```
+- std::move can also be useful when sorting an array of elements. Many sorting algorithms (such as selection sort and bubble sort) work by swapping pairs of elements. Here we can use move semantics, which is more efficient.
+- Bottom line: std::move can be used whenever we want to treat an l-value like an r-value.
 ### References
 - https://www.learncpp.com
