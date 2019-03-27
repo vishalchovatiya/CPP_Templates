@@ -84,6 +84,7 @@ Resource destroyed
 ```
 - Note that even in the case where the user enters zero and the function terminates early, the Resource is still properly deallocated.
 - Because the ptr variable is a local variable, ptr will be destroyed when the function terminates (regardless of how it terminates). And because the Auto_ptr1 destructor will clean up the Resource, we are assured that the Resource will be properly cleaned up.
+### Flaws
 - There is still some problem with our code. Like:
 ```c++
 int main()
