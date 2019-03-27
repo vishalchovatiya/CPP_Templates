@@ -307,6 +307,5 @@ void swap(T& a, T& b)
 }
 ```
 - std::move can also be useful when sorting an array of elements. Many sorting algorithms (such as selection sort and bubble sort) work by swapping pairs of elements. Here we can use move semantics, which is more efficient.
-- Bottom line: std::move can be used whenever we want to treat an l-value like an r-value.
 ### References
 - https://www.learncpp.com
