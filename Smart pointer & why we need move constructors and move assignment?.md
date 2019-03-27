@@ -107,7 +107,7 @@ Auto_ptr1(const Auto_ptr1 &rhs)	 = delete;
 ```
 - As we are not allowing copy of smart pointer we can not pass our smart_pointer to any function by value or return by value. And this is not good design. Instead of deleting copy constructor we can count reference of copy, when this reference goes to zero we will delete/free our Resource. 
 - This is good idea but this will create many smart_pointer pointing to same resource & can cause confusion & messy code. Althoug C++ standard already provide this kind of smart_pointer named as shared_pointer. 
-- But what if we just want single pointer for single Resource & still we can copy it to another smart_pointer? 
+- But what if we just want single pointer for single Resource(yes! like std::unique_ptr) & still we can copy it to another smart_pointer? 
 - What if, instead of having our copy constructor and assignment operator copy the pointer (“copy semantics”), we instead transfer/move ownership of the pointer from the source to the destination object? This is the core idea behind move semantics. Move semantics means the class will transfer ownership of the object rather than making a copy.
 - Let's update our Auto_ptr1 class to show how this can be done:
 ```c++
