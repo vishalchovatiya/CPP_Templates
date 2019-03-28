@@ -93,7 +93,6 @@ Resource destroyed
 ```
 - Note that even in the case where the user enters zero and the function terminates early, the `Resource` is still properly deallocated.
 - Because the `ptr` variable is a local variable, `ptr` will be destroyed when the function terminates (regardless of how it terminates). And because the `smart_ptr` destructor will clean up the `Resource`, we are assured that the `Resource` will be properly cleaned up.
-##### Flaws
 - There is still some problem with our code. Like:
 ```c++
 int main()
@@ -147,7 +146,6 @@ public:
  
     T& operator*() const { return *m_ptr; }
     T* operator->() const { return m_ptr; }
-    bool isNull() const { return m_ptr == nullptr;  }
 };
  
 class Resource
@@ -172,48 +170,46 @@ Resource destroyed
 ```
 ### `std::auto_ptr`, and why to avoid it
 - What we have seen above as `smart_ptr` is basically an `std::auto_ptr` which was introduced in C++98, was C++'s first attempt at a standardized smart pointer.
-- However, `std::auto_ptr` (and our smart_ptr class) has a number of problems that make using it dangerous.
-  1. Because `std::auto_ptr` implements move semantics through the copy constructor and assignment operator, passing an `std::auto_ptr` by value to a function will cause your resource to get moved to the function parameter (and be destroyed at the end of the function when the function parameters go out of scope). Then when you go to access your auto_ptr argument from the caller (not realizing it was transferred and deleted), you're suddenly dereferencing a null pointer. Crash!
+- However, `std::auto_ptr` (and our `smart_ptr` class) has a number of problems that make using it dangerous.
+  1. Because `std::auto_ptr` implements move semantics through the copy constructor and assignment operator, passing an `std::auto_ptr` by value to a function will cause your resource to get moved to the function parameter (and be destroyed at the end of the function when the function parameters go out of scope). Then when you go to access your `std::auto_ptr` argument from the caller (not realizing it was transferred and deleted), you're suddenly dereferencing a null pointer. Crash!
   2. `std::auto_ptr` always deletes its contents using non-array delete. This means `std::auto_ptr` won't work correctly with dynamically allocated arrays, because it uses the wrong kind of deallocation. Worse, it won't prevent you from passing it a dynamic array, which it will then mismanage, leading to memory leaks.
 - Because of the above-mentioned shortcomings, `std::auto_ptr` has been deprecated in C++11, and it should not be used. In fact, `std::auto_ptr` is slated for complete removal from the standard library as part of C++17!
 
-- Overriding the copy semantics to implement move semantics leads to weird edge cases and inadvertent bugs. Because of this, in C++11, the concept of "move" was formally defined, and "move semantics" were added to the language to properly differentiate copying from moving. In C++11, `std::auto_ptr` has been replaced by a bunch of other types of "move-aware" smart pointers: `std::scoped_ptr`, `std::unique_ptr`, `std::weak_ptr`, and `std::shared_ptr`. We'll also explore the two most popular of these: `std::unique_ptr` (which is a direct replacement for `std::auto_ptr`) and `std::shared_ptr`.
+- Overriding the copy semantics to implement move semantics leads to weird edge cases and inadvertent bugs. Because of this, in C++11, the concept of "move" was formally defined, and "move semantics" were added to the language to properly differentiate copying from moving. In C++11, `std::auto_ptr` has been replaced by a bunch of other types of "move-aware" smart pointers: `std::scoped_ptr`, `std::unique_ptr`, `std::weak_ptr`, and `std::shared_ptr`. 
+- We'll also explore the two most popular of these: `std::unique_ptr` (which is a direct replacement for `std::auto_ptr`) and `std::shared_ptr`.
 
 ### `std::unique_ptr`
-- `std::unique_ptr` is the C++11 replacement for `std::auto_ptr`. It should be used to manage any dynamically allocated object that is not shared by multiple objects. That is, `std::unique_ptr` should completely own the object it manages, not share that ownership with other classes. `std::unique_ptr` lives in the `<memory>` header.
+- `std::unique_ptr` is the C++11 replacement for `std::auto_ptr`. It should be used to manage any dynamically allocated object that is not shared by multiple objects. That is, `std::unique_ptr` should completely own the object it manages, not share that ownership with other classes.
 - We can convert our `smart_ptr` we designed above into `std::unique_ptr`. And for that one thing, we can do is delete the copy constructor & assignment operator so that no one can copy smart pointer. 
 - As we are not allowing a copy of smart pointer we can't pass our smart pointer to any function by value or return by value. And this is not good design. 
 - To pass or return by value, we can add move constructor & move assignment operator, so that while passing or returning by value, we would have to transfer ownership through move semantics. This way we can also ensure single ownership throughout the lifetime of the object.
 ```c++
-#include <iostream>
-#include <memory> // for std::unique_ptr
-    
 template<class T>
-class Auto_ptr4
+class smart_ptr
 {
     T* m_ptr;
 public:
-    Auto_ptr4(T* ptr = nullptr) : m_ptr(ptr){}
+    smart_ptr(T* ptr = nullptr) : m_ptr(ptr){}
  
-    ~Auto_ptr4()
+    ~smart_ptr()
     {
         delete m_ptr;
     }
  
     // Copy constructor
-    Auto_ptr4(const Auto_ptr4& a) = delete;
+    smart_ptr(const smart_ptr& a) = delete;
  
     // Move constructor
-    Auto_ptr4(Auto_ptr4&& a) : m_ptr(a.m_ptr)
+    smart_ptr(smart_ptr&& a) : m_ptr(a.m_ptr)
     {
         a.m_ptr = nullptr;
     }
  
     // Copy assignment
-    Auto_ptr4& operator=(const Auto_ptr4& a) = delete;
+    smart_ptr& operator=(const smart_ptr& a) = delete;
  
     // Move assignment
-    Auto_ptr4& operator=(Auto_ptr4&& a)
+    smart_ptr& operator=(smart_ptr&& a)
     {        
         if (&a == this)
             return *this;
@@ -237,7 +233,7 @@ public:
     ~Resource() { std::cout << "Resource destroyed\n"; }
 };
  
-Auto_ptr4<Resource> func(Auto_ptr4<Resource> temp) 
+smart_ptr<Resource> func(smart_ptr<Resource> temp) 
 {
   // Do something
   return temp;
@@ -245,9 +241,9 @@ Auto_ptr4<Resource> func(Auto_ptr4<Resource> temp)
 
 int main()
 {
-    Auto_ptr4<Resource> res1(new Resource);
-    // Auto_ptr4<Resource> res3 = res1; // Won't compile, as copy contructor is deleted
-    Auto_ptr4<Resource> res3 = func(std::move(res1)); // calls move semantics
+    smart_ptr<Resource> res1(new Resource);
+    // smart_ptr<Resource> res3 = res1; // Won't compile, as copy contructor is deleted
+    smart_ptr<Resource> res3 = func(std::move(res1)); // calls move semantics
  
     return 0;
 }
@@ -267,7 +263,7 @@ template<class T>
 class smart_ptr
 {
     T* m_ptr;
-      uint32_t *m_refCount;
+    uint32_t *m_refCount;
 public:
     smart_ptr(T* ptr = nullptr):m_ptr(ptr)
     {
@@ -300,7 +296,7 @@ public:
     smart_ptr(smart_ptr&& a): m_ptr(a.m_ptr), m_refCount(a.m_refCount)
     {
         a.m_ptr = nullptr;
-            a.m_refCount = nullptr;
+        a.m_refCount = nullptr;
     }
  
     // Copy assignment
