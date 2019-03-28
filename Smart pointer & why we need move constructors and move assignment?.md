@@ -262,7 +262,7 @@ Resource destroyed
 ```
 - As you can see we are moving our pointer as copy constructor & assignment operator methods are deleted. This is not the exact implementation of std::unique_ptr as there is deleter, implicit cast to bool & other security features are there, but this gives you bigger picture of how unique_ptr is implemented.
 ### std::shared_ptr
-```
+```c++
 template<class T>
 class smart_ptr
 {
