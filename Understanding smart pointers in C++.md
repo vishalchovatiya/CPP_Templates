@@ -77,7 +77,10 @@ void func()
  
 int main()
 {
-    func();
+    try{
+      func();
+    }
+    catch(int val){}
  
     return 0;
 }
