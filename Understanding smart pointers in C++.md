@@ -403,4 +403,7 @@ void swap(T& a, T& b)
 ```
 - `std::move` can also be useful when sorting an array of elements. Many sorting algorithms (such as selection sort and bubble sort) work by swapping pairs of elements. Here we can use move semantics, which is more efficient.
 ### References
-- https://www.learncpp.com
+- https://www.geeksforgeeks.org/smart-pointers-cpp/
+- https://www.learncpp.com/cpp-tutorial/15-1-intro-to-smart-pointers-move-semantics/
+- https://stackoverflow.com/questions/106508/what-is-a-smart-pointer-and-when-should-i-use-one
+- https://docs.microsoft.com/en-us/cpp/cpp/smart-pointers-modern-cpp?view=vs-2017
