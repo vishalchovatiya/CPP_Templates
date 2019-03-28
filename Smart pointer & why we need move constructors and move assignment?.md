@@ -1,6 +1,7 @@
 ### Intro
-- It is obvious that there is relation between smart pointers & move semantics just by looking at tittle of this article
-- C++ provide smart pointers as standard feature but to understand need of move semantics we will design our own smart pointer class.
+- By seeing a tittle of this article, it is obvious that there is relation between smart pointers & move semantics. But we mostly focus on how smart pointer internally works with naive implementation. We will see that how move sematics fits in building smart pointer classes.
+- Prior to C++11, standard provided std::auto_ptr which had some limitation. But from C++11, standard provided many smart pointers classes. And to understand the need of move semantics we will design our own smart pointer class.
+- But before all these nuisance, we will see "why we need smart_pointer at 1st place?":
 
 ### Why we need smart pointers?
 ```c++
@@ -13,21 +14,19 @@ void someFunction()
     std::cin >> x;
  
     if (x == 0)
-        throw 0; // the function returns early, and ptr won’t be deleted!
+        throw 0; // the function returns early, and ptr won't be deleted!
                 
     if (x < 0)
-        return; // the function returns early, and ptr won’t be deleted!
+        return; // the function returns early, and ptr won't be deleted!
  
     // do stuff with ptr here
  
     delete ptr;
 }
 ```
-- In the above two programs, the early return or throw statement execute, causing the function to terminate without variable ptr being deleted. Consequently, the memory allocated for variable ptr is now leaked (and will be leaked again every time this function is called and returns early).
-- At heart, these kinds of issues occur because pointer variables have no inherent mechanism to clean up after themselves.
-- We can design our own class of pointer that can do automatic clean-up when sources is no longer used.
-
-- Here is our class smart pointer
+- In the above code, the early return or throw statement, causing the function to terminate without variable `ptr` being deleted. Consequently, the memory allocated for variable ptr is now leaked (and will be leaked again every time this function is called and returns early).
+- These kinds of issues occur because pointer variables have no inherent mechanism to clean up after themselves. 
+- We can design our own class of pointer that can do automatic clean-up when sources is no longer used. Here is our class smart pointer:
 ```c++
 template<class T>
 class smart_pointer
@@ -45,7 +44,7 @@ public:
 	T* operator->() const { return m_ptr; }
 };
 ```
-- Now let’s go back to our someFunction() example above, and show how a smart pointer class can solve our challenge:
+- Now, let's go back to our `someFunction()` example above, and show how a smart pointer class can solve our challenge:
 ```c++
 class Resource
 {
@@ -63,10 +62,14 @@ void someFunction()
     std::cin >> x;
  
     if (x == 0)
-        return; // the function returns early
+        throw 0;
+                
+    if (x < 0)
+        return;
  
     // do stuff with ptr here
-    ptr->sayHi();
+    
+    // dont care about deallocation
 }
  
 int main()
@@ -83,7 +86,7 @@ Hi!
 Resource destroyed
 ```
 - Note that even in the case where the user enters zero and the function terminates early, the Resource is still properly deallocated.
-- Because the ptr variable is a local variable, ptr will be destroyed when the function terminates (regardless of how it terminates). And because the Auto_ptr1 destructor will clean up the Resource, we are assured that the Resource will be properly cleaned up.
+- Because the `ptr` variable is a local variable, `ptr` will be destroyed when the function terminates (regardless of how it terminates). And because the `smart_pointer` destructor will clean up the `Resource`, we are assured that the `Resource` will be properly cleaned up.
 ### Flaws
 - There is still some problem with our code. Like:
 ```c++
