@@ -363,15 +363,15 @@ int main()
 
 ### Bit about move constructor & move assignment operator
 ##### When are the move constructor and move assignment called?
-- The move constructor and move assignment are called when those functions have been defined, and the argument for construction or assignment is an r-value. Most typically, this r-value will be a literal or temporary value.
+- The move constructor and move assignment are called when those functions have been defined, and the argument for construction or assignment is an `r-value`. Most typically, this `r-value` will be a literal or temporary value.
 - In most cases, a move constructor and move assignment operator will not be provided by default, unless the class does not have any defined copy constructors, copy assignment, move assignment, or destructors. However, the default move constructor and move assignment do the same thing as the default copy constructor and copy assignment (**make copies, not do moves**).
 
 ##### l-value reference & r-value reference
-- I have already written separate article for that. 
+- I have already written separate [article](https://github.com/VisheshPatel/CPP_Templates/blob/master/Understanding%20l-value%2C%20r-value%2C%20l-value%20reference%2C%20r-value%20reference.md) for that. 
 
 ##### std::move
 - In C++11, std::move is a standard library function that serves a single purpose -- **to convert its argument into an r-value**.
-- Once you start using move semantics more regularly, you’ll start to find cases where you want to invoke move semantics, but the objects you have to work with are l-values, not r-values. Consider the following swap function as an example:
+- Once you start using move semantics more regularly, you'll start to find cases where you want to invoke move semantics, but the objects you have to work with are l-values, not r-values. Consider the following swap function as an example:
 ```c++
 template<class T>
 void swap(T& a, T& b) 
@@ -392,7 +392,7 @@ int main()
 }
 ```
 - Above function swap makes 3 copies. That leads to a lot of excessive string creation and destruction, which is slow.
-- However, doing copies isn’t necessary here. All we’re really trying to do is swap the values of a and b, which can be accomplished just as well using 3 moves instead! So if we switch from copy semantics to move semantics, we can make our code more performant.
+- However, doing copies isn't necessary here. All we're really trying to do is swap the values of a and b, which can be accomplished just as well using 3 moves instead! So if we switch from copy semantics to move semantics, we can make our code more performant.
 ```c++
 template<class T>
 void swap(T& a, T& b) 
