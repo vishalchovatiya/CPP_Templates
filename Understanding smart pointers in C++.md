@@ -257,8 +257,8 @@ Resource destroyed
 - This is not the exact implementation of `std::unique_ptr` as there is deleter, implicit cast to bool & other security features are included in an actual implementation, but this gives you a bigger picture of how `std::unique_ptr` is implemented.
 
 ### `std::shared_ptr`
-- In some cases, we have a requirement where a single resource is represented by multiple pointers. We can not accomplish this by std:unique_ptr. To accomplish this, we can add a new variable to our smart pointer class which keeps track of reference count at the real time, and when the reference count goes to zero which means nobody is using that resource, we will deallocate that resource.
-- Unlike std::unique_ptr, which is designed to singly own and manage a resource, `std::shared_ptr` is meant to solve the case where you need multiple smart pointers co-owning a resource.
+- In some cases, we have a requirement where a single resource is represented by multiple pointers. We can not accomplish this by `std::unique_ptr`. To accomplish this, we can add a new variable to our smart pointer class which keeps track of reference count at the real time, and when the reference count goes to zero which means nobody is using that resource, we will deallocate that resource.
+- Unlike `std::unique_ptr`, which is designed to singly own and manage a resource, `std::shared_ptr` is meant to solve the case where you need multiple smart pointers co-owning a resource.
 ```c++
 template<class T>
 class smart_ptr
@@ -358,20 +358,20 @@ int main()
     return 0;
 }
 ```
-- Unlike std::unique_ptr, which uses a single pointer internally, std::shared_ptr uses two pointers internally. One pointer points at the resource being managed. The other points at a **"control block", which is a dynamically allocated object** that tracks of a bunch of stuff, including how many std::shared_ptr are pointing at the resource. 
-- Here I have only used an only single variable to keep track of references pointing to resource for simplicity. The actual implementation is a bit bulky for more feature & security purpose.
+- Unlike `std::unique_ptr`, which uses a single pointer internally, `std::shared_ptr` uses two pointers internally. One pointer points at the resource being managed. The other points at a **"control block", which is a dynamically allocated object** that tracks of a bunch of stuff, including how many `std::shared_ptr` are pointing at the resource. 
+- Here I have only used single variable to keep track of references pointing to resource for simplicity. The actual implementation is a bit bulky for more feature & security purpose.
 
 ### Bit about move constructor & move assignment operator
 ##### When are the move constructor and move assignment called?
 - The move constructor and move assignment are called when those functions have been defined, and the argument for construction or assignment is an `r-value`. Most typically, this `r-value` will be a literal or temporary value.
 - In most cases, a move constructor and move assignment operator will not be provided by default, unless the class does not have any defined copy constructors, copy assignment, move assignment, or destructors. However, the default move constructor and move assignment do the same thing as the default copy constructor and copy assignment (**make copies, not do moves**).
 
-##### l-value reference & r-value reference
+##### `l-value` reference & `r-value` reference
 - I have already written separate [article](https://github.com/VisheshPatel/CPP_Templates/blob/master/Understanding%20l-value%2C%20r-value%2C%20l-value%20reference%2C%20r-value%20reference.md) for that. 
 
-##### std::move
-- In C++11, std::move is a standard library function that serves a single purpose -- **to convert its argument into an r-value**.
-- Once you start using move semantics more regularly, you'll start to find cases where you want to invoke move semantics, but the objects you have to work with are l-values, not r-values. Consider the following swap function as an example:
+##### `std::move`
+- In C++11, `std::move` is a standard library function that serves a single purpose -- **to convert its argument into an `r-value`**.
+- Once you start using move semantics more regularly, you'll start to find cases where you want to invoke move semantics, but the objects you have to work with are `l-values`, not `r-values`. Consider the following `swap()` function as an example:
 ```c++
 template<class T>
 void swap(T& a, T& b) 
@@ -391,17 +391,17 @@ int main()
     return 0;
 }
 ```
-- Above function, swap makes 3 copies. That leads to a lot of excessive string creation and destruction, which is slow.
-- However, doing copies isn't necessary here. All we're really trying to do is swap the values of a and b, which can be accomplished just as well using 3 moves instead! So if we switch from copy semantics to move semantics, we can make our code more performant.
+- Above `swap()` function makes 3 copies. That leads to a lot of excessive string creation and destruction, which is slow.
+- However, doing copies isn't necessary here. All we're really trying to do is swap the values of `a` and `b`, which can be accomplished just as well using 3 moves instead! So if we switch from copy semantics to move semantics, we can make our code more performant.
 ```c++
 template<class T>
 void swap(T& a, T& b) 
 { 
-  T tmp { std::move(a) }; // invokes move constructor
+  T tmp { `std::move`(a) }; // invokes move constructor
   a = std::move(b); // invokes move assignment
   b = std::move(tmp); // invokes move assignment
 }
 ```
-- std::move can also be useful when sorting an array of elements. Many sorting algorithms (such as selection sort and bubble sort) work by swapping pairs of elements. Here we can use move semantics, which is more efficient.
+- `std::move` can also be useful when sorting an array of elements. Many sorting algorithms (such as selection sort and bubble sort) work by swapping pairs of elements. Here we can use move semantics, which is more efficient.
 ### References
 - https://www.learncpp.com
