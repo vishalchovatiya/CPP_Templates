@@ -261,7 +261,9 @@ MOVED
 Resource destroyed
 ```
 - As you can see we are moving our pointer as copy constructor & assignment operator methods are deleted. This is not the exact implementation of std::unique_ptr as there is deleter, implicit cast to bool & other security features are there, but this gives you bigger picture of how unique_ptr is implemented.
+
 ### std::shared_ptr
+- Unlike std::unique_ptr, which is designed to singly own and manage a resource, std::shared_ptr is meant to solve the case where you need multiple smart pointers co-owning a resource.
 ```c++
 template<class T>
 class smart_ptr
@@ -364,6 +366,9 @@ int main()
 	return 0;
 }
 ```
+- Unlike std::unique_ptr, which uses a single pointer internally, std::shared_ptr uses two pointers internally. One pointer points at the resource being managed. The other points at a **"control block", which is a dynamically allocated object** that tracks of a bunch of stuff, including how many std::shared_ptr are pointing at the resource. 
+- Here i have only used only single variable to keep track of current refernce pionting to resource for simplicity. Actual implementation is bit bulky for more feature & security purpose.
+
 ### Bit about move constructor & move assignment operator
 ##### When are the move constructor and move assignment called?
 - The move constructor and move assignment are called when those functions have been defined, and the argument for construction or assignment is an r-value. Most typically, this r-value will be a literal or temporary value.
