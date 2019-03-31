@@ -1,6 +1,7 @@
 ### Brief
 ### Why we need exception handling?
 ### How it works under the hood?
+### What will happen when we mention noexcept for method function
 ### Is exception handling slow as compared to older if-else control statement?
 
 ### References
