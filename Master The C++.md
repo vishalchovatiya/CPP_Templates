@@ -18,7 +18,7 @@
 14. [C++ Interview Questions](https://hackr.io/blog/cpp-interview-questions).
 15. [C++ Language: Features, Uses, Applications & Advantages](https://hackr.io/blog/features-uses-applications-of-c-plus-plus-language).
 16. [M Chowdhury's answer on quora](https://qr.ae/TWR1Dk)
-17. []()
+17. [CPP Best Practices](https://github.com/lefticus/cppbestpractices)
 
 #### Online courses
 1. [C++ For C Programmers, Part A](https://www.coursera.org/learn/c-plus-plus-a)
