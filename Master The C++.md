@@ -26,5 +26,5 @@
 2. [C++ For C Programmers, Part B](https://www.coursera.org/learn/c-plus-plus-b)
 3. [CP using C++](https://online.codingblocks.com/courses/competitive-programming-course-online)
 4. [Design Patterns in Modern C++](https://www.udemy.com/patterns-cplusplus/)
-5. [C++17: From Zero to Programmer: 2-in-1](https://www.udemy.com/c17-from-zero-to-programmer-2-in-1/)
+5. [Modern C++ Concurrency in Depth](https://www.udemy.com/modern-cpp-concurrency-in-depth/)
 6. [Mastering C++ Standard Library Features](https://www.udemy.com/mastering-c-standard-library-features/)
