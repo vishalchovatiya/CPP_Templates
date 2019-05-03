@@ -24,10 +24,11 @@
 #### Online courses
 1. [C++ For C Programmers, Part A](https://www.coursera.org/learn/c-plus-plus-a)
 2. [C++ For C Programmers, Part B](https://www.coursera.org/learn/c-plus-plus-b)
-3. [C++ in Detail: Common Idioms](https://www.udemy.com/cpp-in-detail-common-idioms/)
-4. [C++ in Detail: Exceptions](https://www.udemy.com/cpp-in-detail-exceptions/)
-5. [CP using C++](https://online.codingblocks.com/courses/competitive-programming-course-online)
-6. [Design Patterns in Modern C++](https://www.udemy.com/patterns-cplusplus/)
-7. [Modern C++ Concurrency in Depth](https://www.udemy.com/modern-cpp-concurrency-in-depth/)
-8. [Mastering C++ Standard Library Features](https://www.udemy.com/mastering-c-standard-library-features/)
+3. [Mastering C++ Standard Library Features](https://www.udemy.com/mastering-c-standard-library-features/)
+4. [C++ in Detail: Common Idioms](https://www.udemy.com/cpp-in-detail-common-idioms/)
+5. [C++ in Detail: Exceptions](https://www.udemy.com/cpp-in-detail-exceptions/)
+6. [CP using C++](https://online.codingblocks.com/courses/competitive-programming-course-online)
+7. [Design Patterns in Modern C++](https://www.udemy.com/patterns-cplusplus/)
+8. [Modern C++ Concurrency in Depth](https://www.udemy.com/modern-cpp-concurrency-in-depth/)
+
 
