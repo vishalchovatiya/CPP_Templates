@@ -32,3 +32,7 @@
 8. [Modern C++ Concurrency in Depth](https://www.udemy.com/modern-cpp-concurrency-in-depth/)
 
 
+#### Books
+1. [C++ FAQs by Marshall Cline Greg Lomow Mike Girou]()
+2. [CPlusPlusNotesForProfessionals by stackoverflow]()
+3. [Competitive Programming by Steven & Felix, NUS]()
