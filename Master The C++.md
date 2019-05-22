@@ -20,6 +20,7 @@
 16. [M Chowdhury's answer on quora](https://qr.ae/TWR1Dk)
 17. [CPP Best Practices](https://github.com/lefticus/cppbestpractices)
 18. [Get better at C++](https://www.fluentcpp.com/stl/)
+19. [Example of all C++ STL features www.tutorialspoint.com](https://www.tutorialspoint.com/cpp_standard_library/)
 
 #### Online courses
 1. [C++ For C Programmers, Part A](https://www.coursera.org/learn/c-plus-plus-a)
