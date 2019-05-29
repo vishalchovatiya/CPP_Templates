@@ -31,7 +31,8 @@
 6. [CP using C++](https://online.codingblocks.com/courses/competitive-programming-course-online)
 7. [Design Patterns in Modern C++](https://www.udemy.com/patterns-cplusplus/)
 8. [Modern C++ Concurrency in Depth](https://www.udemy.com/modern-cpp-concurrency-in-depth/)
-9. [Bo Qian's youtube playlist] ()
+9. [Bo Qian's youtube playlist] (https://www.youtube.com/user/BoQianTheProgrammer)
+10. [openproduct's youtube playlist] (https://www.youtube.com/user/unusualfashion)
 
 #### Books
 1. [C++ FAQs by Marshall Cline Greg Lomow Mike Girou]()
