@@ -26,14 +26,14 @@ inline void unset_bit(int & n, int b) { n &= ~two(b); }
 inline int last_bit(int n) { return n & (-n); }
 inline int ones(int n) { int res = 0; while(n && ++res) n-=n&(-n); return res; }
 #define DEBUG(X)    std::cout<<#X<<" = "<<X<<std::endl;
-#define PRINT(C,WAY)    do
-                        {
-                            for(auto&& i : C) {
-                                WAY;
-                            }
-                            cout<<endl;
+#define PRINT(C,WAY)    do\
+                        {\
+                            cout<<setw(10)<<#C<<" : ";\
+                            for(auto&& i : C) {\
+                                WAY;\
+                            }\
+                            cout<<endl;\
                         } while (0);
-
 /////////////////////////////////////////////////////////////////////
 int main()
 {
