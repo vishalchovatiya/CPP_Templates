@@ -37,5 +37,6 @@ inline int ones(int n) { int res = 0; while(n && ++res) n-=n&(-n); return res; }
 /////////////////////////////////////////////////////////////////////
 int main()
 {
+    ios::sync_with_stdio(false);
     return 0;
 }
