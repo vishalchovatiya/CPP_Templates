@@ -28,7 +28,7 @@ inline int ones(int n) { int res = 0; while(n && ++res) n-=n&(-n); return res; }
 #define DEBUG(X)    std::cout<<#X<<" = "<<X<<std::endl;
 #define PRINT(C,WAY)    do\
                         {\
-                            cout<<setw(10)<<#C<<" : ";\
+                            cout<<setw(10)<<#C<<" : \n";\
                             for(auto&& i : C) {\
                                 WAY;\
                             }\
