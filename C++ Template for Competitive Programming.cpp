@@ -37,6 +37,19 @@ inline int ones(int n) { int res = 0; while(n && ++res) n-=n&(-n); return res; }
                         } while (0);
 #define ALL(C)			  (C).begin(), (C).end()
 #define	PRESENT(C,X)	((C).find() != (C).end())
+
+#define BENCHMARK(f)	do{						\
+                        	cout<<#f<<" = ";	\
+                        	benchmark(f);		\
+                    	}while(0);
+
+const auto benchmark = [](function<void(void)> f)
+{
+  std::chrono::steady_clock::time_point  start = std::chrono::steady_clock::now();
+  f();
+  std::cout<<std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - start).count()<<" microseconds\n";
+};
+
 /////////////////////////////////////////////////////////////////////
 int main()
 {
