@@ -25,7 +25,8 @@ inline void set_bit(int & n, int b) { n |= two(b); }
 inline void unset_bit(int & n, int b) { n &= ~two(b); }
 inline int last_bit(int n) { return n & (-n); }
 inline int ones(int n) { int res = 0; while(n && ++res) n-=n&(-n); return res; }
-#define DEBUG(X)    std::cout<<#X<<" = "<<X<<std::endl;
+
+#define DEBUG(X)      std::cout<<#X<<" = "<<X<<std::endl;
 #define PRINT(C,WAY)    do\
                         {\
                             cout<<setw(10)<<#C<<" : \n";\
@@ -34,6 +35,8 @@ inline int ones(int n) { int res = 0; while(n && ++res) n-=n&(-n); return res; }
                             }\
                             cout<<endl;\
                         } while (0);
+#define ALL(C)			  (C).begin(), (C).end()
+#define	PRESENT(C,X)	((C).find() != (C).end())
 /////////////////////////////////////////////////////////////////////
 int main()
 {
