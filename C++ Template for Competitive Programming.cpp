@@ -59,21 +59,34 @@ ll get_no_of_query()
     return Q;
 }
 
-vector<ll> get_array()
+template <typename T>
+// vector<T> get_array(T Q)
+tuple<vector<T>, T, T> get_array(T Q)
 {
-    vector<ll> res(Q);
-    for (ll i = 0; i < Q; i++)
+    vector<T> res(Q);
+    T max_val = numeric_limits<T>::min();
+    T min_val = numeric_limits<T>::max();
+
+    for (T i = 0; i < Q; i++)
     {
-        ll temp;
-        vector[i] = temp;
+        T temp;
+        cin >> temp;
+        res[i] = temp;
+        max_val = max(temp, max_val);
+        min_val = min(temp, min_val);
     }
-    return res;
+
+    // return res;
+    return make_tuple(res, min_val, max_val);
 }
 
 int main()
 {
-    ll Q = get_no_of_query();
-    vector<ll> arr = get_array();
+    auto Q = get_no_of_query();
+    auto input = get_array(Q);
+    auto arr = get<0>(input);
+    auto min_val = get<1>(input);
+    auto max_val = get<2>(input);
 
     return 0;
 }
