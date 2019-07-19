@@ -50,9 +50,31 @@ const auto benchmark = [](function<void(void)> f)
   std::cout<<std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - start).count()<<" microseconds\n";
 };
 
-/////////////////////////////////////////////////////////////////////
+
+
+ll get_no_of_query()
+{
+    ll Q;
+    cin >> Q;
+    return Q;
+}
+
+vector<ll> get_array()
+{
+    vector<ll> res(Q);
+    for (ll i = 0; i < Q; i++)
+    {
+        ll temp;
+        vector[i] = temp;
+    }
+    return res;
+}
+
 int main()
 {
-    ios::sync_with_stdio(false);
+    ll Q = get_no_of_query();
+    vector<ll> arr = get_array();
+
     return 0;
 }
+
