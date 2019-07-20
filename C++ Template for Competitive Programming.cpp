@@ -43,6 +43,8 @@ const auto benchmark = [](function<void(void)> f) {
     std::cout << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - start).count() << " microseconds\n";
 };
 
+using ll = long long;
+
 ll get_no_of_query();
 
 template <typename T>
