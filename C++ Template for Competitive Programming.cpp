@@ -5,10 +5,14 @@
 #include <cstring>
 #include <cctype>
 #include <string>
+#include <chrono>
+#include <iomanip>
 #include <vector>
 #include <list>
 #include <set>
+#include <unordered_set>
 #include <map>
+#include <unordered_map>
 #include <queue>
 #include <stack>
 #include <algorithm>
@@ -16,20 +20,19 @@
 using namespace std;
 
 /* ------------------------- HELPERS DEFINE -------------------------- */
-#define DEBUG(X) std::cout << #X << " = " << X << std::endl;
-#define PRINT(C, WAY)                      \
+#define DEBUG(X) cout << #X << " = " << X << endl;
+#define PRINT(C)                           \
     do                                     \
     {                                      \
         cout << setw(10) << #C << " : \n"; \
         for (auto &&i : C)                 \
         {                                  \
-            WAY;                           \
+            cout << i << " ";              \
         }                                  \
         cout << endl;                      \
     } while (0);
 #define ALL(C) (C).begin(), (C).end()
 #define PRESENT(C, X) ((C).find() != (C).end())
-
 #define BENCHMARK(f)         \
     do                       \
     {                        \
@@ -38,9 +41,9 @@ using namespace std;
     } while (0);
 
 const auto benchmark = [](function<void(void)> f) {
-    std::chrono::steady_clock::time_point start = std::chrono::steady_clock::now();
+    chrono::steady_clock::time_point start = chrono::steady_clock::now();
     f();
-    std::cout << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - start).count() << " microseconds\n";
+    cout << chrono::duration_cast<chrono::microseconds>(chrono::steady_clock::now() - start).count() << " microseconds\n";
 };
 
 using ll = long long;
@@ -54,13 +57,13 @@ vector<T> get_array(T Q);
 
 int main()
 {
-    // auto Q = get_no_of_query();
-    // auto arr = get_array(Q);
+    auto Q = get_no_of_query();
+    auto arr = get_array(Q);
 
     return 0;
 }
 
-/* --------------------------- HELPERS IMPLE -------------------------- */
+/* -------------------- HELPERS IMPLEMENTATION ------------------------ */
 ll get_no_of_query()
 {
     ll Q;
