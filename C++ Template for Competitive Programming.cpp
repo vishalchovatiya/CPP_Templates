@@ -20,6 +20,12 @@
 using namespace std;
 
 /* ------------------------- HELPERS DEFINE -------------------------- */
+template <typename T>
+ostream &operator<<(ostream &o, pair<const T, T> &pair) // To print map in PRINT
+{
+    o << pair.first << " " << pair.second << endl;
+    return o;
+}
 #define DEBUG(X) cout << #X << " = " << X << endl;
 #define PRINT(C)                           \
     do                                     \
