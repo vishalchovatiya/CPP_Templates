@@ -26,6 +26,19 @@ ostream &operator<<(ostream &o, pair<const T, T> &pair) // To print map in PRINT
     o << pair.first << " " << pair.second << endl;
     return o;
 }
+
+template <typename... T>
+void read(T &... args)
+{
+    ((cin >> args), ...);
+}
+
+template <typename... T>
+void write(T... args)
+{
+    ((cout << args), ...);
+}
+
 #define DEBUG(X) cout << #X << " = " << X << endl;
 #define PRINT(C)                           \
     do                                     \
