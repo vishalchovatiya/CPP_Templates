@@ -66,7 +66,7 @@ const auto benchmark = [](function<void(void)> f) {
 };
 
 using ll = long long;
-
+ll mod = 1e9 + 7;
 ll get_no_of_query();
 
 template <typename T>
