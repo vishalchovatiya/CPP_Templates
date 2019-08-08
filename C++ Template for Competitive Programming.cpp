@@ -50,6 +50,7 @@ void write(T... args)
         }                                  \
         cout << endl;                      \
     } while (0);
+#define SIZE_OF(ARR) (sizeof(ARR) / sizeof(ARR[0]))
 #define ALL(C) (C).begin(), (C).end()
 #define PRESENT(C, X) ((C).find() != (C).end())
 #define BENCHMARK(f)         \
