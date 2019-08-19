@@ -53,6 +53,7 @@ void write(T... args)
 #define SIZE_OF(ARR) (sizeof(ARR) / sizeof(ARR[0]))
 #define ALL(C) (C).begin(), (C).end()
 #define PRESENT(C, X) ((C).find() != (C).end())
+#define FOR(i, begin, end) for (__typeof(end) i = (begin) - ((begin) > (end)); i != (end) - ((begin) > (end)); i += 1 - 2 * ((begin) > (end)))
 #define BENCHMARK(f)         \
     do                       \
     {                        \
