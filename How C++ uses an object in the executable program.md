@@ -71,8 +71,8 @@ void foobar( X &_result )
 };
 ```
 - This is how object oriented paradigm converted into procedure oriented paradigm.
-### How class code is transformed int sequencial code from OOPs?
-- Let us take example of following simple class:
+### How class code is transformed into sequencial code from OOPs?
+- Let's take following example to understand it:
 ```
 struct foo
 {
@@ -85,7 +85,7 @@ public:
     }
 };
 ```
-- Compiler theat this as :
+- Compiler treats this as :
 ```
 struct foo
 {
@@ -97,10 +97,10 @@ void print(foo *this)
     std::cout.operator<<(this->m_var).operator<<(std::endl);
 }
 ```
+- As you can see above, objects & methods are separate entity. Object only represents data members.
 - All the methods in class/struct contains implicit `this` pointer as first argument using which all non-static data members are accessed.
 - Static data members are not the part of class/struct. Because they usually resides in data segment of memory layout, so it can be accessed directly.
 - So this is the reason, if you print the size of above class. It will print 4, because all methods are separate entity which operates on object by using implicit `this` pointer.
-- Objects only represents size of data members.
 ### How & where constructor code transform/synthesize with inheritance & composition class ?
 
 ```
