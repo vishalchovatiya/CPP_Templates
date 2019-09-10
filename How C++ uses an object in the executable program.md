@@ -1,7 +1,7 @@
 ### Brief
-- This is not goto material if you want strict standard or solid information, rather it is the collection of concept i have acquired while introducing myself to C++ by googling here & there.
-- This material is also not in order. I have just collected the answer of my quick question & write it down here.
-- But one thing i can assure you is that once you go through this article, you can connect many broken thought of understanding on how C++ works internally and why people people call it as it runs C internally.
+- This is not goto material if you want strict standard or solid information, rather it is the collection of concept I have acquired while introducing myself to C++ by googling here & there.
+- This material is also not in order. I have just collected the answer to my quick question & write it down here.
+- But one thing I can assure you is that once you go through this article, you can connect many broken thought of understanding on how C++ works internally and why people call it as it runs C internally.
 
 ### What are all the default member-functions created by compiler for a class?
 - Suppose you have declared class like:
@@ -98,10 +98,10 @@ void print(foo *this)
     std::cout.operator<<(this->m_var).operator<<(std::endl);
 }
 ```
-- As you can see above, objects & methods are separate entity. Object only represents data members.
-- All the methods in class/struct contains implicit `this` pointer as first argument using which all non-static data members are accessed.
-- Static data members are not the part of class/struct. Because they usually resides in data segment of memory layout, so it can be accessed directly.
-- So this is the reason, if you print the size of above class. It will print 4, because all methods are separate entity which operates on object by using implicit `this` pointer.
+- As you can see above, objects & methods are a separate entity. An object only represents data members.
+- All the methods in class/struct contain implicit `this` pointer as the first argument using which all non-static data members are accessed.
+- Static data members are not part of class/struct. Because it usually resides in a data segment of memory layout, so it can be accessed directly.
+- So this is the reason if you print the size of the above class. It will print 4 because all methods are a separate entity which operates on the object by using implicit `this` pointer.
 ### How & where constructor code transform/synthesize with inheritance & composition class ?
 
 ```
