@@ -71,7 +71,36 @@ void foobar( X &_result )
 };
 ```
 - This is how object oriented paradigm converted into procedure oriented paradigm.
+### How class code is transformed int sequencial code from OOPs?
+- Let us take example of following simple class:
+```
+struct foo
+{
+    int m_var;
 
+public:
+    void print()
+    {
+        cout << m_var << endl;
+    }
+};
+```
+- Compiler theat this as :
+```
+struct foo
+{
+    int m_var;
+};
+
+void print(foo *this)
+{
+    std::cout.operator<<(this->m_var).operator<<(std::endl);
+}
+```
+- All the methods in class/struct contains implicit `this` pointer as first argument using which all non-static data members are accessed.
+- Static data members are not the part of class/struct. Because they usually resides in data segment of memory layout, so it can be accessed directly.
+- So this is the reason, if you print the size of above class. It will print 4, because all methods are separate entity which operates on object by using implicit `this` pointer.
+- Objects only represents size of data members.
 ### How & where constructor code transform/synthesize with inheritance & composition class ?
 
 ```
@@ -121,7 +150,7 @@ Bar::Bar()
 
 ### How & where virtual table code will be inserted?
 - Virtual table code will be inserted by the compiler before & after the user-written code in constructor & destructor that too on demand of user implementation.
-- For the question "How virtual table code will be inserted?", my answer is this is purely compiler dependent. C++ standard only mandates behaviour. Although this would not be complex. It probably would look like:
+- For the question "How virtual table code will be inserted?", my answer is "this is purely compiler dependent". C++ standard only mandates behaviour. Although this would not be complex. It probably would look like:
 ```
 this->_vptr[0] = type_info("class_name");
 ```
