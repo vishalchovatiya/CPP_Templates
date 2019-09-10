@@ -1,6 +1,7 @@
 ### Brief
 - This is not goto material if you want strict standard or solid information, rather it is the collection of concept i have acquired while introducing myself to C++ by googling here & there.
 - This material is also not in order. I have just collected the answer of my quick question & write it down here.
+- But one thing i can assure you is that once you go through this article, you can connect many broken thought of understanding on how C++ works internally and why people people call it as it runs C internally.
 
 ### What are all the default member-functions created by compiler for a class?
 - Suppose you have declared class like:
