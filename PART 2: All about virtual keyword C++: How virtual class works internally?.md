@@ -1,7 +1,7 @@
 ### Introduction
 - In an earlier article, we have learned about virtual function. In this article, we will learn about the virtual class.
 - But I am iterating the same thing as I have mentioned in the earlier article as well. Implementation of a virtual mechanism is purely compiler dependent, no C++ standard is defined for this. Here I am describing the general approach.
-- Same as before, before learning anything new we have to see why it needed in first place.
+- Same as before, before learning anything new we have to see Why it needed?
 ### Why we need a virtual class?
 - When we use inheritance, we basically extending derived class with base class functionality. In simple word, the base class object would be treated as sub-object in the derived class.
 - This would create a problem in multiple inheritances if base class sharing the same mutual class as sub-object in the top level hierarchy and you want to access its property. I know this statement is a bit complex. Ok then let see an example.
