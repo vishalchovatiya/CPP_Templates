@@ -1,4 +1,4 @@
-### Conditions where copy constructor is used
+### Conditions: Where copy constructor is used?
 1. Object initialization by another object of same class/type.
 ```
 class X { ... };
@@ -32,7 +32,7 @@ X foo_bar()
 }
 ```
 
-### Bitwise copy & memberwise copy
+### How: Bitwise copy & memberwise copy
 
 ```
 #include "Word.h"
@@ -45,7 +45,7 @@ void foo()
   // ...
 }
 ```
-- If class `word` declaration as follows, then it **exhibits bitwise copy constructor** as the initialization of verb need not result in a function call.
+- If class `word` defined as follows, then it **exhibits bitwise copy constructor** as the initialization of verb need not result in a function call.
 ```
 class Word {
   public:
@@ -57,43 +57,32 @@ class Word {
     char *str;
 };
 ```
-- But, if class `word` declaration as follows, then it **exhibits memberwise copy constructor** becuase string declares explicit copy coonstructor.
+- But, if class `word` defined as follows, then it **exhibits memberwise copy constructor** & result in a function call becuase `string` declares explicit copy coonstructor.
 ```
 class Word {
   public:
-    Word( const String& );
+    Word( const string& );
     ~Word();
     // ...
   private:
     int cnt;
-    String str;
+    string str;
 };
 ```
-- where String declares an explicit copy constructor:
-```
-class String {
-  public:
-    String( const char * );
-    String( const String& );
-    ~String();
-    // ...
-};
-
-```
-- In this case, the compiler needs to synthesize a copy constructor in order to invoke the copy constructor of the member class String object:
+- In this case, the compiler needs to synthesize a copy constructor in order to invoke the copy constructor of the member class `string` object:
 ```
 // A synthesized copy constructor
 inline Word::Word( const Word& wd )
 {
-  str.String::String( wd.str );
+  str.string::string( wd.str );
   cnt = wd.cnt;
 }
 ```
-### Bitwise Copy Semantics—Not!
+### Not: Bitwise Copy Semantics!
 When are bitwise copy semantics not exhibited by a class? There are four instances:
 1. When the class contains a member object of a class for which a copy constructor exists (either
-explicitly declared by the class designer, as in the case of the previous String class, or synthesized by
-the compiler, as in the case of class Word)
+explicitly declared by the class designer, as in the case of the previous `string` class, or synthesized by
+the compiler, as in the case of class `Word`)
 2. When the class is derived from a base class for which a copy constructor exists (again, either explicitly
 declared or synthesized)
 3. When the class declares one or more virtual functions
@@ -101,7 +90,7 @@ declared or synthesized)
 - In instances 1 and 2, the implementation needs to insert invocations of the member or base class copy
 constructors inside the synthesized copy constructor. 
 
-### Some other ways copy constructor invoked
+### Other ways: can copy constructor be invoked
 ```
   X x0;
   X x1( x0 );
