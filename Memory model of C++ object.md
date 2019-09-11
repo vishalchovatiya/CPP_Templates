@@ -42,8 +42,8 @@ class X
       |                        |            
 ```
 
-- As you can see all data members are going into the stack with the same order of their declarations(which is guaranteed by most of the compilers, apparently).
-- All other methods, constructor, destructor & compiler augmented code(which I have not shown for simplicity) go into the text segment. These methods are then called & passed this pointer(not shown here for simplicity) of calling object in its 1st argument explicitly which we discuss in the separate article.
+- As you can see all data members are in the stack with the same order of their declarations(which is guaranteed by most of the compilers, apparently).
+- All other methods, constructor, destructor & compiler augmented code go into the text segment. These methods are then called & passed this pointer implicitly of calling object in its 1st argument which we have discussed in the this[TODO] article.
 
 ### Memory layout of class having virtual function & static data member 
 ```
@@ -102,9 +102,9 @@ stack |------------------------|
 - All non-static data members are going into the stack with the same order of their declaration as we already seen in the previous point.
 - Static data member goes into the data segment of memory & it is accessed by scope resolution operator. After compilation, there is nothing like scope & namespace, its just name mangling performed by the compiler, everything will be referred by its address. You can google this to understand clearly.
 - Static methods are goes in text segment & are called with scope resolution operator except this pointer is not passed in its argument.
-- For virtual keyword, the compiler automatically inserts pointer(vptr) to a virtual table which is used to transform direct function calling in an indirect call(we will also see this in a separate article). This virtual table will be created statically in the data segment. Although this depends on compiler implementation.
-- In a virtual table, 1st entry points to a type_info object which contains information related to current class & DAG(Directed Acyclic Graph) of other base classes if it is derived from them.
-- I have not mentioned data type of `vptr` which also standard does not mention(even I don't know that).
+- For virtual keyword, the compiler automatically inserts pointer(`_vptr`) to a virtual table which is used to transform direct function calling in an indirect call(you can see that in this[TODO] article). This virtual table will be created statically in the data segment. Although this depends on compiler implementation.
+- In a virtual table, 1st entry points to a `type_info` object which contains information related to current class & DAG(Directed Acyclic Graph) of other base classes if it is derived from them.
+- I have not mentioned data type of `_vptr` which also standard does not mention(even I don't know that).
 
 ### Memory layout of class with inheritance
 ```
@@ -181,24 +181,24 @@ stack |------------------------------|
 class X {
   public:
     int x;
-    virtual ~X(){cout<<"~X()\n";}
-    virtual void printX(){cout<<"X::printX()\n";}
+    virtual ~X(){}
+    virtual void printX(){}
 };
 
 class Y {
   public:
     int y;
-    virtual ~Y(){cout<<"~Y()\n";}
-    virtual void printY(){cout<<"Y::printY()\n";}
+    virtual ~Y(){}
+    virtual void printY(){}
 };
 
 class Z : public X, public Y {
   public:
     int z;
-    ~Z(){cout<<"~Z()\n";}
-    void printX(){cout<<"Z::printX()\n";}
-    void printY(){cout<<"Z::printY()\n";}
-    void printZ(){cout<<"Z::printZ()\n";}
+    ~Z(){}
+    void printX(){}
+    void printY(){}
+    void printZ(){}
 };
 ```
 - Memory layout: 
