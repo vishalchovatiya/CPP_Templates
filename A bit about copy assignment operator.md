@@ -2,10 +2,10 @@
 - Here we are going to learn about the copy assignment operator. Although I am not an expert but this what I have learned so far from various sources. So this article is basically a collection of connected dots while I was introducing C++ to myself.
 - We will not learn basic things. I am not going to tell you that this is basic function compiler provides if you don't define that in your class nor I will tell calling & synthesis of this function. We will learn why it is needed & basic function to have in your class, why it like that only & what it should look like. So let's start.
 ### Why we need it? <----- my all time favourite question.
-- The simple answer is just to assign data. As we do an assignment in primitive data like `int a; a = 5` sometimes we also need to do this in our user-defined data type i.e. class.
-- A class could be a complex entity so that we need a special function which does this task. Although compiler provides a default copy constructor. But in some cases, you have to define your own copy assignment operator function like:
+- The simple answer is just to assign data. As we do an assignment in primitive data like `int a; a = 5` sometimes we also need to do this in our user-defined data type i.e. class. Answer would be same as copy constructor which i have given here[TODO].
+- A class could be a complex entity so that we need a special function which does this task. Although compiler provides a default one. But in some cases, you have to define your own copy assignment operation function like:
   1. Write your own assignment operator that does the deep copy if you are using dynamic memory.
-  2. Do not allow the assignment of one object to another object. We can create our own dummy assignment operator and make it private.
+  2. Do not allow the assignment of one object to another object. We can create our own dummy assignment operator and make it `private` or simply `delete` it.
 ### Why we need to return something from the copy assignment operator?
 - While I was learning about the copy assignment operator, I always have doubt why we need to return value from the copy assignment operator function.
 ```
@@ -31,7 +31,7 @@ x3 = x2 = x1;
 - So we have to return something from the copy assignment operator to support assignment chaining feature. But what should be the appropriate return type? This will lead us to our next point.
 
 ### What should be the appropriate return type of copy assignment operator?
-- I know, you will say we have to `return by reference` to the current object in which we have assigned `rvalue` here `rhs` & yeh! that's correct also but why not `return by value` or `pointer`?
+- I know, you will say we have to return reference of the current object. Yeh! that's correct also but why not `return by value` or `pointer`?
 
 > **Let's try `return by value`**
 
@@ -183,7 +183,7 @@ x2 = &x1;
 - If you are still getting the correct answer as `1 1 1` in your output window then just consider print from `cout`. You are getting the correct answer `1 1 1` because default copy constructor provided by the compiler is getting called every time. Technically, we have just overloaded copy constructor by changing its return type & argument as a pointer.
 
 > **Conclusion**
-- Above is the reason why it is not feasible to use `pass by value` or `pointer` an argument or return type of copy assignment operator.
+- Above are the reason why it is not feasible to use `pass by value` or `pointer` an argument or return type of copy assignment operator.
 - Compiler designer have designed standard in such a way that your class object operation should also work same as primitive type operations like
 ```
 // Primitive type & operations
