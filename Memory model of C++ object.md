@@ -2,7 +2,7 @@
 - Here I have tried to show you how different objects are stored in memory. We are not going to discuss compiler augmented code, name mangling & working of any C++ mechanism. I have also ignored the stack growth direction.
 - It's just all about how different object will be represented in memory.
 
-### Memory layout of the simple non-polymorphic class
+### Memory layout of C++ object: simple & non-polymorphic 
 
 ```
 class X
@@ -45,7 +45,7 @@ class X
 - As you can see all data members are in the stack with the same order of their declarations(which is guaranteed by most of the compilers, apparently).
 - All other methods, constructor, destructor & compiler augmented code go into the text segment. These methods are then called & passed this pointer implicitly of calling object in its 1st argument which we have discussed in the this[TODO] article.
 
-### Memory layout of class having virtual function & static data member 
+### Memory layout of C++ object: virtual function & static data member 
 ```
 class X
 {  
@@ -106,7 +106,7 @@ stack |------------------------|
 - In a virtual table, 1st entry points to a `type_info` object which contains information related to current class & DAG(Directed Acyclic Graph) of other base classes if it is derived from them.
 - I have not mentioned data type of `_vptr` which also standard does not mention(even I don't know that).
 
-### Memory layout of class with inheritance
+### Memory layout of C++ object: Inheritance
 ```
 class X
 {  
@@ -176,7 +176,7 @@ stack |------------------------------|
 - In the inheritance model, a base class & a data member classes is treated as a subobject of derived class & memory map is created accordingly(as you can see above). 
 - All virtual function will be overridden in virtual table & code for this will be generated in constructor of class by compiler. Which we have discussed in our [virtual function series](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%201:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20function%20works%20internally%3F.md).
 
-### Memory layout of the class having multiple inheritances with the virtual function
+### Memory layout of C++ object: Multiple inheritances & virtual function
 ```
 class X {
   public:
@@ -255,7 +255,7 @@ y_ptr->printZ(); // Not OK, as virtual table of class Y doesn't have address of 
  ( *y_ptr->_vtbl[ 2 ] )( y_ptr )
 ```
 - You must be wondering why i have passed `y_ptr` as argument here. Its implicit `this` pointer, you can learn about it here[TODO].
-### Memory layout of class having virtual inheritence
+### ### Memory layout of C++ object: virtual inheritence
 ```
 class X {int x;};
 class Y : public virtual X {int y;};
