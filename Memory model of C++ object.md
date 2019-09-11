@@ -1,5 +1,5 @@
 ### Bit about this article
-- Here I have tried to show you how different objects are stored in memory. We are not going to discuss compiler augmented code, name mangling & working of any C++ mechanism.
+- Here I have tried to show you how different objects are stored in memory. We are not going to discuss compiler augmented code, name mangling & working of any C++ mechanism. I have also ignored stack growth direction.
 - It's just all about how different object will be represented in memory.
 
 ### Memory layout of the simple non-polymorphic class
