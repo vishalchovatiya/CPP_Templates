@@ -7,7 +7,7 @@
 ### Why we need a virtual function?
 - Let us understand it with an example. Suppose you want to connect to the network or to other mobile using your smartphone.
 - You have two choices Bluetooth or Wifi. Although these two are completely different technologies, still some things are common in them at an abstract level like both are communication protocol, both need authentication, etc.
-- Let say we have a class of them like as follows:
+- Let say we have a class of them as follows:
 ```
 class wifi_t{
     private:
@@ -50,7 +50,7 @@ int main()
 }
 ```
 - If you observe above code then you will find that despite selecting any protocol some steps are same.
-- In this case, you can leverage virtual functionality of C++ as follows:
+- In this case, you can leverage virtual keyword functionality of C++ as follows:
 
 ```
 class protocol_t{
@@ -93,7 +93,7 @@ int main()
 {
     int pt = selectProtocol();
   
-    makeConnection( (pt == WIFI) ? static_cast<protocol_t*>(new wifi_t) : static_cast<protocol_t*>(new bluetooth_t));    
+    makeConnection( (pt == WIFI) ? new wifi_t : new bluetooth_t);    // You wont be able to compile this line, but i have kept it for simplysity
 
     return 0;
 }
