@@ -243,6 +243,19 @@ stack |          int X::x            |
 ```
 - In multiple inhertance heirarchy, exact number of virtual table created will be N-1, where N represents number of classes.
 - Now, rest of things will be easy to understand for you, i guess.
+- Whenever you try to call a method of Z using any base class pointer, it will be call using respective virtual table. For example:
+```
+    Y *y_ptr = new Z;
+    y_ptr->printY(); // OK
+    y_ptr->printZ(); // Not OK, as virtual table of class Y doesnt have address of printZ() method
+
+```
+- In above code, `y_ptr` will point to subobject of class Y within complete Z object.
+- And call to any method for say `y_ptr->printY();` using `y_ptr` will be resolved like:
+```
+ ( *y_ptr->_vtbl[ 1 ] )( y_ptr )
+```
+- You must be wondering why i have passed y_ptr as argument here. Its implicit `this` pointer.
 ### Memory layout of class having virtual inheritence
 ```
 class X {int x;};
