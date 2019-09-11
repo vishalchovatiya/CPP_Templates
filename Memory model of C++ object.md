@@ -1,5 +1,5 @@
 ### Bit about this article
-- Here I have tried to show you how different objects are stored in memory. We are not going to discuss compiler augmented code, name mangling & working of any C++ mechanism. I have also ignored stack growth direction.
+- Here I have tried to show you how different objects are stored in memory. We are not going to discuss compiler augmented code, name mangling & working of any C++ mechanism. I have also ignored the stack growth direction.
 - It's just all about how different object will be represented in memory.
 
 ### Memory layout of the simple non-polymorphic class
@@ -99,7 +99,7 @@ stack |------------------------|
       |------------------------|
       |                        |
 ```
-- All non-static data members are going into the stack with the same order of their declaration as we already seen in the previous point.
+- All non-static data members are going into the stack with the same order of their declaration as we have already seen in the previous point.
 - Static data member goes into the data segment of memory & it is accessed by scope resolution operator. After compilation, there is nothing like scope & namespace, its just name mangling performed by the compiler, everything will be referred by its address. You can google this to understand clearly.
 - Static methods are goes in text segment & are called with scope resolution operator except this pointer is not passed in its argument.
 - For virtual keyword, the compiler automatically inserts pointer(`_vptr`) to a virtual table which is used to transform direct function calling in an indirect call(you can see that in this[TODO] article). This virtual table will be created statically in the data segment. Although this depends on compiler implementation.
@@ -176,7 +176,7 @@ stack |------------------------------|
 - In the inheritance model, a base class & a data member classes is treated as a subobject of derived class & memory map is created accordingly(as you can see above). 
 - All virtual function will be overridden in virtual table & code for this will be generated in constructor of class by compiler. Which we have discussed in our [virtual function series](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%201:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20function%20works%20internally%3F.md).
 
-### Memory layout of the class having multiple inheritance with virtual function
+### Memory layout of the class having multiple inheritances with the virtual function
 ```
 class X {
   public:
