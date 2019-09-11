@@ -243,19 +243,18 @@ stack |          int X::x            |
 ```
 - In multiple inhertance heirarchy, exact number of virtual table created will be N-1, where N represents number of classes.
 - Now, rest of things will be easy to understand for you, i guess.
-- Whenever you try to call a method of Z using any base class pointer, it will be call using respective virtual table. For example:
+- Whenever you try to call a method of class Z using any base class pointer, it will be call using respective virtual table. For example:
 ```
-    Y *y_ptr = new Z;
-    y_ptr->printY(); // OK
-    y_ptr->printZ(); // Not OK, as virtual table of class Y doesnt have address of printZ() method
-
+Y *y_ptr = new Z;
+y_ptr->printY(); // OK
+y_ptr->printZ(); // Not OK, as virtual table of class Y doesn't have address of printZ() method
 ```
 - In above code, `y_ptr` will point to subobject of class Y within complete Z object.
 - And call to any method for say `y_ptr->printY();` using `y_ptr` will be resolved like:
 ```
- ( *y_ptr->_vtbl[ 1 ] )( y_ptr )
+ ( *y_ptr->_vtbl[ 2 ] )( y_ptr )
 ```
-- You must be wondering why i have passed y_ptr as argument here. Its implicit `this` pointer.
+- You must be wondering why i have passed `y_ptr` as argument here. Its implicit `this` pointer, you can learn about it here[TODO].
 ### Memory layout of class having virtual inheritence
 ```
 class X {int x;};
@@ -287,4 +286,5 @@ shared sub-object   |------------------|             |       .....      |
     1. an invariant region
     2. a shared region. 
 - Data within the invariant region remains at a fixed offset from the start of the object regardless of subsequent
-derivations. But virtual base class memory region is not fixed because it is a shared region & it fluctuates with subsequent derivation & order of derivation. I have discussed more on this in [PART 2: All about virtual keyword C++](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%202:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20class%20works%20internally%3F.md).
+derivations. 
+- But virtual base class memory region is not fixed because it is a shared region & it fluctuates with subsequent derivation & order of derivation. I have discussed more on this in [PART 2: All about virtual keyword C++](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%202:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20class%20works%20internally%3F.md).
