@@ -106,7 +106,7 @@ stack |------------------------|
 - In a virtual table, 1st entry points to a `type_info` object which contains information related to current class & DAG(Directed Acyclic Graph) of other base classes if it is derived from them.
 - I have not mentioned data type of `_vptr` which also standard does not mention(even I don't know that).
 
-### Memory layout of C++ object: Inheritance
+### Memory layout of C++ object: inheritance
 ```
 class X
 {  
@@ -176,7 +176,7 @@ stack |------------------------------|
 - In the inheritance model, a base class & a data member classes is treated as a subobject of derived class & memory map is created accordingly(as you can see above). 
 - All virtual function will be overridden in virtual table & code for this will be generated in constructor of class by compiler. Which we have discussed in our [virtual function series](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%201:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20function%20works%20internally%3F.md).
 
-### Memory layout of C++ object: Multiple inheritances & virtual function
+### Memory layout of C++ object: multiple inheritances & virtual function
 ```
 class X {
   public:
