@@ -10,14 +10,14 @@
   3. `l-value` = locator value = identifier which represents memory location. For example, variable name, `*ptr` where ptr points to memory location, etc.
   4. `r-value` = value which is not `l-value` = value appear on right hand side of assignment(`=`) operator. Like `int a = 5; // 5 = r-value`, `q = p + 5; // p + 5 is r-value`, etc.
   
-Note: Although there are some exceptions & more to learn on `l-value` & r-value which I have not discussed here. 
+Note: Although there are some exceptions & more to learn on `l-value` & `r-value` which I have discussed here[TODO]. 
 
 ### Why we need it?
 
 - Data is a representation of the bits(`0`s & `1`s) in memory.
 - Data-type is compiler directive which tells the compiler how to store particular data.
 - `unsigned int a = 5;` by this statement you can presume that 4 bytes will be reserved in your memory & when this statement executes, it will store `0000 0000 0000 0000 0000 0000 0000 0101` data bits in that 4-byte memory location. This was plain & simple. 
-- Let's go a bit further, `float f = 3.0;` this statement will also reserve 4 bytes in memory & store data bits in form of 1). the sign bit, 2). exponent & 3). mantissa. Recall how float stored in memory.
+- Let's go a bit further, `float f = 3.0;` this statement will also reserve 4 bytes in memory & store data bits in form of 1). the sign bit, 2). exponent & 3). mantissa. Recall how float stored in memory, find more about it here[TODO].
 - So this is how compiler stores the value in the variable/object by identifying data-type of `l-value`.
 - But when you write like `float f = 3;`, the compiler will confuse that how to store an integer value in float type of memory. So it will automatically presume(Implicit conversion) that you want to store `3.0` rather than `3` which is technically same from the human point of view but it's different when you think from computer memory perspective cause they stored differently.
 - There are many such scenarios where you provide data to store in memory which used to represent different data type.
@@ -57,7 +57,7 @@ public:
   } 
 };
 ```
-- Compiler will simply call this function & wont throw any error because programmer explicitly mentioning that this is how he/she wants to assign `r-value` to `l-value`.
+- Compiler will simply call this function & wont throw any error because programmer explicitly mentioning that this is how he/she wants to assign.
 
 
 ### C-style casts
@@ -68,7 +68,7 @@ int main() {
     return 0; 
 }
 ```
-- When you will try to run the above code, you will get `2` as output which we didn't expect. To initialize `res` variable correctly we need to type cast using float as follows:
+- When you will try to run the above code, you will get `5` as output which we didn't expect. To initialize `res` variable correctly we need to type cast using float as follows:
 ```
 float res = (float)10 / 2;
 ```
@@ -249,7 +249,7 @@ After reading all this you may confuse on what to use & when! That's why I have 
 - Use `static_cast` wherever you were using C-style cast.
 - Use `reinterpret_cast` for specific cases where you need to reinterpret underlying data (e.g. converting from a pointer to `uintptr_t`)
 - Use `dynamic_cast` wherever you casting pointers and references which points to the inheritance hierarchy. Keep in mind that only use `dynamic_cast` on classes with at least one `virtual` member.
-- Use `const_cast` when you need to remove `const` or `volatile` keywords. Think carefully before using this cast.
+- Use `const_cast` when you need to remove `const` or `volatile` qualifiers. Think carefully before using this cast.
 
 Note: `const_cast` and `reinterpret_cast` should generally be avoided because they are only useful in rare cases and can be harmful if used incorrectly. Avoid `const_cast` and `reinterpret_cast` unless you have a very good reason to use them.
 
