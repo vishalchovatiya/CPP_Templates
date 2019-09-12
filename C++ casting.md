@@ -224,7 +224,7 @@ if(pD1){
 }
 ```
 - In case, if input of `dynamic_cast` does not point to valid data, it will return `nullptr` for pointers or throw a `std::bad_cast` exception for references. In order to work with `dynamic_cast`, your classes must be polymorphic type i.e. must include at least one 'virtual' methods.
-- `dynamic_cast` take advantage of `RTTI`(Run Time Type Identification) mechanism which we have already seen a bit in our previous articles of [All about virtual keyword C++](https://github.com/VisheshPatel/CPP_Templates/blob/master/PART%201:%20All%20about%20virtual%20keyword%20C++:%20How%20virtual%20function%20works%20internally%3F.md).
+- `dynamic_cast` take advantage of `RTTI`(Run Time Type Identification) mechanism.
 
 ### `reinterpret_cast`
 - `reinterpret_cast` is a compiler directive which tells the compiler to treat the current type as a new type.
