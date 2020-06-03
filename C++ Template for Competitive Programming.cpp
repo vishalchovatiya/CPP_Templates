@@ -19,6 +19,11 @@
 #include <functional>
 using namespace std;
 
+fstream infile {"db.txt"};
+for (string line; getline(infile, line);) {
+	cout<<line<<endl;
+}
+
 for (string s; getline(cin >> ws, s, ',');) {
 	if (s.empty()) { 
 		break; 
