@@ -19,6 +19,14 @@
 #include <functional>
 using namespace std;
 
+for (string s; getline(cin >> ws, s, ',');) {
+	if (s.empty()) { 
+		break; 
+	}
+	cout << "name: \"" << s << "\"\n";
+}
+
+
 /* ------------------------- HELPERS DEFINE -------------------------- */
 template <typename T>
 ostream &operator<<(ostream &o, pair<const T, T> &pair) // To print map in PRINT
