@@ -45,7 +45,7 @@ public:
 };
 
 
-int main() {
+int main(int argc, char *argv[]) {
 
 	pq<pair<int,string>> q;
 
