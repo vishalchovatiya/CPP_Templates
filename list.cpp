@@ -3,7 +3,7 @@
 #include <list>			
 using namespace std;
 
-int main(){
+int main(int argc, char *argv[]){
 	int arr[] =  {2,3,4,5,6,7};
 	
 	std::list<int> DLL(arr, arr+6);					// Doubly Linked List
