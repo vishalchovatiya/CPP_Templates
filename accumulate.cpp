@@ -21,7 +21,7 @@ class myclass {
 	}
 } myobject;
 
-int main () {
+int main (int argc, char *argv[]) {
 	int init = 100;
 	int numbers[] = {10,20,30};
 	vector<int>		V(numbers, numbers+4);
